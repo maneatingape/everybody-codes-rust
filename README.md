@@ -10,3 +10,4 @@ Solutions for the [Everybody Codes](https://everybody.codes) challenge written i
 | 2 | [The Runes of Power](https://everybody.codes/event/2024/quests/2) | [Source](src/event2024/quest02.rs) |
 | 3 | [Mining Maestro](https://everybody.codes/event/2024/quests/3) | [Source](src/event2024/quest03.rs) |
 | 4 | [Royal Smith's Puzzle](https://everybody.codes/event/2024/quests/4) | [Source](src/event2024/quest04.rs) |
+| 5 | [Pseudo-Random Clap Dance](https://everybody.codes/event/2024/quests/5) | [Source](src/event2024/quest05.rs) |
