@@ -1,4 +1,5 @@
 pub mod event2024 {
+    pub mod quest01;
 }
 
 pub mod util {
