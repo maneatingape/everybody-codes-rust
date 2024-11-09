@@ -6,3 +6,4 @@ Solutions for the [Everybody Codes](https://everybody.codes) challenge written i
 
 | Quest | Problem | Solution |
 | --- | --- | --- |
+| 1 | [The Battle for the Farmlands](https://everybody.codes/event/2024/quests/1) | [Source](src/event2024/quest01.rs) |
