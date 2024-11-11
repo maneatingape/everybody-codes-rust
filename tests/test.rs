@@ -4,4 +4,5 @@ pub mod event2024 {
     pub mod quest03_test;
     pub mod quest04_test;
     pub mod quest05_test;
+    pub mod quest06_test;
 }
