@@ -72,5 +72,6 @@ fn event2024() -> Vec<Solution> {
         solution!(event2024, quest05),
         solution!(event2024, quest06),
         solution!(event2024, quest07),
+        solution!(event2024, quest08),
     ]
 }
