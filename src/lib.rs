@@ -8,6 +8,7 @@ pub mod event2024 {
     pub mod quest07;
     pub mod quest08;
     pub mod quest09;
+    pub mod quest10;
 }
 
 pub mod util {
