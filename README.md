@@ -16,3 +16,4 @@ Solutions for the [Everybody Codes](https://everybody.codes) challenge written i
 | 8 | [A Shrine for Nullpointer](https://everybody.codes/event/2024/quests/8) | [Source](src/event2024/quest08.rs) |
 | 9 | [Sparkling Bugs](https://everybody.codes/event/2024/quests/9) | [Source](src/event2024/quest09.rs) |
 | 10 | [Shrine Needs to Shine](https://everybody.codes/event/2024/quests/10) | [Source](src/event2024/quest10.rs) |
+| 11 | [Biological Warfare](https://everybody.codes/event/2024/quests/11) | [Source](src/event2024/quest11.rs) |

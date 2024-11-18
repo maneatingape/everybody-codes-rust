@@ -9,4 +9,5 @@ pub mod event2024 {
     pub mod quest08_test;
     pub mod quest09_test;
     pub mod quest10_test;
+    pub mod quest11_test;
 }
