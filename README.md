@@ -20,3 +20,4 @@ Solutions for the [Everybody Codes](https://everybody.codes) challenge written i
 | 12 | [Desert Shower](https://everybody.codes/event/2024/quests/12) | [Source](src/event2024/quest12.rs) |
 | 13 | [Never Gonna Let You Down](https://everybody.codes/event/2024/quests/13) | [Source](src/event2024/quest13.rs) |
 | 14 | [The House of Palms](https://everybody.codes/event/2024/quests/14) | [Source](src/event2024/quest14.rs) |
+| 15 | [From the Herbalist's Diary](https://everybody.codes/event/2024/quests/15) | [Source](src/event2024/quest15.rs) |
