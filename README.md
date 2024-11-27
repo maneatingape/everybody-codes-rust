@@ -23,3 +23,4 @@ Solutions for the [Everybody Codes](https://everybody.codes) challenge written i
 | 15 | [From the Herbalist's Diary](https://everybody.codes/event/2024/quests/15) | [Source](src/event2024/quest15.rs) |
 | 16 | [Cat Grin of Fortune](https://everybody.codes/event/2024/quests/16) | [Source](src/event2024/quest16.rs) |
 | 17 | [Galactic Geometry](https://everybody.codes/event/2024/quests/17) | [Source](src/event2024/quest17.rs) |
+| 18 | [The Ring](https://everybody.codes/event/2024/quests/18) | [Source](src/event2024/quest18.rs) |
