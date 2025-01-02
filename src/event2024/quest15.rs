@@ -21,7 +21,7 @@ fn solve(notes: &str) -> u32 {
     let ascii = Grid::parse(notes);
     let start = Point::new(ascii.width / 2, 0);
 
-    let mut grid = ascii.default_copy();
+    let mut grid = ascii.same_size_with(0);
     grid.bytes = ascii.bytes.into_iter().map(to_mask).collect();
 
     let (total, _) = collect(&mut grid, &mut HashSet::from([start]), start);

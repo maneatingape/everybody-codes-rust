@@ -36,7 +36,7 @@ pub fn part2(notes: &str) -> u32 {
 pub fn part3(notes: &str) -> u32 {
     let (words, scales) = parse(notes, true);
     let grid = Grid::parse(scales);
-    let mut runes = grid.default_copy();
+    let mut runes = grid.same_size_with(0);
 
     for word in &words {
         for x in 0..grid.width {

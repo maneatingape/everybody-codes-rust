@@ -9,6 +9,7 @@ pub struct Grid<T> {
 }
 
 impl Grid<u8> {
+    #[inline]
     pub fn parse(input: &str) -> Self {
         let raw: Vec<_> = input.lines().map(str::as_bytes).collect();
         let width = raw[0].len() as i32;
@@ -17,9 +18,21 @@ impl Grid<u8> {
         raw.iter().for_each(|slice| bytes.extend_from_slice(slice));
         Grid { width, height, bytes }
     }
+
+    pub fn print(&self) {
+        for y in 0..self.height {
+            for x in 0..self.width {
+                let point = Point::new(x, y);
+                print!("{}", self[point] as char);
+            }
+            println!();
+        }
+        println!();
+    }
 }
 
 impl<T: Copy + PartialEq> Grid<T> {
+    #[inline]
     pub fn find(&self, needle: T) -> Option<Point> {
         let to_point = |index| {
             let x = (index as i32) % self.width;
@@ -37,11 +50,12 @@ impl<T: Copy> Grid<T> {
 }
 
 impl<T> Grid<T> {
-    pub fn default_copy<U: Default + Copy>(&self) -> Grid<U> {
+    #[inline]
+    pub fn same_size_with<U: Copy>(&self, value: U) -> Grid<U> {
         Grid {
             width: self.width,
             height: self.height,
-            bytes: vec![U::default(); (self.width * self.height) as usize],
+            bytes: vec![value; (self.width * self.height) as usize],
         }
     }
 

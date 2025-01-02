@@ -16,7 +16,7 @@ pub fn part3(notes: &str) -> u32 {
 
 fn dig(notes: &str, neighbors: &[Point]) -> u32 {
     let grid = Grid::parse(notes);
-    let mut depth = grid.default_copy();
+    let mut depth = grid.same_size_with(0);
     let mut todo = VecDeque::new();
 
     for x in 0..grid.width {

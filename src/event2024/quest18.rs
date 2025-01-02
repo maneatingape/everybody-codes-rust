@@ -16,7 +16,7 @@ pub fn part2(notes: &str) -> u32 {
 
 pub fn part3(notes: &str) -> u32 {
     let grid = Grid::parse(notes);
-    let distance = &mut grid.default_copy();
+    let distance = &mut grid.same_size_with(0);
 
     for y in 0..grid.height {
         for x in 0..grid.width {
@@ -45,7 +45,7 @@ pub fn part3(notes: &str) -> u32 {
 
 fn bfs(grid: &Grid<u8>, starts: &[Point]) -> u32 {
     let mut todo = VecDeque::new();
-    let mut seen = grid.default_copy();
+    let mut seen = grid.same_size_with(false);
     let mut remaining = grid.bytes.iter().filter(|&&b| b == b'P').count();
 
     for &start in starts {
@@ -74,7 +74,7 @@ fn bfs(grid: &Grid<u8>, starts: &[Point]) -> u32 {
 
 fn flood_fill(grid: &Grid<u8>, distance: &mut Grid<u32>, start: Point) -> u32 {
     let mut todo = VecDeque::new();
-    let mut seen = grid.default_copy();
+    let mut seen = grid.same_size_with(false);
     let mut total = 0;
 
     todo.push_back((start, 0));
