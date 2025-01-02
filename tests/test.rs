@@ -1,22 +1,10 @@
-pub mod event2024 {
-    pub mod quest01_test;
-    pub mod quest02_test;
-    pub mod quest03_test;
-    pub mod quest04_test;
-    pub mod quest05_test;
-    pub mod quest06_test;
-    pub mod quest07_test;
-    pub mod quest08_test;
-    pub mod quest09_test;
-    pub mod quest10_test;
-    pub mod quest11_test;
-    pub mod quest12_test;
-    pub mod quest13_test;
-    pub mod quest14_test;
-    pub mod quest15_test;
-    pub mod quest16_test;
-    pub mod quest17_test;
-    pub mod quest18_test;
-    pub mod quest19_test;
-    pub mod quest20_test;
+macro_rules! test {
+    ($event:tt $($quest:tt),*) => {
+        pub mod $event {$(pub mod $quest;)*}
+    }
 }
+
+test!(event2024
+    quest01, quest02, quest03, quest04, quest05, quest06, quest07, quest08, quest09, quest10,
+    quest11, quest12, quest13, quest14, quest15, quest16, quest17, quest18, quest19, quest20
+);

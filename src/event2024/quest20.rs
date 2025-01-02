@@ -57,6 +57,7 @@ pub fn part2(notes: &str) -> i32 {
     total
 }
 
+#[expect(clippy::needless_range_loop)]
 pub fn part3(notes: &str) -> i32 {
     let grid = Grid::parse(notes);
     let start = grid.find(b'S').unwrap();

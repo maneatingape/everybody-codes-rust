@@ -49,41 +49,25 @@ struct Solution {
     part3: fn(&str) -> String,
 }
 
-macro_rules! solution {
-    ($event:tt, $quest:tt) => {{
-        use $event::$quest::*;
+macro_rules! run {
+    ($event:tt $($quest:tt),*) => {
+        fn $event() -> Vec<Solution> {
+            vec![$({
+                use $event::$quest::*;
 
-        let event = stringify!($event).unsigned();
-        let quest = stringify!($quest).unsigned();
-        let part1 = |notes: &str| part1(notes).to_string();
-        let part2 = |notes: &str| part2(notes).to_string();
-        let part3 = |notes: &str| part3(notes).to_string();
+                let event = stringify!($event).unsigned();
+                let quest = stringify!($quest).unsigned();
+                let part1 = |notes: &str| part1(notes).to_string();
+                let part2 = |notes: &str| part2(notes).to_string();
+                let part3 = |notes: &str| part3(notes).to_string();
 
-        Solution { event, quest, part1, part2, part3 }
-    }};
+                Solution { event, quest, part1, part2, part3 }
+            },)*]
+        }
+    }
 }
 
-fn event2024() -> Vec<Solution> {
-    vec![
-        solution!(event2024, quest01),
-        solution!(event2024, quest02),
-        solution!(event2024, quest03),
-        solution!(event2024, quest04),
-        solution!(event2024, quest05),
-        solution!(event2024, quest06),
-        solution!(event2024, quest07),
-        solution!(event2024, quest08),
-        solution!(event2024, quest09),
-        solution!(event2024, quest10),
-        solution!(event2024, quest11),
-        solution!(event2024, quest12),
-        solution!(event2024, quest13),
-        solution!(event2024, quest14),
-        solution!(event2024, quest15),
-        solution!(event2024, quest16),
-        solution!(event2024, quest17),
-        solution!(event2024, quest18),
-        solution!(event2024, quest19),
-        solution!(event2024, quest20),
-    ]
-}
+run!(event2024
+    quest01, quest02, quest03, quest04, quest05, quest06, quest07, quest08, quest09, quest10,
+    quest11, quest12, quest13, quest14, quest15, quest16, quest17, quest18, quest19, quest20
+);

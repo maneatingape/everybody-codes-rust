@@ -1,33 +1,14 @@
-pub mod event2024 {
-    pub mod quest01;
-    pub mod quest02;
-    pub mod quest03;
-    pub mod quest04;
-    pub mod quest05;
-    pub mod quest06;
-    pub mod quest07;
-    pub mod quest08;
-    pub mod quest09;
-    pub mod quest10;
-    pub mod quest11;
-    pub mod quest12;
-    pub mod quest13;
-    pub mod quest14;
-    pub mod quest15;
-    pub mod quest16;
-    pub mod quest17;
-    pub mod quest18;
-    pub mod quest19;
-    pub mod quest20;
+macro_rules! library {
+    ($year:tt $($day:tt),*) => {
+        pub mod $year {$(pub mod $day;)*}
+    }
 }
 
-pub mod util {
-    pub mod ansi;
-    pub mod grid;
-    pub mod heap;
-    pub mod integer;
-    pub mod iter;
-    pub mod math;
-    pub mod parse;
-    pub mod point;
-}
+library!(event2024
+    quest01, quest02, quest03, quest04, quest05, quest06, quest07, quest08, quest09, quest10,
+    quest11, quest12, quest13, quest14, quest15, quest16, quest17, quest18, quest19, quest20
+);
+
+library!(util
+    ansi, grid, heap, integer, iter, math, parse, point
+);
