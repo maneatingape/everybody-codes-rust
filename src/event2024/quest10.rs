@@ -115,11 +115,7 @@ fn solve(grid: &mut Grid<u8>, corner: Point) -> Option<i32> {
 }
 
 fn to_mask(ascii: u8) -> u32 {
-    if ascii.is_ascii_uppercase() {
-        1 << (ascii - b'A')
-    } else {
-        0
-    }
+    if ascii.is_ascii_uppercase() { 1 << (ascii - b'A') } else { 0 }
 }
 
 fn to_ascii(mask: u32) -> u8 {

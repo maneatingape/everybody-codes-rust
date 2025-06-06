@@ -1,6 +1,7 @@
 use crate::util::grid::*;
 use crate::util::point::*;
 use std::collections::VecDeque;
+use std::iter::repeat_n;
 
 const FLY: [Point; 4] = [DOWN, LEFT, RIGHT, UP];
 const TURN: [[usize; 3]; 4] = [[0, 1, 2], [0, 1, 3], [0, 2, 3], [1, 2, 3]];
@@ -212,6 +213,6 @@ fn minimum_from(grid: &Grid<u8>) -> Grid<[i32; 4]> {
     Grid {
         width: grid.width,
         height: grid.height,
-        bytes: (0..grid.width * grid.height).map(|_| [i32::MIN; 4]).collect(),
+        bytes: repeat_n([i32::MIN; 4], (grid.width * grid.height) as usize).collect(),
     }
 }

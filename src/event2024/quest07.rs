@@ -79,7 +79,7 @@ fn score(track: &str, laps: usize, plan: &str) -> u64 {
             b'+' => power += 1,
             b'-' => power -= 1,
             _ => (),
-        };
+        }
         essence += power;
     }
 

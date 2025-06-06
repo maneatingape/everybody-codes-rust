@@ -47,9 +47,5 @@ fn dijkstra(notes: &str, start: u8, end: u8) -> u32 {
 }
 
 fn parse(b: u8) -> u32 {
-    if b.is_ascii_digit() {
-        (b - b'0') as u32
-    } else {
-        0
-    }
+    if b.is_ascii_digit() { (b - b'0') as u32 } else { 0 }
 }
