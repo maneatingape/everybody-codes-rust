@@ -2,7 +2,15 @@
 
 Solutions for the [Everybody Codes](https://everybody.codes) challenge written in Rust.
 
-## 2024 The Kingdom of Algorithmia
+## Events
+
+* [The Kingdom of Algorithmia](#the-kingdom-of-algorithmia)
+
+## Stories
+
+* [Echoes of Enigmatus](#echoes-of-enigmatus)
+
+## The Kingdom of Algorithmia
 
 | Quest | Problem | Solution |
 | --- | --- | --- |
@@ -26,3 +34,11 @@ Solutions for the [Everybody Codes](https://everybody.codes) challenge written i
 | 18 | [The Ring](https://everybody.codes/event/2024/quests/18) | [Source](src/event2024/quest18.rs) |
 | 19 | [Encrypted Duck](https://everybody.codes/event/2024/quests/19) | [Source](src/event2024/quest19.rs) |
 | 20 | [Gliding Finale](https://everybody.codes/event/2024/quests/20) | [Source](src/event2024/quest20.rs) |
+
+## Echoes of Enigmatus
+
+| Quest | Problem | Solution |
+| --- | --- | --- |
+| 1 | [EniCode](https://everybody.codes/story/1/quests/1) | [Source](src/story01/quest01.rs) |
+| 2 | [Tangled Trees](https://everybody.codes/story/1/quests/2) | [Source](src/story01/quest02.rs) |
+| 3 | [The Conical Snail Clock](https://everybody.codes/story/1/quests/3) | [Source](src/story01/quest03.rs) |
