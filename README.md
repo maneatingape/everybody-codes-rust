@@ -49,5 +49,5 @@ Solutions for the [Everybody Codes](https://everybody.codes) challenge written i
 | Quest | Problem | Solution |
 | --- | --- | --- |
 | 1 | [Nail Down Your Luck](https://everybody.codes/story/2/quests/1) | [Source](src/story02/quest01.rs) |
-| 2 | [???](https://everybody.codes/story/2/quests/2) | [Source](src/story02/quest02.rs) |
+| 2 | [The Pocket-Money Popper](https://everybody.codes/story/2/quests/2) | [Source](src/story02/quest02.rs) |
 | 3 | [???](https://everybody.codes/story/2/quests/3) | [Source](src/story02/quest03.rs) |
