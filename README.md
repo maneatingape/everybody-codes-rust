@@ -9,6 +9,7 @@ Solutions for the [Everybody Codes](https://everybody.codes) challenge written i
 ## Stories
 
 * [Echoes of Enigmatus](#echoes-of-enigmatus)
+* [The Entertainment Hub ](#the-entertainment-hub)
 
 ## The Kingdom of Algorithmia
 
@@ -42,3 +43,11 @@ Solutions for the [Everybody Codes](https://everybody.codes) challenge written i
 | 1 | [EniCode](https://everybody.codes/story/1/quests/1) | [Source](src/story01/quest01.rs) |
 | 2 | [Tangled Trees](https://everybody.codes/story/1/quests/2) | [Source](src/story01/quest02.rs) |
 | 3 | [The Conical Snail Clock](https://everybody.codes/story/1/quests/3) | [Source](src/story01/quest03.rs) |
+
+## The Entertainment Hub
+
+| Quest | Problem | Solution |
+| --- | --- | --- |
+| 1 | [???](https://everybody.codes/story/2/quests/1) | [Source](src/story02/quest01.rs) |
+| 2 | [???](https://everybody.codes/story/2/quests/2) | [Source](src/story02/quest02.rs) |
+| 3 | [???](https://everybody.codes/story/2/quests/3) | [Source](src/story02/quest03.rs) |

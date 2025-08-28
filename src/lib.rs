@@ -13,6 +13,10 @@ library!(story01
     quest01, quest02, quest03
 );
 
+library!(story02
+    quest01, quest02, quest03
+);
+
 library!(util
     ansi, grid, heap, integer, iter, math, parse, point
 );

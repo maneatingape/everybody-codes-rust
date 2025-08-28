@@ -19,6 +19,7 @@ fn main() {
     let solutions = empty()
         .chain(event2024())
         .chain(story01())
+        .chain(story02())
         .filter(|solution| event.as_ref().is_none_or(|e| *e == solution.event))
         .filter(|solution| quest.as_ref().is_none_or(|q| *q == solution.quest));
 
@@ -75,5 +76,9 @@ run!(event2024
 );
 
 run!(story01
+    quest01, quest02, quest03
+);
+
+run!(story02
     quest01, quest02, quest03
 );
