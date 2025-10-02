@@ -29,21 +29,21 @@ fn solve(notes: &str, first_letter_only: bool) -> String {
         }
     }
 
-    apples.iter().for_each(|apple| {
+    for apple in apples {
         let mut current = apple;
         let mut path = vec!["@", apple];
 
-        while let Some(next) = parents.get(current) {
-            if path.contains(next) {
-                return;
+        while let Some(&next) = parents.get(current) {
+            if path.contains(&next) {
+                break;
             }
             current = next;
             path.push(next);
         }
 
         branches.entry(path.len()).or_insert_with(Vec::new).push(path);
-    });
+    }
 
-    let powerful = branches.values().filter(|p| p.len() == 1).flatten().next().unwrap();
+    let powerful = branches.values().find(|p| p.len() == 1).unwrap().first().unwrap();
     powerful.iter().rev().map(|p| if first_letter_only { &p[..1] } else { p }).collect()
 }

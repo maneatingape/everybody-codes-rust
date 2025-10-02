@@ -72,7 +72,7 @@ pub fn part3(notes: &str) -> i32 {
     let left = 1;
     let right = size - 1;
 
-    // Caculate all possible combinations of altitude drops.
+    // Calculate all possible combinations of altitude drops.
     let mut drop = vec![vec![]; size];
 
     for from in left..right {

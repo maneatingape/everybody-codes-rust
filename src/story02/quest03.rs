@@ -63,7 +63,7 @@ pub fn part2(notes: &str) -> String {
         .collect();
 
     result.sort_unstable_by_key(|&p| p.1);
-    result.iter().map(|&p| format!("{}", p.0)).collect::<Vec<_>>().join(",")
+    result.iter().map(|&p| p.0.to_string()).collect::<Vec<_>>().join(",")
 }
 
 pub fn part3(notes: &str) -> usize {

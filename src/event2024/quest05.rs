@@ -71,5 +71,5 @@ fn key(dance: &Dance) -> usize {
 }
 
 fn shout(dance: &Dance) -> usize {
-    format!("{}{}{}{}", dance[0][0], dance[1][0], dance[2][0], dance[3][0]).as_str().unsigned()
+    format!("{}{}{}{}", dance[0][0], dance[1][0], dance[2][0], dance[3][0]).unsigned()
 }

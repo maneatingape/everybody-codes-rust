@@ -1,9 +1,8 @@
-use crate::util::math::*;
 use crate::util::parse::*;
 
 pub fn part1(notes: &str) -> u64 {
     let blocks: u64 = notes.unsigned();
-    let height = blocks.sqrt() + 1;
+    let height = blocks.isqrt() + 1;
     let width = 2 * height - 1;
     let missing = height * height - blocks;
     width * missing

@@ -31,7 +31,7 @@ fn eni(mut score: usize, n: usize, e: usize, m: usize) -> usize {
     for _ in 0..e {
         score = (score * n) % m;
         result += score * 10_usize.pow(power);
-        power += 1 + if score < 10 { 0 } else { score.ilog10() };
+        power += if score < 10 { 1 } else { score.ilog10() + 1 };
     }
 
     result
@@ -56,8 +56,9 @@ fn find_cycle(n: usize, e: usize, m: usize) -> usize {
             let cycle_length = index - previous;
             let cycle_total = total - sums[previous];
 
-            let quotient = (e - index + 1) / cycle_length;
-            let remainder = (e - index + 1) % cycle_length;
+            let remaining = e - index + 1;
+            let quotient = remaining / cycle_length;
+            let remainder = remaining % cycle_length;
 
             return (total - score)
                 + (quotient * cycle_total)

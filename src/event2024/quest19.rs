@@ -52,7 +52,7 @@ fn decode(notes: &str, rounds: u32) -> String {
         }
     }
 
-    // Exponentation by squaring
+    // Exponentiation by squaring
     let mut exponent = 1;
 
     while exponent <= rounds {
@@ -66,14 +66,8 @@ fn decode(notes: &str, rounds: u32) -> String {
     // Extract message
     let left = grid.find(b'>').unwrap();
     let right = grid.find(b'<').unwrap();
-    let mut message = String::new();
 
-    for x in left.x + 1..right.x {
-        let point = Point::new(x, left.y);
-        message.push(grid[point] as char);
-    }
-
-    message
+    (left.x + 1..right.x).map(|x| grid[Point::new(x, left.y)] as char).collect()
 }
 
 fn unscramble<T: Copy>(grid: &Grid<T>, lookup: &Grid<Point>) -> Grid<T> {

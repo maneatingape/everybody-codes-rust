@@ -2,9 +2,9 @@
 //! The tracks are constructed so that power never drops below zero.
 //!
 //! For part 3 this means that the power increases by the same amount every 11 laps
-//! as LCM(11, 340) = 3470.
+//! as LCM(11, 340) = 3740.
 //!
-//! 2024 divides evenly by 11 = 184, so we only need to race 11 laps instead the entire 2024 laps
+//! 2024 divides evenly by 11 = 184, so we only need to race 11 laps instead of the entire 2024 laps
 //! to find the winning plans.
 use std::collections::{BTreeMap, HashMap};
 
@@ -51,16 +51,13 @@ pub fn part3(notes: &str) -> usize {
 }
 
 fn parse(notes: &str) -> HashMap<String, String> {
-    let mut plans = HashMap::new();
-
-    for line in notes.lines() {
-        let (prefix, suffix) = line.split_once(':').unwrap();
-        let name = String::from(prefix);
-        let plan = suffix.replace(',', "");
-        plans.insert(name, plan);
-    }
-
-    plans
+    notes
+        .lines()
+        .map(|line| {
+            let (prefix, suffix) = line.split_once(':').unwrap();
+            (prefix.to_string(), suffix.replace(',', ""))
+        })
+        .collect()
 }
 
 fn score(track: &str, laps: usize, plan: &str) -> u64 {
