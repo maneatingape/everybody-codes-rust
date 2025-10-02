@@ -4,7 +4,7 @@ use crate::util::parse::*;
 pub fn part1(notes: &str) -> u64 {
     parse(notes)
         .iter()
-        .map(|[x, y]| {
+        .map(|&[x, y]| {
             let size = x + y - 1;
             let nx = (x - 1 + 100) % size;
             (nx + 1) + 100 * (size - nx)

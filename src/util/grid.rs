@@ -12,10 +12,11 @@ impl Grid<u8> {
     #[inline]
     pub fn parse(input: &str) -> Self {
         let raw: Vec<_> = input.lines().map(str::as_bytes).collect();
+
         let width = raw[0].len() as i32;
         let height = raw.len() as i32;
-        let mut bytes = Vec::with_capacity((width * height) as usize);
-        raw.iter().for_each(|slice| bytes.extend_from_slice(slice));
+        let bytes = raw.concat();
+
         Grid { width, height, bytes }
     }
 
@@ -34,12 +35,11 @@ impl Grid<u8> {
 impl<T: Copy + PartialEq> Grid<T> {
     #[inline]
     pub fn find(&self, needle: T) -> Option<Point> {
-        let to_point = |index| {
+        self.bytes.iter().position(|&h| h == needle).map(|index| {
             let x = (index as i32) % self.width;
             let y = (index as i32) / self.width;
             Point::new(x, y)
-        };
-        self.bytes.iter().position(|&h| h == needle).map(to_point)
+        })
     }
 }
 

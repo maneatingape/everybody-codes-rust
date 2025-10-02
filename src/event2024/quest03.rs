@@ -19,8 +19,8 @@ fn dig(notes: &str, neighbors: &[Point]) -> u32 {
     let mut depth = grid.same_size_with(0);
     let mut todo = VecDeque::new();
 
-    for x in 0..grid.width {
-        for y in 0..grid.height {
+    for y in 0..grid.height {
+        for x in 0..grid.width {
             let p = Point::new(x, y);
             if grid[p] == b'#' {
                 todo.push_back(p);

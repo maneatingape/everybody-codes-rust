@@ -9,7 +9,7 @@ Solutions for the [Everybody Codes](https://everybody.codes) challenge written i
 ## Stories
 
 * [Echoes of Enigmatus](#echoes-of-enigmatus)
-* [The Entertainment Hub ](#the-entertainment-hub)
+* [The Entertainment Hub](#the-entertainment-hub)
 
 ## The Kingdom of Algorithmia
 
