@@ -94,5 +94,5 @@ fn bfs(nodes: &Tree<'_>, start: usize) -> String {
     }
 
     let max = messages.iter().map(String::len).max().unwrap();
-    messages.extract_if(.., |m| m.len() == max).next().unwrap()
+    messages.into_iter().find(|m| m.len() == max).unwrap()
 }
