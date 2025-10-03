@@ -52,7 +52,7 @@ fn decode(notes: &str, rounds: u32) -> String {
         }
     }
 
-    // Exponentation by squaring
+    // Exponentiation by squaring
     let mut exponent = 1;
 
     while exponent <= rounds {

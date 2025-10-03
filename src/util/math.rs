@@ -31,7 +31,7 @@ impl<T: Integer<T>> IntegerMathOps<T> for T {
         self * (b / self.gcd(b))
     }
 
-    // Modular exponentation
+    // Modular exponentiation
     fn mod_pow(self, mut e: T, m: T) -> T {
         let mut b = self;
         let mut c = T::ONE;
@@ -49,7 +49,7 @@ impl<T: Integer<T>> IntegerMathOps<T> for T {
 }
 
 impl<T: Unsigned<T>> UnsignedMathOps<T> for T {
-    // Integer square root. Once [`isqrt`] is stablized then this function can be removed.
+    // Integer square root. Once [`isqrt`] is stabilized then this function can be removed.
     fn sqrt(self) -> T {
         let mut bit = T::ONE << (self.ilog2() >> T::ONE);
         let mut root = bit;
