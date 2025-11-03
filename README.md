@@ -5,11 +5,18 @@ Solutions for the [Everybody Codes](https://everybody.codes) challenge written i
 ## Events
 
 * [The Kingdom of Algorithmia](#the-kingdom-of-algorithmia)
+* [The Song of Ducks and Dragons](#the-song-of-ducks-and-dragons)
 
 ## Stories
 
 * [Echoes of Enigmatus](#echoes-of-enigmatus)
 * [The Entertainment Hub](#the-entertainment-hub)
+
+## The Song of Ducks and Dragons 
+
+| Quest | Problem | Solution |
+| --- | --- | --- |
+| 1 | [Whispers in the Shell](https://everybody.codes/event/2025/quests/1) | [Source](src/event2025/quest01.rs) |
 
 ## The Kingdom of Algorithmia
 

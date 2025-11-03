@@ -8,7 +8,7 @@ fn main() {
     let mut iter = args().flat_map(|arg| arg.iter_unsigned().collect::<Vec<u32>>());
     let (event, quest) = (iter.next(), iter.next());
 
-    let solutions = [event2024(), story01(), story02()];
+    let solutions = [event2024(), event2025(), story01(), story02()];
 
     // Filter solutions then pretty print output.
     solutions
@@ -62,6 +62,10 @@ macro_rules! run {
 run!(event2024
     quest01, quest02, quest03, quest04, quest05, quest06, quest07, quest08, quest09, quest10,
     quest11, quest12, quest13, quest14, quest15, quest16, quest17, quest18, quest19, quest20
+);
+
+run!(event2025
+    quest01
 );
 
 run!(story01
