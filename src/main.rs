@@ -65,7 +65,7 @@ run!(event2024
 );
 
 run!(event2025
-    quest01
+    quest01, quest02
 );
 
 run!(story01
