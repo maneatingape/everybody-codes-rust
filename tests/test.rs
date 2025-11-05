@@ -47,7 +47,7 @@ test!(event2024
 );
 
 test!(event2025
-    quest01, quest02
+    quest01, quest02, quest03
 );
 
 test!(story01
