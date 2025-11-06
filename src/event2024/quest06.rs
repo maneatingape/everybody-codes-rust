@@ -29,13 +29,13 @@ fn solve(notes: &str, first_letter_only: bool) -> String {
         }
     }
 
-    for apple in apples {
+    'outer: for apple in apples {
         let mut current = apple;
         let mut path = vec!["@", apple];
 
         while let Some(&next) = parents.get(current) {
             if path.contains(&next) {
-                break;
+                continue 'outer;
             }
             current = next;
             path.push(next);
