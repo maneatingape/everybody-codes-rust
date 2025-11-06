@@ -19,6 +19,7 @@ Solutions for the [Everybody Codes](https://everybody.codes) challenge written i
 | 1 | [Whispers in the Shell](https://everybody.codes/event/2025/quests/1) | [Source](src/event2025/quest01.rs) |
 | 2 | [From Complex to Clarity](https://everybody.codes/event/2025/quests/2) | [Source](src/event2025/quest02.rs) |
 | 3 | [The Deepest Fit](https://everybody.codes/event/2025/quests/3) | [Source](src/event2025/quest03.rs) |
+| 4 | [Teeth of the Wind](https://everybody.codes/event/2025/quests/4) | [Source](src/event2025/quest04.rs) |
 
 ## The Kingdom of Algorithmia
 

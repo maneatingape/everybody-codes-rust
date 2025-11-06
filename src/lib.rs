@@ -12,7 +12,7 @@ library!(event2024
 );
 
 library!(event2025
-    quest01, quest02, quest03
+    quest01, quest02, quest03, quest04
 );
 
 library!(story01
