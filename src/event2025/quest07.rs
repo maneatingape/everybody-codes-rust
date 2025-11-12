@@ -14,14 +14,41 @@ pub fn part2(notes: &str) -> u32 {
 
 pub fn part3(notes: &str) -> u32 {
     let (names, rules) = parse(notes);
-    names
+    let valid: Vec<_> = names
         .iter()
+        .copied()
         .filter(|&name| {
             valid(&rules, name)
-                && names.iter().all(|other| name == other || !name.starts_with(other))
+                && names.iter().all(|&other| name == other || !name.starts_with(other))
         })
-        .map(|name| recurse(&rules, *name.as_bytes().last().unwrap(), name.len()))
-        .sum()
+        .collect();
+
+    let mut current = HashMap::new();
+    let mut next = HashMap::new();
+    let mut result = 0;
+
+    for size in 1..=11 {
+        for &name in &valid {
+            if name.len() == size {
+                let last = *name.as_bytes().last().unwrap();
+                *current.entry(last).or_insert(0) += 1;
+            }
+        }
+
+        if size >= 7 {
+            result += current.values().sum::<u32>();
+        }
+
+        for (from, amount) in current.drain() {
+            for &to in &rules[&from] {
+                *next.entry(to).or_insert(0) += amount;
+            }
+        }
+
+        (current, next) = (next, current);
+    }
+
+    result
 }
 
 fn parse(notes: &str) -> (Vec<&str>, Rules) {
@@ -42,14 +69,4 @@ fn parse(notes: &str) -> (Vec<&str>, Rules) {
 
 fn valid(rules: &Rules, name: &str) -> bool {
     name.as_bytes().windows(2).all(|w| rules[&w[0]].contains(&w[1]))
-}
-
-fn recurse(rules: &Rules, last: u8, size: usize) -> u32 {
-    let this = u32::from(size >= 7);
-
-    if size < 11 {
-        this + rules[&last].iter().map(|&next| recurse(rules, next, size + 1)).sum::<u32>()
-    } else {
-        this
-    }
 }
