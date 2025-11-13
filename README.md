@@ -24,6 +24,7 @@ Solutions for the [Everybody Codes](https://everybody.codes) challenge written i
 | 6 | [Mentorship Matrix](https://everybody.codes/event/2025/quests/6) | [Source](src/event2025/quest06.rs) |
 | 7 | [Namegraph](https://everybody.codes/event/2025/quests/7) | [Source](src/event2025/quest07.rs) |
 | 8 | [The Art of Connection](https://everybody.codes/event/2025/quests/8) | [Source](src/event2025/quest08.rs) |
+| 9 | [Encoded in the Scales](https://everybody.codes/event/2025/quests/9) | [Source](src/event2025/quest09.rs) |
 
 ## The Kingdom of Algorithmia
 
