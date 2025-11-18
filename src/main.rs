@@ -66,7 +66,7 @@ run!(event2024
 
 run!(event2025
     quest01, quest02, quest03, quest04, quest05, quest06, quest07, quest08, quest09, quest10,
-    quest11
+    quest11, quest12
 );
 
 run!(story01

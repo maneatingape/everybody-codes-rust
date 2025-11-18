@@ -27,6 +27,7 @@ Solutions for the [Everybody Codes](https://everybody.codes) challenge written i
 | 9 | [Encoded in the Scales](https://everybody.codes/event/2025/quests/9) | [Source](src/event2025/quest09.rs) |
 | 10 | [Feast on the Board](https://everybody.codes/event/2025/quests/10) | [Source](src/event2025/quest10.rs) |
 | 11 | [The Scout Duck Protocol](https://everybody.codes/event/2025/quests/11) | [Source](src/event2025/quest11.rs) |
+| 12 | [One Spark to Burn Them All](https://everybody.codes/event/2025/quests/12) | [Source](src/event2025/quest12.rs) |
 
 ## The Kingdom of Algorithmia
 
