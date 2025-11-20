@@ -29,6 +29,7 @@ Solutions for the [Everybody Codes](https://everybody.codes) challenge written i
 | 11 | [The Scout Duck Protocol](https://everybody.codes/event/2025/quests/11) | [Source](src/event2025/quest11.rs) |
 | 12 | [One Spark to Burn Them All](https://everybody.codes/event/2025/quests/12) | [Source](src/event2025/quest12.rs) |
 | 13 | [Unlocking the Mountain](https://everybody.codes/event/2025/quests/13) | [Source](src/event2025/quest13.rs) |
+| 14 | [The Game of Light](https://everybody.codes/event/2025/quests/14) | [Source](src/event2025/quest14.rs) |
 
 ## The Kingdom of Algorithmia
 
