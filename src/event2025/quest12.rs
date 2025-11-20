@@ -1,74 +1,69 @@
 use crate::util::grid::*;
 use crate::util::point::*;
-use std::collections::VecDeque;
+use std::collections::{HashSet, VecDeque};
 
-pub fn part1(notes: &str) -> usize {
+pub fn part1(notes: &str) -> u32 {
     let grid = Grid::parse(notes);
-    let first = ignite(&grid, ORIGIN);
-
-    count(&first.bytes)
+    ignite(&grid, vec![ORIGIN])
 }
 
-pub fn part2(notes: &str) -> usize {
+pub fn part2(notes: &str) -> u32 {
     let grid = Grid::parse(notes);
-    let mut first = ignite(&grid, ORIGIN);
-    let second = ignite(&grid, Point::new(grid.width - 1, grid.height - 1));
-
-    union(&mut first.bytes, &second.bytes);
-    count(&first.bytes)
+    ignite(&grid, vec![ORIGIN, Point::new(grid.width - 1, grid.height - 1)])
 }
 
-pub fn part3(notes: &str) -> usize {
+pub fn part3(notes: &str) -> u32 {
     let grid = Grid::parse(notes);
-    let mut sets = Vec::new();
-    let mut points: Vec<_> =
+    let points =
         (0..grid.height).flat_map(|y| (0..grid.width).map(move |x| Point::new(x, y))).collect();
-
-    points.sort_unstable_by_key(|&p| grid[p]);
-
-    while let Some(start) = points.pop() {
-        let set = ignite(&grid, start);
-        points.retain(|&p| !set[p]);
-        sets.push(set.bytes);
-    }
-
-    sets.sort_by_cached_key(|s| count(s));
-    let first = sets.pop().unwrap();
-
-    sets.iter_mut().for_each(|s| union(s, &first));
-    sets.sort_by_cached_key(|s| count(s));
-    let second = sets.pop().unwrap();
-
-    sets.iter_mut().for_each(|s| union(s, &second));
-    sets.sort_by_cached_key(|s| count(s));
-    let third = sets.pop().unwrap();
-
-    count(&third)
+    ignite(&grid, points)
 }
 
-fn ignite(grid: &Grid<u8>, start: Point) -> Grid<bool> {
+fn ignite(grid: &Grid<u8>, mut points: Vec<Point>) -> u32 {
     let mut todo = VecDeque::new();
-    let mut seen = grid.same_size_with(false);
+    let mut seen = grid.same_size_with(usize::MAX);
+    let mut sets = Vec::new();
+    let mut sizes = Vec::new();
 
-    todo.push_back(start);
-    seen[start] = true;
+    points.sort_unstable_by_key(|&point| grid[point]);
 
-    while let Some(point) = todo.pop_front() {
-        for next in ORTHOGONAL.map(|o| point + o) {
-            if grid.contains(next) && grid[next] <= grid[point] && !seen[next] {
-                todo.push_back(next);
-                seen[next] = true;
+    for start in points {
+        if seen[start] == usize::MAX {
+            let id = sets.len();
+            let mut set = HashSet::from([id]);
+            let mut size = 1;
+
+            todo.push_back(start);
+            seen[start] = id;
+
+            while let Some(point) = todo.pop_front() {
+                for next in ORTHOGONAL.map(|o| point + o) {
+                    if grid.contains(next) && grid[next] <= grid[point] {
+                        if seen[next] == usize::MAX {
+                            todo.push_back(next);
+                            seen[next] = id;
+                            size += 1;
+                        } else if set.insert(seen[next]) {
+                            set.extend(&sets[seen[next]]);
+                        }
+                    }
+                }
             }
+
+            sets.push(set);
+            sizes.push(size);
         }
     }
 
-    seen
-}
-
-fn count(this: &[bool]) -> usize {
-    this.iter().filter(|&&b| b).count()
-}
-
-fn union(this: &mut [bool], other: &[bool]) {
-    this.iter_mut().zip(other).for_each(|(a, &b)| *a = *a || b);
+    (0..3)
+        .scan(HashSet::new(), |used, _| {
+            let (set, total) = sets
+                .iter()
+                .map(|set| (set, set.difference(used).map(|&i| sizes[i]).sum::<u32>()))
+                .max_by_key(|&(_, total)| total)
+                .unwrap();
+            used.extend(set);
+            Some(total)
+        })
+        .sum()
 }
