@@ -1,6 +1,7 @@
+use crate::util::grid::*;
 use crate::util::parse::*;
 use crate::util::point::*;
-use std::collections::{BTreeSet, HashSet, VecDeque};
+use std::collections::{BTreeSet, HashMap, VecDeque};
 
 pub fn part1(notes: &str) -> i32 {
     solve(notes)
@@ -21,9 +22,9 @@ pub fn solve(notes: &str) -> i32 {
     let mut direction = UP;
     let mut end = ORIGIN;
 
-    let mut xs = BTreeSet::new();
-    let mut ys = BTreeSet::new();
     let mut walls = Vec::new();
+    let mut xs = BTreeSet::from([-1, 0, 1]);
+    let mut ys = BTreeSet::from([-1, 0, 1]);
 
     for (turn, amount) in turns.zip(amounts) {
         direction =
@@ -31,56 +32,47 @@ pub fn solve(notes: &str) -> i32 {
         let start = end;
         end += direction * amount;
 
-        let (x1, x2) = minmax(start.x, end.x);
-        let (y1, y2) = minmax(start.y, end.y);
+        walls.push((start, end));
+        xs.extend([end.x - 1, end.x, end.x + 1]);
+        ys.extend([end.y - 1, end.y, end.y + 1]);
+    }
 
-        xs.insert(x1 - 1);
-        xs.insert(x2 + 1);
-        ys.insert(y1 - 1);
-        ys.insert(y2 + 1);
+    let xs: Vec<_> = xs.into_iter().collect();
+    let ys: Vec<_> = ys.into_iter().collect();
+    let shrink_x: HashMap<_, _> = xs.iter().enumerate().map(|(i, &x)| (x, i as i32)).collect();
+    let shrink_y: HashMap<_, _> = ys.iter().enumerate().map(|(i, &y)| (y, i as i32)).collect();
+    let mut grid = Grid::new(xs.len() as i32, ys.len() as i32, b'.');
 
-        if direction == LEFT || direction == RIGHT {
-            walls.push([x1 + 1, x2 - 1, y1, y2]);
-        } else {
-            walls.push([x1, x2, y1 + 1, y2 - 1]);
+    for (from, to) in walls {
+        let (x1, x2) = (shrink_x[&from.x], shrink_x[&to.x]);
+        let (y1, y2) = (shrink_y[&from.y], shrink_y[&to.y]);
+
+        for x in x1.min(x2)..=x1.max(x2) {
+            for y in y1.min(y2)..=y1.max(y2) {
+                grid[Point::new(x, y)] = b'#';
+            }
         }
     }
 
-    xs.insert(end.x);
-    ys.insert(end.y);
-
-    let mut todo = VecDeque::from([(ORIGIN, 0)]);
-    let mut seen = HashSet::from([ORIGIN]);
+    let start = Point::new(shrink_x[&0], shrink_y[&0]);
+    let end = Point::new(shrink_x[&end.x], shrink_y[&end.y]);
+    let mut todo = VecDeque::from([(start, 0)]);
 
     while let Some((from, cost)) = todo.pop_front() {
-        if from == end {
-            return cost;
-        }
-
-        let next = [
-            xs.range(..from.x).next_back().map(|&x| Point::new(x, from.y)),
-            xs.range(from.x + 1..).next().map(|&x| Point::new(x, from.y)),
-            ys.range(..from.y).next_back().map(|&y| Point::new(from.x, y)),
-            ys.range(from.y + 1..).next().map(|&y| Point::new(from.x, y)),
-        ];
-
-        for to in next.into_iter().flatten() {
-            if !seen.contains(&to) && can_move(&walls, from, to) {
-                todo.push_back((to, cost + from.manhattan(to)));
-                seen.insert(to);
+        for to in ORTHOGONAL.map(|o| o + from) {
+            if grid.contains(to) {
+                let next_cost = cost
+                    + (xs[from.x as usize] - xs[to.x as usize]).abs()
+                    + (ys[from.y as usize] - ys[to.y as usize]).abs();
+                if grid[to] != b'#' {
+                    grid[to] = b'#';
+                    todo.push_back((to, next_cost));
+                } else if to == end {
+                    return next_cost;
+                }
             }
         }
     }
 
     unreachable!()
-}
-
-fn minmax(a: i32, b: i32) -> (i32, i32) {
-    (a.min(b), a.max(b))
-}
-
-fn can_move(walls: &[[i32; 4]], from: Point, to: Point) -> bool {
-    let (x1, x2) = minmax(from.x, to.x);
-    let (y1, y2) = minmax(from.y, to.y);
-    walls.iter().all(|&[x3, x4, y3, y4]| x1 > x4 || x2 < x3 || y1 > y4 || y2 < y3)
 }
