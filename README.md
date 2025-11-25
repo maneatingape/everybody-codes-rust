@@ -32,6 +32,7 @@ Solutions for the [Everybody Codes](https://everybody.codes) challenge written i
 | 14 | [The Game of Light](https://everybody.codes/event/2025/quests/14) | [Source](src/event2025/quest14.rs) |
 | 15 | [Definitely Not a Maze](https://everybody.codes/event/2025/quests/15) | [Source](src/event2025/quest15.rs) |
 | 16 | [Harmonics of Stone](https://everybody.codes/event/2025/quests/16) | [Source](src/event2025/quest16.rs) |
+| 17 | [Deadline-Driven Development](https://everybody.codes/event/2025/quests/17) | [Source](src/event2025/quest17.rs) |
 
 ## The Kingdom of Algorithmia
 
