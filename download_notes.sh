@@ -85,7 +85,7 @@ SEED=$(request "https://everybody.codes/api/user/me" "seed") || error "Unable to
 [[ "$SEED" != "0" ]] || error "Invalid seed parameter. Check that session cookie is valid"
 
 # Retrieve encrypted JSON input notes, extracting hex encoded field for the specified part.
-ENCRYPTED=$(request "https://everybody-codes.b-cdn.net/assets/$EVENT/$QUEST/input/$SEED.json" "$PART") || {
+ENCRYPTED=$(request "https://everybody.codes/assets/$EVENT/$QUEST/input/$SEED.json" "$PART") || {
     error "Unable to read encrypted data. Check that event, quest and part are correct"
 }
 
