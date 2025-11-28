@@ -35,6 +35,7 @@ Solutions for the [Everybody Codes](https://everybody.codes) challenge written i
 | 17 | [Deadline-Driven Development](https://everybody.codes/event/2025/quests/17) | [Source](src/event2025/quest17.rs) |
 | 18 | [When Roots Remember](https://everybody.codes/event/2025/quests/18) | [Source](src/event2025/quest18.rs) |
 | 19 | [Flappy Quack](https://everybody.codes/event/2025/quests/19) | [Source](src/event2025/quest19.rs) |
+| 20 | [Dream in Triangles](https://everybody.codes/event/2025/quests/20) | [Source](src/event2025/quest20.rs) |
 
 ## The Kingdom of Algorithmia
 
