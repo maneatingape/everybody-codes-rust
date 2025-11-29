@@ -35,7 +35,7 @@ fn dijkstra(notes: &str, start: u8, end: u8) -> u32 {
                 let extra = diff.min(10 - diff);
                 let cost = cost + extra + 1;
 
-                if !seen.contains_key(&next) || seen[&next] > cost {
+                if seen.get(&next).is_none_or(|&prev_cost| prev_cost > cost) {
                     seen.insert(next, cost);
                     todo.push(cost, next);
                 }

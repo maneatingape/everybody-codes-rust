@@ -39,12 +39,9 @@ pub fn part3(notes: &str) -> u32 {
     let mut runes = grid.same_size_with(0);
 
     for word in &words {
-        for x in 0..grid.width {
-            for y in 0..grid.height {
-                let start = Point::new(x, y);
-                find(word, &grid, &mut runes, start, DOWN);
-                find(word, &grid, &mut runes, start, RIGHT);
-            }
+        for start in grid.points() {
+            find(word, &grid, &mut runes, start, DOWN);
+            find(word, &grid, &mut runes, start, RIGHT);
         }
     }
 

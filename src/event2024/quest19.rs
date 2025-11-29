@@ -73,11 +73,8 @@ fn decode(notes: &str, rounds: u32) -> String {
 fn unscramble<T: Copy>(grid: &Grid<T>, lookup: &Grid<Point>) -> Grid<T> {
     let mut next = grid.clone();
 
-    for y in 0..grid.height {
-        for x in 0..grid.width {
-            let point = Point::new(x, y);
-            next[point] = grid[lookup[point]];
-        }
+    for point in grid.points() {
+        next[point] = grid[lookup[point]];
     }
 
     next

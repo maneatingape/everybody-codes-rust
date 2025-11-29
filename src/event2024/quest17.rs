@@ -34,10 +34,7 @@ pub fn part3(notes: &str) -> u64 {
 fn parse(notes: &str) -> Vec<Point> {
     let grid = Grid::parse(notes);
 
-    (0..grid.height)
-        .flat_map(|y| (0..grid.width).map(move |x| Point::new(x, y)))
-        .filter(|&point| grid[point] == b'*')
-        .collect()
+    grid.points().filter(|&point| grid[point] == b'*').collect()
 }
 
 fn size(stars: Vec<Point>) -> u64 {

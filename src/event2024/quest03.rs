@@ -17,16 +17,7 @@ pub fn part3(notes: &str) -> u32 {
 fn dig(notes: &str, neighbors: &[Point]) -> u32 {
     let grid = Grid::parse(notes);
     let mut depth = grid.same_size_with(0);
-    let mut todo = VecDeque::new();
-
-    for y in 0..grid.height {
-        for x in 0..grid.width {
-            let p = Point::new(x, y);
-            if grid[p] == b'#' {
-                todo.push_back(p);
-            }
-        }
-    }
+    let mut todo: VecDeque<_> = grid.points().filter(|&p| grid[p] == b'#').collect();
 
     while let Some(p) = todo.pop_front() {
         if neighbors
