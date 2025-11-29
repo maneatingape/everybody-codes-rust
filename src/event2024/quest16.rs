@@ -16,7 +16,8 @@ pub fn part1(notes: &str) -> String {
 pub fn part2(notes: &str) -> usize {
     let machine = Machine::from(notes);
 
-    // Wheels are all co-prime with their respective numbers, so LCM is just LCM of wheel size.
+    // Wheels are all co-prime with their respective numbers,
+    // so the LCM is just the LCM of the wheel sizes.
     let lcm = machine.symbols.iter().fold(1, |acc, s| acc.lcm(s.len()));
     let quotient = 202420242024 / lcm;
     let remainder = 202420242024 % lcm;

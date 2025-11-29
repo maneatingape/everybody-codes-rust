@@ -5,9 +5,10 @@ use std::mem::swap;
 const DIAGONAL: [Point; 4] =
     [Point::new(-1, -1), Point::new(1, -1), Point::new(-1, 1), Point::new(1, 1)];
 
+const ITERATIONS: u64 = 1_000_000_000;
 const PERIOD: u64 = 4095;
-const FULL: u64 = 1_000_000_000 / PERIOD;
-const PARTIAL: u64 = 1_000_000_000 % PERIOD + 1;
+const FULL: u64 = ITERATIONS / PERIOD;
+const PARTIAL: u64 = ITERATIONS % PERIOD + 1;
 
 pub fn part1(notes: &str) -> u64 {
     let mut grid = Grid::parse(notes);
@@ -39,19 +40,16 @@ pub fn part3(notes: &str) -> u64 {
 fn step(grid: &mut Grid<u8>, next: &mut Grid<u8>) -> u64 {
     let mut active = 0;
 
-    for y in 0..grid.height {
-        for x in 0..grid.width {
-            let point = Point::new(x, y);
-            let count = DIAGONAL
-                .iter()
-                .map(|&d| d + point)
-                .filter(|&p| grid.contains(p) && grid[p] == b'#')
-                .count();
+    for point in grid.points() {
+        let count = DIAGONAL
+            .iter()
+            .map(|&d| d + point)
+            .filter(|&p| grid.contains(p) && grid[p] == b'#')
+            .count();
 
-            let on = (grid[point] == b'#') != count.is_multiple_of(2);
-            next[point] = if on { b'#' } else { b'.' };
-            active += u64::from(on);
-        }
+        let on = (grid[point] == b'#') != count.is_multiple_of(2);
+        next[point] = if on { b'#' } else { b'.' };
+        active += u64::from(on);
     }
 
     swap(grid, next);

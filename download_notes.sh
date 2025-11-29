@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # SUMMARY
-# 
+#
 # Downloads and decrypts notes, saving the file with the same naming pattern as the website.
 #
 # USAGE
@@ -38,15 +38,14 @@ error() {
 request() {
     local url="$1"
     local field="$2"
+    local response result
     
     # Include cookie and user agent with all requests.
-    local response
     response=$(curl --silent --fail --cookie "$COOKIE" --user-agent "$USER_AGENT" "$url") || {
         error "HTTP request failed for URL \"${url}\""
     }
     
     # Extract specified field from JSON response, removing quotes and trailing newline.
-    local result
     result=$(jq --join-output ".[\"${field}\"] // error" <<< "$response" 2>/dev/null) || {
         error "Field \"${field}\" missing from JSON response"
     }

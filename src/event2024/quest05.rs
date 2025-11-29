@@ -67,7 +67,7 @@ fn shuffle(dance: &mut Dance, round: usize) {
 }
 
 fn key(dance: &Dance) -> usize {
-    (dance[0][0] << 48) + (dance[1][0] << 32) + (dance[2][0] << 16) + dance[3][0]
+    (dance[0][0] << 48) | (dance[1][0] << 32) | (dance[2][0] << 16) | dance[3][0]
 }
 
 fn shout(dance: &Dance) -> usize {

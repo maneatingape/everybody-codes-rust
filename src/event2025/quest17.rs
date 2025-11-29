@@ -7,16 +7,10 @@ pub fn part1(notes: &str) -> i32 {
     let center = grid.width / 2;
     let volcano = Point::new(center, center);
 
-    let mut result = 0;
-
-    for y in 0..grid.height {
-        for x in 0..grid.width {
-            let point = Point::new(x, y);
-            if radius(point, volcano) <= 10 {
-                result += to_decimal(grid[point]);
-            }
-        }
-    }
+    let result: i32 = grid
+        .points()
+        .filter_map(|point| (radius(point, volcano) <= 10).then_some(to_decimal(grid[point])))
+        .sum();
 
     result - to_decimal(grid[volcano])
 }
@@ -28,12 +22,8 @@ pub fn part2(notes: &str) -> i32 {
 
     let mut rings = vec![0; 2 * center as usize];
 
-    for y in 0..grid.height {
-        for x in 0..grid.width {
-            let point = Point::new(x, y);
-            let radius = radius(point, volcano);
-            rings[radius as usize] += to_decimal(grid[point]);
-        }
+    for point in grid.points() {
+        rings[radius(point, volcano) as usize] += to_decimal(grid[point]);
     }
 
     rings.iter().zip(0..).max_by_key(|&(v, _)| v).map(|(v, r)| v * r).unwrap()
@@ -49,23 +39,20 @@ pub fn part3(notes: &str) -> i32 {
     split[end] = b'0';
 
     (0..center)
-        .find_map(|radius| {
-            for y in 0..grid.height {
-                for x in 0..grid.width {
-                    let point = Point::new(x, y);
-                    if self::radius(point, volcano) <= radius || (x == center && y > center) {
-                        split[point] = b'#';
-                    }
+        .find_map(|r| {
+            for point in grid.points() {
+                if radius(point, volcano) <= r || (point.x == center && point.y > center) {
+                    split[point] = b'#';
                 }
             }
 
-            let start = Point::new(center, center + radius + 1);
+            let start = Point::new(center, center + r + 1);
             let total = to_decimal(grid[start])
                 + dijkstra(&split, start + LEFT, end)
                 + dijkstra(&split, start + RIGHT, end);
 
-            let limit = 30 * (radius + 1);
-            (total < limit).then_some(radius * total)
+            let limit = 30 * (r + 1);
+            (total < limit).then_some(r * total)
         })
         .unwrap()
 }

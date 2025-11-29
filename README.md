@@ -4,15 +4,15 @@ Solutions for the [Everybody Codes](https://everybody.codes) challenge written i
 
 ## Events
 
-* [The Kingdom of Algorithmia](#the-kingdom-of-algorithmia)
-* [The Song of Ducks and Dragons](#the-song-of-ducks-and-dragons)
+* [[2025] The Song of Ducks and Dragons](#2025-the-song-of-ducks-and-dragons)
+* [[2024] The Kingdom of Algorithmia](#2024-the-kingdom-of-algorithmia)
 
 ## Stories
 
-* [Echoes of Enigmatus](#echoes-of-enigmatus)
-* [The Entertainment Hub](#the-entertainment-hub)
+* [[2] The Entertainment Hub](#2-the-entertainment-hub)
+* [[1] Echoes of Enigmatus](#1-echoes-of-enigmatus)
 
-## The Song of Ducks and Dragons 
+## [2025] The Song of Ducks and Dragons 
 
 | Quest | Problem | Solution |
 | --- | --- | --- |
@@ -37,7 +37,7 @@ Solutions for the [Everybody Codes](https://everybody.codes) challenge written i
 | 19 | [Flappy Quack](https://everybody.codes/event/2025/quests/19) | [Source](src/event2025/quest19.rs) |
 | 20 | [Dream in Triangles](https://everybody.codes/event/2025/quests/20) | [Source](src/event2025/quest20.rs) |
 
-## The Kingdom of Algorithmia
+## [2024] The Kingdom of Algorithmia
 
 | Quest | Problem | Solution |
 | --- | --- | --- |
@@ -62,18 +62,18 @@ Solutions for the [Everybody Codes](https://everybody.codes) challenge written i
 | 19 | [Encrypted Duck](https://everybody.codes/event/2024/quests/19) | [Source](src/event2024/quest19.rs) |
 | 20 | [Gliding Finale](https://everybody.codes/event/2024/quests/20) | [Source](src/event2024/quest20.rs) |
 
-## Echoes of Enigmatus
-
-| Quest | Problem | Solution |
-| --- | --- | --- |
-| 1 | [EniCode](https://everybody.codes/story/1/quests/1) | [Source](src/story01/quest01.rs) |
-| 2 | [Tangled Trees](https://everybody.codes/story/1/quests/2) | [Source](src/story01/quest02.rs) |
-| 3 | [The Conical Snail Clock](https://everybody.codes/story/1/quests/3) | [Source](src/story01/quest03.rs) |
-
-## The Entertainment Hub
+## [2] The Entertainment Hub
 
 | Quest | Problem | Solution |
 | --- | --- | --- |
 | 1 | [Nail Down Your Luck](https://everybody.codes/story/2/quests/1) | [Source](src/story02/quest01.rs) |
 | 2 | [The Pocket-Money Popper](https://everybody.codes/story/2/quests/2) | [Source](src/story02/quest02.rs) |
 | 3 | [The Dice that Never Lie (Unless I Tell Them To)](https://everybody.codes/story/2/quests/3) | [Source](src/story02/quest03.rs) |
+
+## [1] Echoes of Enigmatus
+
+| Quest | Problem | Solution |
+| --- | --- | --- |
+| 1 | [EniCode](https://everybody.codes/story/1/quests/1) | [Source](src/story01/quest01.rs) |
+| 2 | [Tangled Trees](https://everybody.codes/story/1/quests/2) | [Source](src/story01/quest02.rs) |
+| 3 | [The Conical Snail Clock](https://everybody.codes/story/1/quests/3) | [Source](src/story01/quest03.rs) |
