@@ -4,8 +4,8 @@
 //! For part 3 this means that the power increases by the same amount every 11 laps
 //! as LCM(11, 340) = 3740.
 //!
-//! 2024 divides evenly by 11 = 184, so we only need to race 11 laps instead of the entire 2024 laps
-//! to find the winning plans.
+//! 2024 divided evenly by 11 equals 184, so we only need to race 11 laps
+//! instead of the entire 2024 laps to find the winning plans.
 use std::collections::{BTreeMap, HashMap};
 
 const TRACK1: &str = "=";
