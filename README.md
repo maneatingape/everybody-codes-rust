@@ -9,6 +9,7 @@ Solutions for the [Everybody Codes](https://everybody.codes) challenge written i
 
 ## Stories
 
+* [[3] Melody Made of Code](#3-melody-made-of-code)
 * [[2] The Entertainment Hub](#2-the-entertainment-hub)
 * [[1] Echoes of Enigmatus](#1-echoes-of-enigmatus)
 
@@ -61,6 +62,12 @@ Solutions for the [Everybody Codes](https://everybody.codes) challenge written i
 | 18 | [The Ring](https://everybody.codes/event/2024/quests/18) | [Source](src/event2024/quest18.rs) |
 | 19 | [Encrypted Duck](https://everybody.codes/event/2024/quests/19) | [Source](src/event2024/quest19.rs) |
 | 20 | [Gliding Finale](https://everybody.codes/event/2024/quests/20) | [Source](src/event2024/quest20.rs) |
+
+## [3] Melody Made of Code
+
+| Quest | Problem | Solution |
+| --- | --- | --- |
+| 1 | [Scales, Bags and a Bit of a Mess](https://everybody.codes/story/3/quests/1) | [Source](src/story03/quest01.rs) |
 
 ## [2] The Entertainment Hub
 
