@@ -1,7 +1,6 @@
 use crate::util::grid::*;
 use crate::util::point::*;
 use std::collections::VecDeque;
-use std::iter::repeat_n;
 
 const FLY: [Point; 4] = [DOWN, LEFT, RIGHT, UP];
 const TURN: [[usize; 3]; 4] = [[0, 1, 2], [0, 1, 3], [0, 2, 3], [1, 2, 3]];
@@ -11,7 +10,7 @@ pub fn part1(notes: &str) -> i32 {
     let start = grid.find(b'S').unwrap();
 
     let mut todo = VecDeque::from([(start, 0, 0, 0)]);
-    let mut seen = minimum_from(&grid);
+    let mut seen = grid.same_size_with([i32::MIN; 4]);
     let mut result = 0;
 
     while let Some((point, direction, altitude, time)) = todo.pop_front() {
@@ -19,22 +18,7 @@ pub fn part1(notes: &str) -> i32 {
             result = result.max(altitude);
             continue;
         }
-
-        for turn in TURN[direction] {
-            let next = point + FLY[turn];
-
-            if grid.contains(next) && grid[next] != b'#' {
-                let altitude = match grid[next] {
-                    b'+' => altitude + 1,
-                    b'-' => altitude - 2,
-                    _ => altitude - 1,
-                };
-                if seen[next][turn] < altitude {
-                    todo.push_back((next, turn, altitude, time + 1));
-                    seen[next][turn] = altitude;
-                }
-            }
-        }
+        step(&grid, &mut todo, &mut seen, point, direction, altitude, time);
     }
 
     1000 + result
@@ -111,9 +95,35 @@ pub fn part3(notes: &str) -> i32 {
     unreachable!()
 }
 
+fn step(
+    grid: &Grid<u8>,
+    todo: &mut VecDeque<(Point, usize, i32, i32)>,
+    seen: &mut Grid<[i32; 4]>,
+    point: Point,
+    direction: usize,
+    altitude: i32,
+    time: i32,
+) {
+    for turn in TURN[direction] {
+        let next = point + FLY[turn];
+
+        if grid.contains(next) && grid[next] != b'#' {
+            let altitude = match grid[next] {
+                b'+' => altitude + 1,
+                b'-' => altitude - 2,
+                _ => altitude - 1,
+            };
+            if seen[next][turn] < altitude {
+                todo.push_back((next, turn, altitude, time + 1));
+                seen[next][turn] = altitude;
+            }
+        }
+    }
+}
+
 fn segment(grid: &Grid<u8>, start: Point, end: Point) -> i32 {
     let mut todo = VecDeque::from([(start, 0, 0, 0)]);
-    let mut seen = minimum_from(grid);
+    let mut seen = grid.same_size_with([i32::MIN; 4]);
 
     while let Some((point, direction, altitude, time)) = todo.pop_front() {
         if point == end {
@@ -122,22 +132,7 @@ fn segment(grid: &Grid<u8>, start: Point, end: Point) -> i32 {
             }
             continue;
         }
-
-        for turn in TURN[direction] {
-            let next = point + FLY[turn];
-
-            if grid.contains(next) && grid[next] != b'#' {
-                let altitude = match grid[next] {
-                    b'+' => altitude + 1,
-                    b'-' => altitude - 2,
-                    _ => altitude - 1,
-                };
-                if seen[next][turn] < altitude {
-                    todo.push_back((next, turn, altitude, time + 1));
-                    seen[next][turn] = altitude;
-                }
-            }
-        }
+        step(grid, &mut todo, &mut seen, point, direction, altitude, time);
     }
 
     unreachable!()
@@ -147,7 +142,7 @@ fn complete(grid: &Grid<u8>, start: usize) -> Vec<i32> {
     let start = Point::new(start as i32, 0);
 
     let mut todo = VecDeque::from([(start, 0, 0, 0)]);
-    let mut seen = minimum_from(grid);
+    let mut seen = grid.same_size_with([i32::MIN; 4]);
     let mut result = vec![i32::MIN; grid.width as usize];
 
     while let Some((point, direction, altitude, time)) = todo.pop_front() {
@@ -156,22 +151,7 @@ fn complete(grid: &Grid<u8>, start: usize) -> Vec<i32> {
             result[index] = result[index].max(altitude);
             continue;
         }
-
-        for turn in TURN[direction] {
-            let next = point + FLY[turn];
-
-            if grid.contains(next) && grid[next] != b'#' {
-                let altitude = match grid[next] {
-                    b'+' => altitude + 1,
-                    b'-' => altitude - 2,
-                    _ => altitude - 1,
-                };
-                if seen[next][turn] < altitude {
-                    todo.push_back((next, turn, altitude, time + 1));
-                    seen[next][turn] = altitude;
-                }
-            }
-        }
+        step(grid, &mut todo, &mut seen, point, direction, altitude, time);
     }
 
     result
@@ -180,7 +160,7 @@ fn complete(grid: &Grid<u8>, start: usize) -> Vec<i32> {
 fn remainder(grid: &Grid<u8>, start: usize, height: i32) -> i32 {
     let start = Point::new(start as i32, 0);
     let mut todo = VecDeque::from([(start, 0, height, 0)]);
-    let mut seen = minimum_from(grid);
+    let mut seen = grid.same_size_with([i32::MIN; 4]);
     let mut result = 0;
 
     while let Some((point, direction, altitude, time)) = todo.pop_front() {
@@ -188,31 +168,8 @@ fn remainder(grid: &Grid<u8>, start: usize, height: i32) -> i32 {
             result = result.max(point.y);
             continue;
         }
-
-        for turn in TURN[direction] {
-            let next = point + FLY[turn];
-
-            if grid.contains(next) && grid[next] != b'#' {
-                let altitude = match grid[next] {
-                    b'+' => altitude + 1,
-                    b'-' => altitude - 2,
-                    _ => altitude - 1,
-                };
-                if seen[next][turn] < altitude {
-                    todo.push_back((next, turn, altitude, time + 1));
-                    seen[next][turn] = altitude;
-                }
-            }
-        }
+        step(grid, &mut todo, &mut seen, point, direction, altitude, time);
     }
 
     result
-}
-
-fn minimum_from(grid: &Grid<u8>) -> Grid<[i32; 4]> {
-    Grid {
-        width: grid.width,
-        height: grid.height,
-        bytes: repeat_n([i32::MIN; 4], (grid.width * grid.height) as usize).collect(),
-    }
 }

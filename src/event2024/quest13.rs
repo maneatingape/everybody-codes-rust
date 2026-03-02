@@ -25,10 +25,10 @@ fn dijkstra(notes: &str, start: u8, end: u8) -> u32 {
             return cost;
         }
 
-        for next in ORTHOGONAL.iter().map(|&o| point + o) {
+        for next in ORTHOGONAL.map(|o| point + o) {
             if grid.contains(next) && grid[next] != b'#' {
-                let first = parse(grid[point]);
-                let second = parse(grid[next]);
+                let first = to_height(grid[point]);
+                let second = to_height(grid[next]);
                 let diff = first.abs_diff(second);
                 let extra = diff.min(10 - diff);
                 let cost = cost + extra + 1;
@@ -44,6 +44,6 @@ fn dijkstra(notes: &str, start: u8, end: u8) -> u32 {
     unreachable!()
 }
 
-fn parse(b: u8) -> u32 {
+fn to_height(b: u8) -> u32 {
     if b.is_ascii_digit() { (b - b'0') as u32 } else { 0 }
 }

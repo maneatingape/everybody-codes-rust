@@ -61,7 +61,7 @@ fn bfs(grid: &Grid<u8>, starts: &[Point]) -> u32 {
             }
         }
 
-        for next in neighbours(grid, point) {
+        for next in neighbors(grid, point) {
             if !seen[next] {
                 todo.push_back((next, cost + 1));
                 seen[next] = true;
@@ -86,7 +86,7 @@ fn flood_fill(grid: &Grid<u8>, distance: &mut Grid<u32>, start: Point) -> u32 {
             total += cost;
         }
 
-        for next in neighbours(grid, point) {
+        for next in neighbors(grid, point) {
             if !seen[next] {
                 todo.push_back((next, cost + 1));
                 seen[next] = true;
@@ -97,7 +97,7 @@ fn flood_fill(grid: &Grid<u8>, distance: &mut Grid<u32>, start: Point) -> u32 {
     total
 }
 
-fn neighbours(grid: &Grid<u8>, point: Point) -> impl Iterator<Item = Point> + '_ {
+fn neighbors(grid: &Grid<u8>, point: Point) -> impl Iterator<Item = Point> + '_ {
     ORTHOGONAL
         .iter()
         .map(move |&offset| point + offset)

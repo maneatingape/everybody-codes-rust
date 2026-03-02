@@ -10,7 +10,7 @@ fn main() {
 
     let solutions = [event2024(), event2025(), story01(), story02()];
 
-    // Filter solutions then pretty print output.
+    // Filter solutions, then pretty-print output.
     solutions
         .into_iter()
         .flatten()

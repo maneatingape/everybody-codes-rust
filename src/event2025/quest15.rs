@@ -15,7 +15,7 @@ pub fn part3(notes: &str) -> i32 {
     solve(notes)
 }
 
-pub fn solve(notes: &str) -> i32 {
+fn solve(notes: &str) -> i32 {
     let turns = notes.bytes().filter(u8::is_ascii_uppercase);
     let amounts = notes.iter_signed::<i32>();
 

@@ -14,8 +14,7 @@ pub fn part2(notes: &str) -> u32 {
 
 pub fn part3(notes: &str) -> u32 {
     let grid = Grid::parse(notes);
-    let points =
-        (0..grid.height).flat_map(|y| (0..grid.width).map(move |x| Point::new(x, y))).collect();
+    let points = grid.points().collect();
     ignite(&grid, points)
 }
 

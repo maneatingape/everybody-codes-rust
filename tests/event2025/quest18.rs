@@ -67,5 +67,5 @@ fn part2_test() {
 
 #[test]
 fn part3_test() {
-    // No example data.
+    // No test
 }

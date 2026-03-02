@@ -16,7 +16,7 @@ pub fn part3(notes: &str) -> usize {
     swords.into_iter().rev().enumerate().map(|(i, (.., id))| (i + 1) * id).sum()
 }
 
-pub fn score(line: &str) -> (u64, Vec<u64>, usize) {
+fn score(line: &str) -> (u64, Vec<u64>, usize) {
     let mut levels: Vec<(Option<u64>, u64, Option<u64>)> = Vec::new();
 
     'outer: for n in line.iter_unsigned::<u64>().skip(1) {

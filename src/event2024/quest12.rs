@@ -15,7 +15,7 @@ pub fn part3(notes: &str) -> i32 {
     notes.iter_signed::<i32>().chunk::<2>().map(|[x, y]| ranking(x / 2, y - x / 2 - x % 2)).sum()
 }
 
-pub fn targets(notes: &str) -> i32 {
+fn targets(notes: &str) -> i32 {
     let grid = Grid::parse(notes);
     let mut total = 0;
 

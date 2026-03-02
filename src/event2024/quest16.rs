@@ -2,7 +2,7 @@ use crate::util::math::*;
 use crate::util::parse::*;
 
 pub fn part1(notes: &str) -> String {
-    let machine = Machine::from(notes);
+    let machine = Machine::new(notes);
     let mut result = Vec::new();
 
     for (number, symbols) in machine.numbers.iter().zip(machine.symbols.iter()) {
@@ -14,9 +14,9 @@ pub fn part1(notes: &str) -> String {
 }
 
 pub fn part2(notes: &str) -> usize {
-    let machine = Machine::from(notes);
+    let machine = Machine::new(notes);
 
-    // Wheels are all co-prime with their respective numbers,
+    // Wheels are all coprime with their respective numbers,
     // so the LCM is just the LCM of the wheel sizes.
     let lcm = machine.symbols.iter().fold(1, |acc, s| acc.lcm(s.len()));
     let quotient = 202420242024 / lcm;
@@ -30,7 +30,7 @@ pub fn part2(notes: &str) -> usize {
 }
 
 pub fn part3(notes: &str) -> String {
-    let machine = Machine::from(notes);
+    let machine = Machine::new(notes);
 
     let mut current_max = [0; 515];
     let mut next_max = [0; 515];
@@ -62,8 +62,8 @@ struct Machine<'a> {
     symbols: Vec<Vec<&'a str>>,
 }
 
-impl Machine<'_> {
-    fn from(notes: &str) -> Machine<'_> {
+impl<'a> Machine<'a> {
+    fn new(notes: &'a str) -> Self {
         let (prefix, suffix) = notes.split_once("\n\n").unwrap();
         let numbers: Vec<_> = prefix.iter_unsigned().collect();
         let mut symbols: Vec<_> = vec![vec![]; numbers.len()];

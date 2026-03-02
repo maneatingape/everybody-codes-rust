@@ -1,7 +1,7 @@
 //! Replace "S" with "=" and move to the end to simplify pattern matching.
 //! The tracks are constructed so that power never drops below zero.
 //!
-//! For part 3 this means that the power increases by the same amount every 11 laps
+//! For part 3, this means that the power increases by the same amount every 11 laps
 //! as LCM(11, 340) = 3740.
 //!
 //! 2024 divided evenly by 11 equals 184, so we only need to race 11 laps
@@ -50,12 +50,12 @@ pub fn part3(notes: &str) -> usize {
     permutations().iter().filter(|&&essence| essence > rival_score).count()
 }
 
-fn parse(notes: &str) -> HashMap<String, String> {
+fn parse(notes: &str) -> HashMap<&str, String> {
     notes
         .lines()
         .map(|line| {
             let (prefix, suffix) = line.split_once(':').unwrap();
-            (prefix.to_string(), suffix.replace(',', ""))
+            (prefix, suffix.replace(',', ""))
         })
         .collect()
 }

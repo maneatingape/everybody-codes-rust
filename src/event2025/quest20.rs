@@ -49,7 +49,7 @@ pub fn part3(notes: &str) -> usize {
 
     while let Some((point, cost)) = todo.pop_front() {
         let layer = &mut layers[(cost + 1) % 3];
-        let jump = rotate_anticlockwise(layer, point);
+        let jump = rotate_counterclockwise(layer, point);
         let moves = [if odd_parity(jump) { DOWN } else { UP }, LEFT, RIGHT, ORIGIN];
 
         for next in moves.map(|m| jump + m) {
@@ -70,7 +70,7 @@ fn odd_parity(point: Point) -> bool {
     (point.x + point.y) % 2 == 1
 }
 
-fn rotate_anticlockwise(grid: &Grid<u8>, point: Point) -> Point {
+fn rotate_counterclockwise(grid: &Grid<u8>, point: Point) -> Point {
     let half = grid.width / 2;
     Point::new(
         half - (point.x - point.y) / 2 + point.y,

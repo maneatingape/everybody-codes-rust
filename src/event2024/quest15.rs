@@ -34,7 +34,7 @@ fn collect(grid: &mut Grid<u32>, seen: &mut HashSet<Point>, start: Point) -> (u3
     let mut children = Vec::new();
 
     while let Some(point) = todo.pop_front() {
-        for next in neighbours(grid, point) {
+        for next in neighbors(grid, point) {
             if seen.insert(next) {
                 if grid[next] == OPEN {
                     todo.push_back(next);
@@ -45,7 +45,7 @@ fn collect(grid: &mut Grid<u32>, seen: &mut HashSet<Point>, start: Point) -> (u3
         }
     }
 
-    // Process sub-graphs
+    // Process subgraphs
     let mut total = 0;
     let mut letters = 0;
 
@@ -65,7 +65,7 @@ fn collect(grid: &mut Grid<u32>, seen: &mut HashSet<Point>, start: Point) -> (u3
             break;
         }
 
-        for next in neighbours(grid, point) {
+        for next in neighbors(grid, point) {
             let remaining = remaining & !grid[next];
             if seen.insert((next, remaining)) {
                 todo.push_back((next, remaining, cost + 1));
@@ -77,7 +77,7 @@ fn collect(grid: &mut Grid<u32>, seen: &mut HashSet<Point>, start: Point) -> (u3
     (total, grid[start])
 }
 
-fn neighbours(grid: &Grid<u32>, point: Point) -> impl Iterator<Item = Point> + '_ {
+fn neighbors(grid: &Grid<u32>, point: Point) -> impl Iterator<Item = Point> + '_ {
     ORTHOGONAL
         .iter()
         .map(move |&offset| point + offset)

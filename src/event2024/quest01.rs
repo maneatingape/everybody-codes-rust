@@ -20,7 +20,8 @@ fn score(notes: &str, size: usize) -> i32 {
 
             for &b in chunk {
                 if b.is_ascii_uppercase() {
-                    potions += (2 * (b as i32) - 131).max(0);
+                    let rank = i32::from(b - b'A');
+                    potions += (2 * rank - 1).max(0);
                     enemies += 1;
                 }
             }
