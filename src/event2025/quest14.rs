@@ -1,5 +1,6 @@
 use crate::util::grid::*;
 use crate::util::point::*;
+use std::iter::repeat_with;
 use std::mem::swap;
 
 const DIAGONAL: [Point; 4] =
@@ -13,13 +14,13 @@ const PARTIAL: u64 = ITERATIONS % PERIOD + 1;
 pub fn part1(notes: &str) -> u64 {
     let mut grid = Grid::parse(notes);
     let mut next = grid.same_size_with(b'.');
-    (0..10).map(|_| step(&mut grid, &mut next)).sum()
+    repeat_with(|| step(&mut grid, &mut next)).take(10).sum()
 }
 
 pub fn part2(notes: &str) -> u64 {
     let mut grid = Grid::parse(notes);
     let mut next = grid.same_size_with(b'.');
-    (0..2025).map(|_| step(&mut grid, &mut next)).sum()
+    repeat_with(|| step(&mut grid, &mut next)).take(2025).sum()
 }
 
 pub fn part3(notes: &str) -> u64 {
