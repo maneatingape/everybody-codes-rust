@@ -66,7 +66,7 @@ if [[ $# -lt 5 ]]; then
 fi
 
 # Validate arguments
-[[ "$1" =~ ^[0-9a-fA-F-]{36}$ ]] || error "Session cookie should be a GUID"
+[[ "$1" =~ ^[A-Za-z0-9_-]+(\.[A-Za-z0-9_-]+){2}$ ]] || error "Session cookie should be a JWT token"
 [[ -d "$2" ]] || error "Destination directory does not exist"
 [[ "$3" =~ ^[0-9]+$ ]] || error "Event must be a number"
 [[ "$4" =~ ^[0-9]+$ ]] || error "Quest must be a number"
@@ -80,7 +80,7 @@ readonly QUEST="$4"
 readonly PART="$5"
 
 # Retrieve seed parameter.
-SEED=$(request "https://everybody.codes/api/user/me" "seed") || error "Unable to fetch seed parameter"
+SEED=$(request "https://api.everybody.codes/user/me" "seed") || error "Unable to fetch seed parameter"
 [[ "$SEED" != "0" ]] || error "Invalid seed parameter. Check that session cookie is valid"
 
 # Retrieve encrypted JSON input notes, extracting hex encoded field for the specified part.
@@ -89,7 +89,7 @@ ENCRYPTED=$(request "https://everybody.codes/assets/$EVENT/$QUEST/input/$SEED.js
 }
 
 # Retrieve AES key, converting to hex encoding on a single line.
-KEY=$(request "https://everybody.codes/api/event/$EVENT/quest/$QUEST" "key$PART" | xxd -p -c 0) || {
+KEY=$(request "https://api.everybody.codes/event/$EVENT/quest/$QUEST" "key$PART" | xxd -p -c 0) || {
     error "Unable to read decryption key. Check that previous parts are solved"
 }
 
