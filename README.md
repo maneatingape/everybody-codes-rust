@@ -68,6 +68,7 @@ Solutions for the [Everybody Codes](https://everybody.codes) challenge written i
 | Quest | Problem | Solution |
 | --- | --- | --- |
 | 1 | [Scales, Bags and a Bit of a Mess](https://everybody.codes/story/3/quests/1) | [Source](src/story03/quest01.rs) |
+| 2 | [How Quack Echoes Back](https://everybody.codes/story/3/quests/2) | [Source](src/story03/quest02.rs) |
 
 ## [2] The Entertainment Hub
 

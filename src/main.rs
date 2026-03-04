@@ -78,5 +78,5 @@ run!(story02
 );
 
 run!(story03
-    quest01
+    quest01, quest02
 );
