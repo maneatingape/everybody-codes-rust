@@ -25,7 +25,7 @@ library!(story02
 );
 
 library!(story03
-    quest01, quest02
+    quest01, quest02, quest03
 );
 
 library!(util
