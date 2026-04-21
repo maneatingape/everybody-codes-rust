@@ -18,28 +18,11 @@ pub fn part3(notes: &str) -> u32 {
     let grid = Grid::parse(notes);
     let distance = &mut grid.same_size_with(0);
 
-    for y in 0..grid.height {
-        for x in 0..grid.width {
-            let point = Point::new(x, y);
-            if grid[point] == b'P' {
-                flood_fill(&grid, distance, point);
-            }
-        }
+    for point in grid.points().filter(|&p| grid[p] == b'P') {
+        flood_fill(&grid, distance, point);
     }
 
-    let mut best = u32::MAX;
-    let mut start = ORIGIN;
-
-    for y in 0..grid.height {
-        for x in 0..grid.width {
-            let point = Point::new(x, y);
-            if grid[point] == b'.' && distance[point] < best {
-                best = distance[point];
-                start = point;
-            }
-        }
-    }
-
+    let start = grid.points().filter(|&p| grid[p] == b'.').min_by_key(|&p| distance[p]).unwrap();
     flood_fill(&grid, distance, start)
 }
 
@@ -97,7 +80,7 @@ fn flood_fill(grid: &Grid<u8>, distance: &mut Grid<u32>, start: Point) -> u32 {
     total
 }
 
-fn neighbors(grid: &Grid<u8>, point: Point) -> impl Iterator<Item = Point> + '_ {
+fn neighbors(grid: &Grid<u8>, point: Point) -> impl Iterator<Item = Point> {
     ORTHOGONAL
         .iter()
         .map(move |&offset| point + offset)

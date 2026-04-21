@@ -26,7 +26,7 @@ pub fn part1(notes: &str) -> i32 {
 
 pub fn part2(notes: &str) -> i32 {
     let mut grid = Grid::parse(notes);
-    let mut waypoints = [b'S', b'A', b'B', b'C'].map(|p| grid.find(p).unwrap());
+    let mut waypoints = b"SABC".map(|p| grid.find(p).unwrap());
     let mut total = 0;
 
     for _ in 0..4 {

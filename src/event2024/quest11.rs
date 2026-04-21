@@ -15,15 +15,13 @@ pub fn part3(notes: &str) -> u64 {
 }
 
 fn parse(notes: &str) -> HashMap<&str, Vec<&str>> {
-    let mut kind = HashMap::new();
-
-    for line in notes.lines() {
-        let (prefix, suffix) = line.split_once(':').unwrap();
-        let children: Vec<_> = suffix.split(',').collect();
-        kind.insert(prefix, children);
-    }
-
-    kind
+    notes
+        .lines()
+        .map(|line| {
+            let (prefix, suffix) = line.split_once(':').unwrap();
+            (prefix, suffix.split(',').collect())
+        })
+        .collect()
 }
 
 fn generations(kind: &HashMap<&str, Vec<&str>>, start: &str, days: usize) -> u64 {

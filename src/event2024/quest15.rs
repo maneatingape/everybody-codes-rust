@@ -77,7 +77,7 @@ fn collect(grid: &mut Grid<u32>, seen: &mut HashSet<Point>, start: Point) -> (u3
     (total, grid[start])
 }
 
-fn neighbors(grid: &Grid<u32>, point: Point) -> impl Iterator<Item = Point> + '_ {
+fn neighbors(grid: &Grid<u32>, point: Point) -> impl Iterator<Item = Point> {
     ORTHOGONAL
         .iter()
         .map(move |&offset| point + offset)
