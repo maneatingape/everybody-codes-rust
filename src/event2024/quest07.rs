@@ -21,27 +21,11 @@ const TRACK3: &str = "\
 ==-=++====-+=-+--=+++=-+-===++====+++--=++====+=-=+===+=====-+++=+==++++==----=+=+=-=";
 
 pub fn part1(notes: &str) -> String {
-    let plans = parse(notes);
-    let mut result = BTreeMap::new();
-
-    for (name, plan) in plans {
-        let essence = score(TRACK1, 10, &plan);
-        result.insert(essence, name);
-    }
-
-    result.into_values().rev().collect()
+    ranking(notes, TRACK1)
 }
 
 pub fn part2(notes: &str) -> String {
-    let plans = parse(notes);
-    let mut result = BTreeMap::new();
-
-    for (name, plan) in plans {
-        let essence = score(TRACK2, 10, &plan);
-        result.insert(essence, name);
-    }
-
-    result.into_values().rev().collect()
+    ranking(notes, TRACK2)
 }
 
 pub fn part3(notes: &str) -> usize {
@@ -58,6 +42,12 @@ fn parse(notes: &str) -> HashMap<&str, String> {
             (prefix, suffix.replace(',', ""))
         })
         .collect()
+}
+
+fn ranking(notes: &str, track: &str) -> String {
+    let result: BTreeMap<_, _> =
+        parse(notes).into_iter().map(|(name, plan)| (score(track, 10, &plan), name)).collect();
+    result.into_values().rev().collect()
 }
 
 fn score(track: &str, laps: usize, plan: &str) -> u64 {

@@ -81,14 +81,10 @@ pub fn part3(notes: &str) -> usize {
         let roll = die.roll() as u8 + b'0';
         version += 1;
 
-        for x in 0..grid.width {
-            for y in 0..grid.height {
-                let point = Point::new(x, y);
-
-                if grid[point] == roll {
-                    todo.push(point);
-                    seen[point] = version;
-                }
+        for point in grid.points() {
+            if grid[point] == roll {
+                todo.push(point);
+                seen[point] = version;
             }
         }
 

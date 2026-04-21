@@ -1,7 +1,6 @@
 use crate::util::grid::*;
 use crate::util::iter::*;
 use crate::util::parse::*;
-use crate::util::point::*;
 
 pub fn part1(notes: &str) -> i32 {
     targets(notes)
@@ -17,19 +16,13 @@ pub fn part3(notes: &str) -> i32 {
 
 fn targets(notes: &str) -> i32 {
     let grid = Grid::parse(notes);
-    let mut total = 0;
-
-    for y in 0..grid.height {
-        for x in 0..grid.width {
-            total += match grid[Point::new(x, y)] {
-                b'T' => ranking(x - 1, grid.height - 2 - y),
-                b'H' => 2 * ranking(x - 1, grid.height - 2 - y),
-                _ => 0,
-            }
-        }
-    }
-
-    total
+    grid.points()
+        .map(|p| match grid[p] {
+            b'T' => ranking(p.x - 1, grid.height - 2 - p.y),
+            b'H' => 2 * ranking(p.x - 1, grid.height - 2 - p.y),
+            _ => 0,
+        })
+        .sum()
 }
 
 fn ranking(x: i32, y: i32) -> i32 {

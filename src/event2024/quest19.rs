@@ -1,7 +1,7 @@
 use crate::util::grid::*;
 use crate::util::point::*;
 
-const NEIGHBOURS: [Point; 8] = [
+const NEIGHBORS: [Point; 8] = [
     Point::new(-1, -1),
     Point::new(0, -1),
     Point::new(1, -1),
@@ -40,7 +40,7 @@ fn decode(notes: &str, rounds: u32) -> String {
     for y in 1..height - 1 {
         for x in 1..width - 1 {
             let point = Point::new(x, y);
-            let mut cells = NEIGHBOURS.map(|n| lookup[point + n]);
+            let mut cells = NEIGHBORS.map(|n| lookup[point + n]);
 
             if operations.next().unwrap() == b'R' {
                 cells.rotate_right(1);
@@ -48,7 +48,7 @@ fn decode(notes: &str, rounds: u32) -> String {
                 cells.rotate_left(1);
             }
 
-            NEIGHBOURS.iter().zip(cells).for_each(|(&n, c)| lookup[point + n] = c);
+            NEIGHBORS.iter().zip(cells).for_each(|(&n, c)| lookup[point + n] = c);
         }
     }
 

@@ -55,10 +55,7 @@ fn solve(notes: &str, swap: for<'a> fn(node: &mut Node<'a>, node2: &mut Node<'a>
         }
     }
 
-    let mut result = String::new();
-    result.push_str(&bfs(&tree, 0));
-    result.push_str(&bfs(&tree, 1));
-    result
+    format!("{}{}", bfs(&tree, 0), bfs(&tree, 1))
 }
 
 fn insert(nodes: &mut Tree<'_>, from: usize, to: usize) {

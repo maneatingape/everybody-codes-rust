@@ -66,12 +66,11 @@ pub fn part3(notes: &str) -> u32 {
     let mut direction =
         [UP, UP, UP, RIGHT, RIGHT, RIGHT, DOWN, DOWN, DOWN, LEFT, LEFT, LEFT].into_iter().cycle();
 
+    let bones: Vec<Point> = grid.points().filter(|&p| grid[p] == b'#').collect();
     let mut fill = [b'a', b'b'].into_iter().cycle();
     let mut current_fill = b'.';
 
-    while grid.points().any(|point| {
-        grid[point] == b'#' && ORTHOGONAL.iter().any(|&o| grid[point + o] == current_fill)
-    }) {
+    while bones.iter().any(|&point| ORTHOGONAL.iter().any(|&o| grid[point + o] == current_fill)) {
         let next = position + direction.next().unwrap();
         if grid[next] != current_fill {
             continue;

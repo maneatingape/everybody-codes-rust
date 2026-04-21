@@ -3,14 +3,13 @@ use crate::util::parse::*;
 
 pub fn part1(notes: &str) -> String {
     let machine = Machine::new(notes);
-    let mut result = Vec::new();
-
-    for (number, symbols) in machine.numbers.iter().zip(machine.symbols.iter()) {
-        let top = (number * 100) % symbols.len();
-        result.push(symbols[top]);
-    }
-
-    result.join(" ")
+    machine
+        .numbers
+        .iter()
+        .zip(&machine.symbols)
+        .map(|(number, symbols)| symbols[(number * 100) % symbols.len()])
+        .collect::<Vec<_>>()
+        .join(" ")
 }
 
 pub fn part2(notes: &str) -> usize {
