@@ -43,11 +43,11 @@ pub fn part1(notes: &str) -> usize {
 
 pub fn part2(notes: &str) -> String {
     let (prefix, suffix) = notes.split_once("\n\n").unwrap();
-    let dice: Vec<_> = prefix.lines().map(Dice::from).collect();
     let track: Vec<_> = suffix.trim().bytes().map(|b| b.to_decimal() as i32).collect();
 
-    let mut result: Vec<_> = dice
-        .into_iter()
+    let mut result: Vec<_> = prefix
+        .lines()
+        .map(Dice::from)
         .enumerate()
         .map(|(id, mut die)| {
             let mut rolls = 0;
@@ -68,7 +68,6 @@ pub fn part2(notes: &str) -> String {
 
 pub fn part3(notes: &str) -> usize {
     let (prefix, suffix) = notes.split_once("\n\n").unwrap();
-    let dice: Vec<_> = prefix.lines().map(Dice::from).collect();
     let grid = Grid::parse(suffix);
 
     let mut todo = Vec::with_capacity(100_000);
@@ -77,7 +76,7 @@ pub fn part3(notes: &str) -> usize {
     let mut seen = grid.same_size_with(0);
     let mut version = 0;
 
-    for mut die in dice {
+    for mut die in prefix.lines().map(Dice::from) {
         let roll = die.roll() as u8 + b'0';
         version += 1;
 

@@ -1,6 +1,6 @@
 use std::collections::VecDeque;
 
-const SHOTS: [u8; 3] = [b'R', b'G', b'B'];
+const SHOTS: [u8; 3] = *b"RGB";
 
 pub fn part1(notes: &str) -> usize {
     let balloons = notes.trim().as_bytes();

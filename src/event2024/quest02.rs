@@ -1,31 +1,24 @@
 use crate::util::grid::*;
 use crate::util::point::*;
 
-pub fn part1(notes: &str) -> u32 {
+pub fn part1(notes: &str) -> usize {
     let (words, inscription) = parse(notes, false);
-    let mut runes = 0;
-
-    for word in &words {
-        for i in 0..inscription.len() {
-            if inscription[i..].starts_with(word) {
-                runes += 1;
-            }
-        }
-    }
-
-    runes
+    words
+        .iter()
+        .map(|word| {
+            (0..inscription.len()).filter(|&i| inscription[i..].starts_with(word)).count()
+        })
+        .sum()
 }
 
-pub fn part2(notes: &str) -> u32 {
+pub fn part2(notes: &str) -> usize {
     let (words, inscription) = parse(notes, true);
     let mut runes = vec![0; inscription.len()];
 
     for word in &words {
         for i in 0..inscription.len() {
             if inscription[i..].starts_with(word) {
-                for j in 0..word.len() {
-                    runes[i + j] = 1;
-                }
+                runes[i..i + word.len()].fill(1);
             }
         }
     }
@@ -33,7 +26,7 @@ pub fn part2(notes: &str) -> u32 {
     runes.iter().sum()
 }
 
-pub fn part3(notes: &str) -> u32 {
+pub fn part3(notes: &str) -> usize {
     let (words, scales) = parse(notes, true);
     let grid = Grid::parse(scales);
     let mut runes = grid.same_size_with(0);
@@ -62,7 +55,7 @@ fn parse(notes: &str, reverse: bool) -> (Vec<String>, &str) {
     (words, second)
 }
 
-fn find(word: &str, grid: &Grid<u8>, found: &mut Grid<u32>, start: Point, direction: Point) {
+fn find(word: &str, grid: &Grid<u8>, found: &mut Grid<usize>, start: Point, direction: Point) {
     let mut position = start;
 
     for b in word.bytes() {
