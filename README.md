@@ -9,6 +9,7 @@ Solutions for the [Everybody Codes](https://everybody.codes) challenge written i
 
 ## Stories
 
+* [[4] The Digital Atelier](#4-the-digital-atelier)
 * [[3] Melody Made of Code](#3-melody-made-of-code)
 * [[2] The Entertainment Hub](#2-the-entertainment-hub)
 * [[1] Echoes of Enigmatus](#1-echoes-of-enigmatus)
@@ -62,6 +63,12 @@ Solutions for the [Everybody Codes](https://everybody.codes) challenge written i
 | 18 | [The Ring](https://everybody.codes/event/2024/quests/18) | [Source](src/event2024/quest18.rs) |
 | 19 | [Encrypted Duck](https://everybody.codes/event/2024/quests/19) | [Source](src/event2024/quest19.rs) |
 | 20 | [Gliding Finale](https://everybody.codes/event/2024/quests/20) | [Source](src/event2024/quest20.rs) |
+
+## [4] The Digital Atelier
+
+| Quest | Problem | Solution |
+| --- | --- | --- |
+| 1 | [The Recamán Drapery](https://everybody.codes/story/4/quests/1) | [Source](src/story04/quest01.rs) |
 
 ## [3] Melody Made of Code
 
