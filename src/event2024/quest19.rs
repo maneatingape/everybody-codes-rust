@@ -30,11 +30,7 @@ fn decode(notes: &str, rounds: u32) -> String {
     let mut grid @ Grid { width, height, .. } = Grid::parse(suffix);
 
     // Map points to points
-    let mut lookup = Grid {
-        width,
-        height,
-        bytes: (0..width * height).map(|i| Point::new(i % width, i / width)).collect(),
-    };
+    let mut lookup = Grid { width, height, bytes: grid.points().collect() };
 
     // Apply 1 round of unscrambling
     for y in 1..height - 1 {
@@ -71,11 +67,6 @@ fn decode(notes: &str, rounds: u32) -> String {
 }
 
 fn unscramble<T: Copy>(grid: &Grid<T>, lookup: &Grid<Point>) -> Grid<T> {
-    let mut next = grid.clone();
-
-    for point in grid.points() {
-        next[point] = grid[lookup[point]];
-    }
-
-    next
+    let bytes = lookup.bytes.iter().map(|&point| grid[point]).collect();
+    Grid { width: grid.width, height: grid.height, bytes }
 }

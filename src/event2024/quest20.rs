@@ -42,7 +42,6 @@ pub fn part2(notes: &str) -> i32 {
     total
 }
 
-#[expect(clippy::needless_range_loop)]
 pub fn part3(notes: &str) -> i32 {
     let grid = Grid::parse(notes);
     let start = grid.find(b'S').unwrap();
@@ -57,11 +56,7 @@ pub fn part3(notes: &str) -> i32 {
     let right = size - 1;
 
     // Calculate all possible combinations of altitude drops.
-    let mut drop = vec![vec![]; size];
-
-    for from in left..right {
-        drop[from] = complete(&extended, from);
-    }
+    let drop: Vec<_> = (left..right).map(|from| complete(&extended, from)).collect();
 
     let mut current = vec![i32::MIN; size];
     current[start] = 384400;
@@ -69,22 +64,19 @@ pub fn part3(notes: &str) -> i32 {
     for block in 0.. {
         let mut next = vec![i32::MIN; size];
 
-        for from in left..right {
+        for (from, drops) in (left..right).zip(&drop) {
             for to in left..right {
-                let candidate = current[from].saturating_add(drop[from][to]);
-                next[to] = next[to].max(candidate);
+                next[to] = next[to].max(current[from].saturating_add(drops[to]));
             }
         }
 
         if next.iter().all(|&a| a <= 0) {
             let complete = block * grid.height;
-            let mut partial = 0;
-
-            for x in left..right {
-                if current[x] > 0 {
-                    partial = partial.max(remainder(&grid, x, current[x]));
-                }
-            }
+            let partial = (left..right)
+                .filter(|&x| current[x] > 0)
+                .map(|x| remainder(&grid, x, current[x]))
+                .max()
+                .unwrap_or(0);
 
             return complete + partial;
         }

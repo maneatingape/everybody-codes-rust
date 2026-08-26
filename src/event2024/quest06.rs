@@ -44,6 +44,6 @@ fn solve(notes: &str, first_letter_only: bool) -> String {
         branches.entry(path.len()).or_insert_with(Vec::new).push(path);
     }
 
-    let powerful = branches.values().find(|p| p.len() == 1).unwrap().first().unwrap();
+    let powerful = &branches.values().find(|paths| paths.len() == 1).unwrap()[0];
     powerful.iter().rev().map(|p| if first_letter_only { &p[..1] } else { p }).collect()
 }

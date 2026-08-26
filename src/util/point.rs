@@ -18,7 +18,7 @@ pub const DIAGONAL: [Point; 8] = [
     Point::new(1, 1),
 ];
 
-#[derive(Copy, Clone, Debug, Eq, PartialEq)]
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub struct Point {
     pub x: i32,
     pub y: i32,
@@ -28,31 +28,25 @@ impl Point {
     #[inline]
     #[must_use]
     pub const fn new(x: i32, y: i32) -> Self {
-        Point { x, y }
+        Self { x, y }
     }
 
     #[inline]
     #[must_use]
     pub fn clockwise(self) -> Self {
-        Point::new(-self.y, self.x)
+        Self::new(-self.y, self.x)
     }
 
     #[inline]
     #[must_use]
     pub fn counter_clockwise(self) -> Self {
-        Point::new(self.y, -self.x)
+        Self::new(self.y, -self.x)
     }
 
     #[inline]
     #[must_use]
     pub fn manhattan(self, other: Self) -> i32 {
         (self.x - other.x).abs() + (self.y - other.y).abs()
-    }
-
-    #[inline]
-    #[must_use]
-    pub fn signum(self, other: Self) -> Self {
-        Point::new((self.x - other.x).signum(), (self.y - other.y).signum())
     }
 }
 
@@ -82,7 +76,7 @@ impl Add for Point {
 
     #[inline]
     fn add(self, rhs: Self) -> Self {
-        Point::new(self.x + rhs.x, self.y + rhs.y)
+        Self::new(self.x + rhs.x, self.y + rhs.y)
     }
 }
 
@@ -99,7 +93,7 @@ impl Mul<i32> for Point {
 
     #[inline]
     fn mul(self, rhs: i32) -> Self {
-        Point::new(self.x * rhs, self.y * rhs)
+        Self::new(self.x * rhs, self.y * rhs)
     }
 }
 
@@ -108,7 +102,7 @@ impl Sub for Point {
 
     #[inline]
     fn sub(self, rhs: Self) -> Self {
-        Point::new(self.x - rhs.x, self.y - rhs.y)
+        Self::new(self.x - rhs.x, self.y - rhs.y)
     }
 }
 

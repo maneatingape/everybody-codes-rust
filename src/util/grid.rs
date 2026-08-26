@@ -1,7 +1,7 @@
 use crate::util::point::*;
 use std::ops::{Index, IndexMut};
 
-#[derive(Clone, PartialEq, Eq, Hash)]
+#[derive(Clone, Eq, Hash, PartialEq)]
 pub struct Grid<T> {
     pub width: i32,
     pub height: i32,
@@ -9,7 +9,7 @@ pub struct Grid<T> {
 }
 
 impl Grid<u8> {
-    #[inline]
+    #[must_use]
     pub fn parse(input: &str) -> Self {
         let raw: Vec<_> = input.lines().map(str::as_bytes).collect();
 
@@ -17,49 +17,42 @@ impl Grid<u8> {
         let height = raw.len() as i32;
         let bytes = raw.concat();
 
-        Grid { width, height, bytes }
+        Self { width, height, bytes }
     }
 
     pub fn print(&self) {
-        for y in 0..self.height {
-            for x in 0..self.width {
-                let point = Point::new(x, y);
-                print!("{}", self[point] as char);
-            }
-            println!();
+        for row in self.bytes.chunks(self.width as usize) {
+            println!("{}", str::from_utf8(row).unwrap());
         }
-        println!();
     }
 }
 
 impl<T: Copy + PartialEq> Grid<T> {
     #[inline]
+    #[must_use]
     pub fn find(&self, needle: T) -> Option<Point> {
-        self.bytes.iter().position(|&h| h == needle).map(|index| {
-            let x = (index as i32) % self.width;
-            let y = (index as i32) / self.width;
-            Point::new(x, y)
-        })
+        self.bytes
+            .iter()
+            .position(|&h| h == needle)
+            .map(|index| Point::new(index as i32 % self.width, index as i32 / self.width))
     }
 }
 
 impl<T: Copy> Grid<T> {
-    pub fn new(width: i32, height: i32, value: T) -> Grid<T> {
-        Grid { width, height, bytes: vec![value; (width * height) as usize] }
+    #[must_use]
+    pub fn new(width: i32, height: i32, value: T) -> Self {
+        Self { width, height, bytes: vec![value; (width * height) as usize] }
+    }
+
+    #[must_use]
+    pub fn same_size_with<U: Copy>(&self, value: U) -> Grid<U> {
+        Grid::new(self.width, self.height, value)
     }
 }
 
 impl<T> Grid<T> {
     #[inline]
-    pub fn same_size_with<U: Copy>(&self, value: U) -> Grid<U> {
-        Grid {
-            width: self.width,
-            height: self.height,
-            bytes: vec![value; (self.width * self.height) as usize],
-        }
-    }
-
-    #[inline]
+    #[must_use]
     pub fn contains(&self, point: Point) -> bool {
         point.x >= 0 && point.x < self.width && point.y >= 0 && point.y < self.height
     }

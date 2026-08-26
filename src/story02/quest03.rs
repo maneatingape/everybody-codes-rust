@@ -43,7 +43,7 @@ pub fn part1(notes: &str) -> usize {
 
 pub fn part2(notes: &str) -> String {
     let (prefix, suffix) = notes.split_once("\n\n").unwrap();
-    let track: Vec<_> = suffix.trim().bytes().map(|b| b.to_decimal() as i32).collect();
+    let track: Vec<_> = suffix.trim().bytes().map(u8::to_decimal).collect();
 
     let mut result: Vec<_> = prefix
         .lines()
@@ -62,8 +62,8 @@ pub fn part2(notes: &str) -> String {
         })
         .collect();
 
-    result.sort_unstable_by_key(|&p| p.1);
-    result.iter().map(|&p| p.0.to_string()).collect::<Vec<_>>().join(",")
+    result.sort_unstable_by_key(|&(_, rolls)| rolls);
+    result.iter().map(|(id, _)| id.to_string()).collect::<Vec<_>>().join(",")
 }
 
 pub fn part3(notes: &str) -> usize {

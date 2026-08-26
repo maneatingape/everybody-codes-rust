@@ -5,7 +5,7 @@ pub fn part1(notes: &str) -> usize {
 }
 
 pub fn part2(notes: &str) -> i32 {
-    let mut links = vec![vec![]; 257];
+    let mut links = vec![Vec::new(); 257];
     let mut freq = vec![0; 258];
     let mut result = 0;
 
@@ -27,7 +27,7 @@ pub fn part2(notes: &str) -> i32 {
 }
 
 pub fn part3(notes: &str) -> i32 {
-    let mut links = vec![vec![]; 257];
+    let mut links = vec![Vec::new(); 257];
     let mut delta = vec![0; 258];
     let mut result = 0;
 

@@ -47,13 +47,8 @@ pub fn part3(notes: &str) -> usize {
 }
 
 fn parse(notes: &str) -> Dance {
-    let mut dance = from_fn(|_| Vec::new());
-
-    for (i, n) in notes.iter_unsigned().enumerate() {
-        dance[i % 4].push(n);
-    }
-
-    dance
+    let numbers: Vec<usize> = notes.iter_unsigned().collect();
+    from_fn(|column| numbers.iter().skip(column).step_by(4).copied().collect())
 }
 
 fn shuffle(dance: &mut Dance, round: usize) {

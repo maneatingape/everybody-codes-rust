@@ -3,18 +3,12 @@ use crate::util::point::*;
 
 pub fn part1(notes: &str) -> String {
     let mut grid = Grid::parse(notes);
-    let mut word = String::new();
-
     solve(&mut grid, ORIGIN);
 
-    for y in 2..6 {
-        for x in 2..6 {
-            let point = Point::new(x, y);
-            word.push(grid[point] as char);
-        }
-    }
-
-    word
+    (2..6)
+        .flat_map(|y| (2..6).map(move |x| Point::new(x, y)))
+        .map(|point| grid[point] as char)
+        .collect()
 }
 
 pub fn part2(notes: &str) -> i32 {

@@ -31,7 +31,7 @@ fn ranges(notes: &str, turns: u64) -> u64 {
         wheel.push((end, start, end - start + 1));
     }
 
-    let total: u64 = wheel.iter().map(|(_, _, size)| size).sum();
+    let total: u64 = wheel.iter().map(|&(.., size)| size).sum();
     let mut remaining = turns % total;
 
     for (start, end, size) in wheel {

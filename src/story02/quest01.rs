@@ -36,7 +36,7 @@ pub fn part3(notes: &str) -> String {
         })
         .collect();
 
-    format!("{} {}", min_dijkstra(&tokens), max_dijkstra(&tokens))
+    format!("{} {}", dijkstra(&tokens, 1), dijkstra(&tokens, -1))
 }
 
 fn drop(grid: &Grid<u8>, behavior: &str, slot: i32) -> i32 {
@@ -60,55 +60,27 @@ fn drop(grid: &Grid<u8>, behavior: &str, slot: i32) -> i32 {
     (x - slot + 1).max(0)
 }
 
-fn min_dijkstra(tokens: &[Vec<(i32, i32)>]) -> i32 {
-    let start = 0;
-    let coins = tokens.iter().map(|token| token[start].1).sum::<i32>();
-    let state = [start; 6];
+fn dijkstra(tokens: &[Vec<(i32, i32)>], sign: i32) -> i32 {
+    let start = if sign > 0 { 0 } else { tokens[0].len() - 1 };
+    let coins = |i: usize, j: usize| sign * tokens[i][j].1;
 
-    let mut todo = MinHeap::from([(coins, state)]);
+    let state = [start; 6];
+    let total: i32 = (0..6).map(|i| coins(i, start)).sum();
+
+    let mut todo = MinHeap::from([(total, state)]);
     let mut seen = HashSet::from([state]);
 
-    while let Some((coins, state)) = todo.pop() {
+    while let Some((total, state)) = todo.pop() {
         if unique(tokens, &state) {
-            return coins;
+            return sign * total;
         }
 
         for i in 0..6 {
             let mut next_state = state;
-            next_state[i] += 1;
-
-            let next_coins = coins - tokens[i][state[i]].1 + tokens[i][next_state[i]].1;
+            next_state[i] = if sign > 0 { state[i] + 1 } else { state[i] - 1 };
 
             if seen.insert(next_state) {
-                todo.push(next_coins, next_state);
-            }
-        }
-    }
-
-    unreachable!()
-}
-
-fn max_dijkstra(tokens: &[Vec<(i32, i32)>]) -> i32 {
-    let start = tokens[0].len() - 1;
-    let coins = -tokens.iter().map(|token| token[start].1).sum::<i32>();
-    let state = [start; 6];
-
-    let mut todo = MinHeap::from([(coins, state)]);
-    let mut seen = HashSet::from([state]);
-
-    while let Some((coins, state)) = todo.pop() {
-        if unique(tokens, &state) {
-            return -coins;
-        }
-
-        for i in 0..6 {
-            let mut next_state = state;
-            next_state[i] -= 1;
-
-            let next_coins = coins + tokens[i][state[i]].1 - tokens[i][next_state[i]].1;
-
-            if seen.insert(next_state) {
-                todo.push(next_coins, next_state);
+                todo.push(total - coins(i, state[i]) + coins(i, next_state[i]), next_state);
             }
         }
     }

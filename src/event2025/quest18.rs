@@ -12,14 +12,14 @@ struct Input {
 
 pub fn part1(notes: &str) -> i64 {
     let Input { free, plants } = parse(notes);
-    calculate(&plants, &mut vec![1; free])
+    calculate(&plants, vec![1; free])
 }
 
 pub fn part2(notes: &str) -> i64 {
     let (prefix, suffix) = notes.split_once("\n\n\n").unwrap();
     let Input { free, plants } = parse(prefix);
     let test_cases: Vec<_> = suffix.iter_signed().collect();
-    test_cases.chunks(free).map(|chunk| calculate(&plants, &mut chunk.to_vec())).sum()
+    test_cases.chunks(free).map(|chunk| calculate(&plants, chunk.to_vec())).sum()
 }
 
 pub fn part3(notes: &str) -> i64 {
@@ -36,11 +36,11 @@ pub fn part3(notes: &str) -> i64 {
         }
     }
 
-    let max = calculate(&plants, &mut leaf);
+    let max = calculate(&plants, leaf);
     test_cases
         .chunks(free)
         .filter_map(|chunk| {
-            let energy = calculate(&plants, &mut chunk.to_vec());
+            let energy = calculate(&plants, chunk.to_vec());
             (energy > 0).then_some(max - energy)
         })
         .sum()
@@ -72,7 +72,7 @@ fn parse(notes: &str) -> Input {
     Input { free, plants }
 }
 
-fn calculate(plants: &[Plant], energy: &mut Vec<i64>) -> i64 {
+fn calculate(plants: &[Plant], mut energy: Vec<i64>) -> i64 {
     for Plant { thickness, branches } in plants {
         let incoming = branches.iter().map(|&(branch, weight)| energy[branch] * weight).sum();
         energy.push(if incoming < *thickness { 0 } else { incoming });

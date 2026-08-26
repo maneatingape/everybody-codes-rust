@@ -29,11 +29,14 @@ pub fn part3(notes: &str) -> u32 {
     let mut groups: HashMap<_, Vec<_>> = HashMap::new();
 
     for (id, [red, green, blue, shine]) in notes.lines().map(parse) {
-        let color = match id {
-            _ if red > green.max(blue) => "red",
-            _ if green > red.max(blue) => "green",
-            _ if blue > red.max(green) => "blue",
-            _ => continue,
+        let color = if red > green.max(blue) {
+            "red"
+        } else if green > red.max(blue) {
+            "green"
+        } else if blue > red.max(green) {
+            "blue"
+        } else {
+            continue;
         };
         let finish = match shine {
             ..=30 => "matte",

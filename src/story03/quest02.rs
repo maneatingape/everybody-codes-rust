@@ -96,10 +96,8 @@ pub fn part3(notes: &str) -> u32 {
 
 fn padded_grid(notes: &str) -> Grid<u8> {
     let grid = Grid::parse(notes);
-    let width = grid.width;
-    let height = grid.height;
-    let offset = Point::new(width, height);
-    let mut padded = Grid::new(3 * width, 3 * height, b'.');
+    let offset = Point::new(grid.width, grid.height);
+    let mut padded = Grid::new(3 * grid.width, 3 * grid.height, b'.');
 
     for point in grid.points() {
         padded[point + offset] = grid[point];

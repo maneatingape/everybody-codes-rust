@@ -1,6 +1,6 @@
 # Everybody Codes
 
-Solutions for the [Everybody Codes](https://everybody.codes) challenge written in Rust.
+Rust solutions for the [Everybody Codes](https://everybody.codes) challenge.
 
 ## Events
 
@@ -14,7 +14,7 @@ Solutions for the [Everybody Codes](https://everybody.codes) challenge written i
 * [[2] The Entertainment Hub](#2-the-entertainment-hub)
 * [[1] Echoes of Enigmatus](#1-echoes-of-enigmatus)
 
-## [2025] The Song of Ducks and Dragons 
+## [2025] The Song of Ducks and Dragons
 
 | Quest | Problem | Solution |
 | --- | --- | --- |

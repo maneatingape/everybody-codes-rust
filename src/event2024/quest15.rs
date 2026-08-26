@@ -18,11 +18,11 @@ pub fn part3(notes: &str) -> u32 {
 }
 
 fn solve(notes: &str) -> u32 {
-    let ascii = Grid::parse(notes);
-    let start = Point::new(ascii.width / 2, 0);
+    let Grid { width, height, bytes } = Grid::parse(notes);
+    let start = Point::new(width / 2, 0);
 
-    let mut grid = ascii.same_size_with(0);
-    grid.bytes = ascii.bytes.into_iter().map(to_mask).collect();
+    let bytes = bytes.into_iter().map(to_mask).collect();
+    let mut grid = Grid { width, height, bytes };
 
     let (total, _) = collect(&mut grid, &mut HashSet::from([start]), start);
     total

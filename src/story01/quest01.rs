@@ -15,7 +15,7 @@ pub fn part3(notes: &str) -> usize {
     solve(notes, find_cycle)
 }
 
-pub fn solve(notes: &str, wrapper: fn(usize, usize, usize) -> usize) -> usize {
+fn solve(notes: &str, wrapper: fn(usize, usize, usize) -> usize) -> usize {
     notes
         .iter_unsigned::<usize>()
         .chunk::<7>()

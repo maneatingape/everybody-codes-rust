@@ -1,6 +1,7 @@
-use crate::util::parse::*;
 use std::collections::VecDeque;
 use std::mem::swap;
+
+use crate::util::parse::*;
 
 struct Node<'a> {
     rank: u64,
@@ -15,24 +16,22 @@ impl Node<'_> {
     }
 }
 
-type Tree<'a> = Vec<Node<'a>>;
-
 pub fn part1(notes: &str) -> String {
     solve(notes, |_, _| ())
 }
 
 pub fn part2(notes: &str) -> String {
-    solve(notes, |node1, node2| {
-        swap(&mut node1.rank, &mut node2.rank);
-        swap(&mut node1.name, &mut node2.name);
+    solve(notes, |first, second| {
+        swap(&mut first.rank, &mut second.rank);
+        swap(&mut first.name, &mut second.name);
     })
 }
 
 pub fn part3(notes: &str) -> String {
-    solve(notes, |node1, node2| swap(node1, node2))
+    solve(notes, |first, second| swap(first, second))
 }
 
-fn solve(notes: &str, swap: for<'a> fn(node: &mut Node<'a>, node2: &mut Node<'a>)) -> String {
+fn solve(notes: &str, swap: for<'a> fn(&mut Node<'a>, &mut Node<'a>)) -> String {
     let mut tree = Vec::new();
 
     for line in notes.lines() {
@@ -58,7 +57,7 @@ fn solve(notes: &str, swap: for<'a> fn(node: &mut Node<'a>, node2: &mut Node<'a>
     format!("{}{}", bfs(&tree, 0), bfs(&tree, 1))
 }
 
-fn insert(nodes: &mut Tree<'_>, from: usize, to: usize) {
+fn insert(nodes: &mut [Node<'_>], from: usize, to: usize) {
     if nodes[from].rank < nodes[to].rank {
         if let Some(next) = nodes[to].left {
             insert(nodes, from, next);
@@ -72,7 +71,7 @@ fn insert(nodes: &mut Tree<'_>, from: usize, to: usize) {
     }
 }
 
-fn bfs(nodes: &Tree<'_>, start: usize) -> String {
+fn bfs(nodes: &[Node<'_>], start: usize) -> String {
     let mut todo = VecDeque::from([(start, 0)]);
     let mut messages = Vec::new();
 

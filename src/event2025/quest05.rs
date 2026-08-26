@@ -6,8 +6,8 @@ pub fn part1(notes: &str) -> u64 {
 }
 
 pub fn part2(notes: &str) -> u64 {
-    let ratings: Vec<_> = notes.lines().map(score).map(|(quality, ..)| quality).collect();
-    *ratings.iter().max().unwrap() - *ratings.iter().min().unwrap()
+    let ratings: Vec<_> = notes.lines().map(|line| score(line).0).collect();
+    ratings.iter().max().unwrap() - ratings.iter().min().unwrap()
 }
 
 pub fn part3(notes: &str) -> usize {

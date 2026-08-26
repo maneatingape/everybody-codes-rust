@@ -3,7 +3,7 @@ use crate::util::point::*;
 use std::iter::repeat_with;
 use std::mem::swap;
 
-const DIAGONAL: [Point; 4] =
+const CORNERS: [Point; 4] =
     [Point::new(-1, -1), Point::new(1, -1), Point::new(-1, 1), Point::new(1, 1)];
 
 const ITERATIONS: u64 = 1_000_000_000;
@@ -42,7 +42,7 @@ fn step(grid: &mut Grid<u8>, next: &mut Grid<u8>) -> u64 {
     let mut active = 0;
 
     for point in grid.points() {
-        let count = DIAGONAL
+        let count = CORNERS
             .iter()
             .map(|&d| d + point)
             .filter(|&p| grid.contains(p) && grid[p] == b'#')

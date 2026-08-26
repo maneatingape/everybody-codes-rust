@@ -1,53 +1,43 @@
 use std::ops::*;
 
-pub trait Integer<T>:
+pub trait Integer:
     Copy
     + From<u8>
-    + PartialEq
     + PartialOrd
-    + Add<Output = T>
-    + BitAnd<Output = T>
-    + BitOr<Output = T>
-    + BitXor<Output = T>
-    + Div<Output = T>
-    + Mul<Output = T>
-    + Rem<Output = T>
-    + Shl<u32, Output = T>
-    + Shr<u32, Output = T>
-    + Sub<Output = T>
+    + Add<Output = Self>
+    + BitAnd<Output = Self>
+    + BitXor<Output = Self>
+    + Div<Output = Self>
+    + Mul<Output = Self>
+    + Rem<Output = Self>
+    + Shl<u32, Output = Self>
+    + Shr<u32, Output = Self>
 {
-    const ZERO: T;
-    const ONE: T;
-    const TEN: T;
-
-    fn trailing_zeros(self) -> u32;
+    const ZERO: Self;
+    const ONE: Self;
+    const TEN: Self;
 }
 
-pub trait Unsigned<T>: Integer<T> {}
+pub trait Unsigned: Integer {}
 
-pub trait Signed<T>: Integer<T> + Neg<Output = T> {}
+pub trait Signed: Integer + Neg<Output = Self> {}
 
 macro_rules! integer {
     ($($t:ty)*) => ($(
-        impl Integer<$t> for $t {
-            const ZERO: $t = 0;
-            const ONE: $t = 1;
-            const TEN: $t = 10;
-
-            #[inline]
-            fn trailing_zeros(self) -> u32 {
-                <$t>::trailing_zeros(self)
-            }
+        impl Integer for $t {
+            const ZERO: Self = 0;
+            const ONE: Self = 1;
+            const TEN: Self = 10;
         }
     )*)
 }
 
-macro_rules! empty_trait {
+macro_rules! marker_trait {
     ($name:ident for $($t:ty)*) => ($(
-        impl $name<$t> for $t {}
+        impl $name for $t {}
     )*)
 }
 
-integer!(u8 u16 u32 u64 u128 usize i16 i32 i64 i128);
-empty_trait!(Unsigned for u8 u16 u32 u64 u128 usize);
-empty_trait!(Signed for i16 i32 i64 i128);
+integer!(u8 u16 u32 u64 u128 usize i16 i32 i64 i128 isize);
+marker_trait!(Unsigned for u8 u16 u32 u64 u128 usize);
+marker_trait!(Signed for i16 i32 i64 i128 isize);

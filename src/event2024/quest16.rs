@@ -65,7 +65,7 @@ impl<'a> Machine<'a> {
     fn new(notes: &'a str) -> Self {
         let (prefix, suffix) = notes.split_once("\n\n").unwrap();
         let numbers: Vec<_> = prefix.iter_unsigned().collect();
-        let mut symbols: Vec<_> = vec![vec![]; numbers.len()];
+        let mut symbols: Vec<_> = vec![Vec::new(); numbers.len()];
 
         for line in suffix.lines() {
             for i in (0..line.len()).step_by(4) {
@@ -82,7 +82,7 @@ impl<'a> Machine<'a> {
     fn score(&self, spins: usize, left: usize, right: usize) -> usize {
         let mut freq = [0_usize; 128];
 
-        for (number, symbols) in self.numbers.iter().zip(self.symbols.iter()) {
+        for (number, symbols) in self.numbers.iter().zip(&self.symbols) {
             let size = symbols.len();
             let top = (number * spins + right + (size - left % size)) % size;
             let face = symbols[top].as_bytes();

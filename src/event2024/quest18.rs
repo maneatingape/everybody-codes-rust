@@ -16,14 +16,14 @@ pub fn part2(notes: &str) -> u32 {
 
 pub fn part3(notes: &str) -> u32 {
     let grid = Grid::parse(notes);
-    let distance = &mut grid.same_size_with(0);
+    let mut distance = grid.same_size_with(0);
 
     for point in grid.points().filter(|&p| grid[p] == b'P') {
-        flood_fill(&grid, distance, point);
+        flood_fill(&grid, &mut distance, point);
     }
 
     let start = grid.points().filter(|&p| grid[p] == b'.').min_by_key(|&p| distance[p]).unwrap();
-    flood_fill(&grid, distance, start)
+    flood_fill(&grid, &mut distance, start)
 }
 
 fn bfs(grid: &Grid<u8>, starts: &[Point]) -> u32 {
@@ -56,11 +56,10 @@ fn bfs(grid: &Grid<u8>, starts: &[Point]) -> u32 {
 }
 
 fn flood_fill(grid: &Grid<u8>, distance: &mut Grid<u32>, start: Point) -> u32 {
-    let mut todo = VecDeque::new();
+    let mut todo = VecDeque::from([(start, 0)]);
     let mut seen = grid.same_size_with(false);
     let mut total = 0;
 
-    todo.push_back((start, 0));
     seen[start] = true;
 
     while let Some((point, cost)) = todo.pop_front() {

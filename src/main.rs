@@ -5,7 +5,7 @@ use std::fs::read_to_string;
 
 fn main() {
     // Parse command line options
-    let mut iter = args().flat_map(|arg| arg.iter_unsigned().collect::<Vec<u32>>());
+    let mut iter = args().skip(1).flat_map(|arg| arg.iter_unsigned().collect::<Vec<u32>>());
     let (event, quest) = (iter.next(), iter.next());
 
     let solutions = [event2024(), event2025(), story01(), story02(), story03(), story04()];
@@ -27,10 +27,9 @@ fn main() {
 fn solve(event: u32, quest: u32, part: u32, wrapper: fn(&str) -> String) {
     let path = format!("input/{event:02}/everybody_codes_e{event}_q{quest:02}_p{part}.txt");
 
-    if let Ok(notes) = read_to_string(&path) {
-        println!("    Part {part}: {BOLD}{WHITE}{}{RESET}", wrapper(&notes));
-    } else {
-        eprintln!("    Part {part}: {BOLD}{WHITE}{path}{RESET} missing");
+    match read_to_string(&path) {
+        Ok(notes) => println!("    Part {part}: {BOLD}{WHITE}{}{RESET}", wrapper(&notes)),
+        _ => eprintln!("    Part {part}: {BOLD}{WHITE}{path}{RESET} missing"),
     }
 }
 
@@ -69,18 +68,7 @@ run!(event2025
     quest11, quest12, quest13, quest14, quest15, quest16, quest17, quest18, quest19, quest20
 );
 
-run!(story01
-    quest01, quest02, quest03
-);
-
-run!(story02
-    quest01, quest02, quest03
-);
-
-run!(story03
-    quest01, quest02, quest03
-);
-
-run!(story04
-    quest01, quest02, quest03
-);
+run!(story01 quest01, quest02, quest03);
+run!(story02 quest01, quest02, quest03);
+run!(story03 quest01, quest02, quest03);
+run!(story04 quest01, quest02, quest03);

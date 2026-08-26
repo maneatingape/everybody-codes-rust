@@ -6,9 +6,9 @@
 #
 # USAGE
 #
-# ./download_notes.sh <session_cookie_guid> <destination_dir> <event> <quest> <part>
+# ./download_notes.sh <session_cookie_jwt> <destination_dir> <event> <quest> <part>
 #
-# <session_cookie_guid> Your session cookie from the everybody.codes website
+# <session_cookie_jwt> Your session cookie from the everybody.codes website
 # <destination_dir> Directory to save the notes file, e.g. input/
 # <event> Event or story, e.g. 2024 or 1
 # <quest> Quest
@@ -16,12 +16,12 @@
 #
 # EXAMPLE
 #
-# ./download_notes.sh 9cfd3fe7-05e7-42ad-b45a-70fa1620e470 input 2024 1 1
+# ./download_notes.sh eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkdWNrIn0.S1gN4Tur3Kx7Vq2mZpLcYw input 2024 1 1
 
 # Exit on errors, undefined variables, and pipe failures.
 set -euo pipefail
 
-# If you modify this script then update user agent to your own repository details.
+# If you modify this script, then update the user agent to your own repository details.
 readonly USER_AGENT="https://github.com/maneatingape/everybody-codes-rust helper script"
 
 # ANSI codes for pretty printing.
@@ -39,40 +39,40 @@ request() {
     local url="$1"
     local field="$2"
     local response result
-    
+
     # Include cookie and user agent with all requests.
     response=$(curl --silent --fail --cookie "$COOKIE" --user-agent "$USER_AGENT" "$url") || {
         error "HTTP request failed for URL \"${url}\""
     }
-    
+
     # Extract specified field from JSON response, removing quotes and trailing newline.
     result=$(jq --join-output ".[\"${field}\"] // error" <<< "$response" 2>/dev/null) || {
         error "Field \"${field}\" missing from JSON response"
     }
-    
+
     echo "$result"
 }
 
-# Check for required dependencies
+# Check for required dependencies.
 for cmd in curl jq xxd openssl; do
     command -v "$cmd" &>/dev/null || error "Missing dependency \"${cmd}\""
 done
 
-# Check correct number of command line parameters.
+# Check correct number of command-line parameters.
 if [[ $# -lt 5 ]]; then
-    echo -e "${BOLD}USAGE${RESET}   ./download_notes.sh <session_cookie_guid> <destination_dir> <event> <quest> <part>"
-    echo -e "${BOLD}EXAMPLE${RESET} ./download_notes.sh 9cfd3fe7-05e7-42ad-b45a-70fa1620e470 input 2024 1 1"
+    echo -e "${BOLD}USAGE${RESET}   ./download_notes.sh <session_cookie_jwt> <destination_dir> <event> <quest> <part>"
+    echo -e "${BOLD}EXAMPLE${RESET} ./download_notes.sh eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkdWNrIn0.S1gN4Tur3Kx7Vq2mZpLcYw input 2024 1 1"
     exit 1
 fi
 
-# Validate arguments
-[[ "$1" =~ ^[A-Za-z0-9_-]+(\.[A-Za-z0-9_-]+){2}$ ]] || error "Session cookie should be a JWT token"
+# Validate arguments.
+[[ "$1" =~ ^[A-Za-z0-9_-]+(\.[A-Za-z0-9_-]+){2}$ ]] || error "Session cookie should be a JWT"
 [[ -d "$2" ]] || error "Destination directory does not exist"
 [[ "$3" =~ ^[0-9]+$ ]] || error "Event must be a number"
 [[ "$4" =~ ^[0-9]+$ ]] || error "Quest must be a number"
 [[ "$5" =~ ^[1-3]$ ]] || error "Part must be 1, 2, or 3"
 
-# Read session cookie, destination directory, event, quest and part from command line arguments.
+# Read session cookie, destination directory, event, quest and part from command-line arguments.
 readonly COOKIE="everybody-codes=$1"
 readonly DESTINATION_DIR="$2"
 readonly EVENT="$3"
@@ -83,7 +83,7 @@ readonly PART="$5"
 SEED=$(request "https://api.everybody.codes/user/me" "seed") || error "Unable to fetch seed parameter"
 [[ "$SEED" != "0" ]] || error "Invalid seed parameter. Check that session cookie is valid"
 
-# Retrieve encrypted JSON input notes, extracting hex encoded field for the specified part.
+# Retrieve encrypted JSON input notes, extracting the hex-encoded field for the specified part.
 ENCRYPTED=$(request "https://everybody.codes/assets/$EVENT/$QUEST/input/$SEED.json" "$PART") || {
     error "Unable to read encrypted data. Check that event, quest and part are correct"
 }

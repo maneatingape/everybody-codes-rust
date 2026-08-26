@@ -15,16 +15,12 @@ fn score(notes: &str, size: usize) -> i32 {
         .as_bytes()
         .chunks(size)
         .map(|chunk| {
-            let mut potions = 0;
-            let mut enemies = 0;
+            let runes = chunk.iter().filter(|b| b.is_ascii_uppercase());
 
-            for &b in chunk {
-                if b.is_ascii_uppercase() {
-                    let rank = i32::from(b - b'A');
-                    potions += (2 * rank - 1).max(0);
-                    enemies += 1;
-                }
-            }
+            let (potions, enemies) = runes.fold((0, 0), |(potions, enemies), &b| {
+                let rank = i32::from(b - b'A');
+                (potions + (2 * rank - 1).max(0), enemies + 1)
+            });
 
             potions + enemies * (enemies - 1)
         })

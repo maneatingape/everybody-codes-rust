@@ -20,7 +20,7 @@ pub fn part3(notes: &str) -> u64 {
             .partition(|c| c.iter().any(|&next| next.manhattan(star) < 6));
 
         let mut merged = Vec::from([star]);
-        merged.extend(near.iter().flatten());
+        merged.extend(near.into_iter().flatten());
 
         constellations = far;
         constellations.push(merged);

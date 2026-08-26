@@ -16,22 +16,9 @@ library!(event2025
     quest11, quest12, quest13, quest14, quest15, quest16, quest17, quest18, quest19, quest20
 );
 
-library!(story01
-    quest01, quest02, quest03
-);
+library!(story01 quest01, quest02, quest03);
+library!(story02 quest01, quest02, quest03);
+library!(story03 quest01, quest02, quest03);
+library!(story04 quest01, quest02, quest03);
 
-library!(story02
-    quest01, quest02, quest03
-);
-
-library!(story03
-    quest01, quest02, quest03
-);
-
-library!(story04
-    quest01, quest02, quest03
-);
-
-library!(util
-    ansi, grid, heap, integer, iter, math, parse, point
-);
+library!(util ansi, grid, heap, integer, iter, math, parse, point);

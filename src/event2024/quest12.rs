@@ -26,20 +26,20 @@ fn targets(notes: &str) -> i32 {
 }
 
 fn ranking(x: i32, y: i32) -> i32 {
-    for base in 0..3 {
-        let y = y - base;
-        let horizontal = x + y;
+    (0..3)
+        .find_map(|base| {
+            let y = y - base;
+            let horizontal = x + y;
 
-        if x < y {
-            continue;
-        }
-        if x <= 2 * y {
-            return (base + 1) * y;
-        }
-        if horizontal % 3 == 0 {
-            return (base + 1) * (horizontal / 3);
-        }
-    }
-
-    unreachable!()
+            if x < y {
+                None
+            } else if x <= 2 * y {
+                Some((base + 1) * y)
+            } else if horizontal % 3 == 0 {
+                Some((base + 1) * (horizontal / 3))
+            } else {
+                None
+            }
+        })
+        .unwrap()
 }

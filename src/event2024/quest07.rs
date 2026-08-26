@@ -1,11 +1,3 @@
-//! Replace "S" with "=" and move to the end to simplify pattern matching.
-//! The tracks are constructed so that power never drops below zero.
-//!
-//! For part 3, this means that the power increases by the same amount every 11 laps
-//! as LCM(11, 340) = 3740.
-//!
-//! 2024 divided evenly by 11 equals 184, so we only need to race 11 laps
-//! instead of the entire 2024 laps to find the winning plans.
 use std::collections::{BTreeMap, HashMap};
 
 const TRACK1: &str = "=";
@@ -57,8 +49,8 @@ fn score(track: &str, laps: usize, plan: &str) -> u64 {
     let size = track.len() * laps;
     let combined = first.zip(second).take(size);
 
-    let mut power = 10_u64;
-    let mut essence = 0_u64;
+    let mut power = 10;
+    let mut essence = 0;
 
     for (terrain, segment) in combined {
         let next = if terrain == b'=' { segment } else { terrain };

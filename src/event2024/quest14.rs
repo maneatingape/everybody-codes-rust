@@ -5,7 +5,7 @@ type Segment = (i32, i32, i32);
 
 pub fn part1(notes: &str) -> i32 {
     let (segments, _) = grow_plant(notes);
-    segments.iter().map(|p| p.1).max().unwrap()
+    segments.iter().map(|&(_, y, _)| y).max().unwrap()
 }
 
 pub fn part2(notes: &str) -> usize {
@@ -22,6 +22,10 @@ pub fn part3(notes: &str) -> i32 {
         let mut seen = HashSet::from([leaf]);
 
         while let Some((segment @ (x, y, z), distance)) = todo.pop_front() {
+            if x == 0 && z == 0 {
+                *murkiness.entry(segment).or_insert(0) += distance;
+            }
+
             let orthogonal = [
                 (x + 1, y, z),
                 (x - 1, y, z),
@@ -30,10 +34,6 @@ pub fn part3(notes: &str) -> i32 {
                 (x, y, z + 1),
                 (x, y, z - 1),
             ];
-
-            if x == 0 && z == 0 {
-                *murkiness.entry(segment).or_insert(0) += distance;
-            }
 
             for next in orthogonal {
                 if segments.contains(&next) && seen.insert(next) {
