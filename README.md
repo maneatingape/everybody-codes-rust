@@ -69,6 +69,7 @@ Solutions for the [Everybody Codes](https://everybody.codes) challenge written i
 | Quest | Problem | Solution |
 | --- | --- | --- |
 | 1 | [The Recamán Drapery](https://everybody.codes/story/4/quests/1) | [Source](src/story04/quest01.rs) |
+| 2 | [Sir Sierpiński's Sparkballs](https://everybody.codes/story/4/quests/2) | [Source](src/story04/quest02.rs) |
 
 ## [3] Melody Made of Code
 
