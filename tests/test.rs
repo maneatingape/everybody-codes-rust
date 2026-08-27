@@ -64,5 +64,5 @@ test!(story03
 );
 
 test!(story04
-    quest01, quest02
+    quest01, quest02, quest03
 );
