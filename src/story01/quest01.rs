@@ -1,7 +1,8 @@
+use std::collections::HashMap;
+
 use crate::util::iter::*;
 use crate::util::math::*;
 use crate::util::parse::*;
-use std::collections::HashMap;
 
 pub fn part1(notes: &str) -> usize {
     solve(notes, |n, e, m| eni(1, n, e, m))

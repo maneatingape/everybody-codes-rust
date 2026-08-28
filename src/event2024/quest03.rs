@@ -1,6 +1,7 @@
+use std::collections::VecDeque;
+
 use crate::util::grid::*;
 use crate::util::point::*;
-use std::collections::VecDeque;
 
 pub fn part1(notes: &str) -> u32 {
     dig(notes, &ORTHOGONAL)

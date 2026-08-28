@@ -1,6 +1,38 @@
-use crate::util::parse::*;
 use std::cmp::Reverse;
 use std::collections::HashSet;
+
+use crate::util::parse::*;
+
+#[derive(Clone, Copy)]
+struct Duck {
+    scales: u32,
+    size: u32,
+    lo: u128,
+    hi: u128,
+}
+
+impl Duck {
+    fn from(line: &str) -> Self {
+        let (prefix, suffix) = line.split_once(':').unwrap();
+
+        let scales = prefix.unsigned();
+        let size = suffix.len() as u32;
+        let lo = suffix.bytes().fold(0, |lo, b| (lo << 1) | u128::from(b == b'G' || b == b'T'));
+        let hi = suffix.bytes().fold(0, |hi, b| (hi << 1) | u128::from(b == b'C' || b == b'T'));
+
+        Duck { scales, size, lo, hi }
+    }
+
+    fn same(&self, other: &Duck) -> u32 {
+        self.size - ((self.lo ^ other.lo) | (self.hi ^ other.hi)).count_ones()
+    }
+
+    fn has_parents(&self, first: &Duck, second: &Duck) -> bool {
+        let lo = (self.lo ^ first.lo) & (self.lo ^ second.lo);
+        let hi = (self.hi ^ first.hi) & (self.hi ^ second.hi);
+        (lo | hi) == 0
+    }
+}
 
 pub fn part1(notes: &str) -> u32 {
     let mut ducks: Vec<_> = notes.lines().map(Duck::from).collect();
@@ -54,35 +86,4 @@ fn links(notes: &str) -> Vec<[Duck; 3]> {
     }
 
     links
-}
-
-#[derive(Clone, Copy)]
-struct Duck {
-    scales: u32,
-    size: u32,
-    lo: u128,
-    hi: u128,
-}
-
-impl Duck {
-    fn from(line: &str) -> Self {
-        let (prefix, suffix) = line.split_once(':').unwrap();
-
-        let scales = prefix.unsigned();
-        let size = suffix.len() as u32;
-        let lo = suffix.bytes().fold(0, |lo, b| (lo << 1) | u128::from(b == b'G' || b == b'T'));
-        let hi = suffix.bytes().fold(0, |hi, b| (hi << 1) | u128::from(b == b'C' || b == b'T'));
-
-        Duck { scales, size, lo, hi }
-    }
-
-    fn same(&self, other: &Duck) -> u32 {
-        self.size - ((self.lo ^ other.lo) | (self.hi ^ other.hi)).count_ones()
-    }
-
-    fn has_parents(&self, first: &Duck, second: &Duck) -> bool {
-        let lo = (self.lo ^ first.lo) & (self.lo ^ second.lo);
-        let hi = (self.hi ^ first.hi) & (self.hi ^ second.hi);
-        (lo | hi) == 0
-    }
 }

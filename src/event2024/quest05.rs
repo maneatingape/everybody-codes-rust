@@ -1,6 +1,7 @@
-use crate::util::parse::*;
 use std::array::from_fn;
 use std::collections::{HashMap, HashSet};
+
+use crate::util::parse::*;
 
 type Dance = [Vec<usize>; 4];
 

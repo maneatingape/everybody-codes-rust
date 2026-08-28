@@ -1,7 +1,8 @@
+use std::collections::HashSet;
+
 use crate::util::grid::*;
 use crate::util::heap::*;
 use crate::util::point::*;
-use std::collections::HashSet;
 
 pub fn part1(notes: &str) -> u64 {
     size(parse(notes))

@@ -1,7 +1,8 @@
-use crate::util::iter::*;
-use crate::util::parse::*;
 use std::iter::successors;
 use std::ops::RangeInclusive;
+
+use crate::util::iter::*;
+use crate::util::parse::*;
 
 const RANGE: RangeInclusive<i64> = -1_000_000..=1_000_000;
 

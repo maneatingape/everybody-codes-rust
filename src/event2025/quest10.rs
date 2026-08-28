@@ -1,6 +1,7 @@
+use std::collections::{HashMap, HashSet};
+
 use crate::util::grid::*;
 use crate::util::point::*;
-use std::collections::{HashMap, HashSet};
 
 const MOVES: [Point; 8] = [
     Point::new(-1, -2),

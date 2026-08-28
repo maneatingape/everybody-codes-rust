@@ -1,7 +1,16 @@
-use everybody_codes::util::ansi::*;
-use everybody_codes::util::parse::*;
 use std::env::args;
 use std::fs::read_to_string;
+
+use everybody_codes::util::ansi::*;
+use everybody_codes::util::parse::*;
+
+struct Solution {
+    event: u32,
+    quest: u32,
+    part1: fn(&str) -> String,
+    part2: fn(&str) -> String,
+    part3: fn(&str) -> String,
+}
 
 fn main() {
     // Parse command line options
@@ -31,14 +40,6 @@ fn solve(event: u32, quest: u32, part: u32, wrapper: fn(&str) -> String) {
         Ok(notes) => println!("    Part {part}: {BOLD}{WHITE}{}{RESET}", wrapper(&notes)),
         _ => eprintln!("    Part {part}: {BOLD}{WHITE}{path}{RESET} missing"),
     }
-}
-
-struct Solution {
-    event: u32,
-    quest: u32,
-    part1: fn(&str) -> String,
-    part2: fn(&str) -> String,
-    part3: fn(&str) -> String,
 }
 
 macro_rules! run {

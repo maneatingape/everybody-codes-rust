@@ -1,5 +1,6 @@
-use crate::util::point::*;
 use std::ops::{Index, IndexMut};
+
+use crate::util::point::*;
 
 #[derive(Clone, Eq, Hash, PartialEq)]
 pub struct Grid<T> {

@@ -1,5 +1,6 @@
-use crate::util::integer::*;
 use std::marker::PhantomData;
+
+use crate::util::integer::*;
 
 const MINUS: u8 = b'-'.wrapping_sub(b'0');
 

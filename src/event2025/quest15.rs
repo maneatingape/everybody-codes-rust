@@ -1,7 +1,8 @@
+use std::collections::{BTreeSet, HashMap, VecDeque};
+
 use crate::util::grid::*;
 use crate::util::parse::*;
 use crate::util::point::*;
-use std::collections::{BTreeSet, HashMap, VecDeque};
 
 pub fn part1(notes: &str) -> i32 {
     solve(notes)

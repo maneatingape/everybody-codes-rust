@@ -3,6 +3,8 @@ use std::mem::swap;
 
 use crate::util::parse::*;
 
+type Tree<'a> = Vec<Node<'a>>;
+
 struct Node<'a> {
     rank: u64,
     name: &'a str,
@@ -31,7 +33,7 @@ pub fn part3(notes: &str) -> String {
     solve(notes, |first, second| swap(first, second))
 }
 
-fn solve(notes: &str, swap: for<'a> fn(&mut Node<'a>, &mut Node<'a>)) -> String {
+fn solve(notes: &str, swap: for<'a> fn(first: &mut Node<'a>, second: &mut Node<'a>)) -> String {
     let mut tree = Vec::new();
 
     for line in notes.lines() {
@@ -57,7 +59,7 @@ fn solve(notes: &str, swap: for<'a> fn(&mut Node<'a>, &mut Node<'a>)) -> String 
     format!("{}{}", bfs(&tree, 0), bfs(&tree, 1))
 }
 
-fn insert(nodes: &mut [Node<'_>], from: usize, to: usize) {
+fn insert(nodes: &mut Tree<'_>, from: usize, to: usize) {
     if nodes[from].rank < nodes[to].rank {
         if let Some(next) = nodes[to].left {
             insert(nodes, from, next);
@@ -71,7 +73,7 @@ fn insert(nodes: &mut [Node<'_>], from: usize, to: usize) {
     }
 }
 
-fn bfs(nodes: &[Node<'_>], start: usize) -> String {
+fn bfs(nodes: &Tree<'_>, start: usize) -> String {
     let mut todo = VecDeque::from([(start, 0)]);
     let mut messages = Vec::new();
 

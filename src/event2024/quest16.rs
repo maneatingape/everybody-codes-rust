@@ -1,6 +1,45 @@
 use crate::util::math::*;
 use crate::util::parse::*;
 
+struct Machine<'a> {
+    numbers: Vec<usize>,
+    symbols: Vec<Vec<&'a str>>,
+}
+
+impl<'a> Machine<'a> {
+    fn new(notes: &'a str) -> Self {
+        let (prefix, suffix) = notes.split_once("\n\n").unwrap();
+        let numbers: Vec<_> = prefix.iter_unsigned().collect();
+        let mut symbols: Vec<_> = vec![Vec::new(); numbers.len()];
+
+        for line in suffix.lines() {
+            for i in (0..line.len()).step_by(4) {
+                let face = &line[i..i + 3];
+                if face != "   " {
+                    symbols[i / 4].push(face);
+                }
+            }
+        }
+
+        Machine { numbers, symbols }
+    }
+
+    fn score(&self, spins: usize, left: usize, right: usize) -> usize {
+        let mut freq = [0_usize; 128];
+
+        for (number, symbols) in self.numbers.iter().zip(&self.symbols) {
+            let size = symbols.len();
+            let top = (number * spins + right + (size - left % size)) % size;
+            let face = symbols[top].as_bytes();
+
+            freq[face[0] as usize] += 1;
+            freq[face[2] as usize] += 1;
+        }
+
+        freq.iter().map(|f| f.saturating_sub(2)).sum()
+    }
+}
+
 pub fn part1(notes: &str) -> String {
     let machine = Machine::new(notes);
     machine
@@ -54,43 +93,4 @@ pub fn part3(notes: &str) -> String {
     }
 
     format!("{} {}", current_max.iter().max().unwrap(), current_min.iter().min().unwrap())
-}
-
-struct Machine<'a> {
-    numbers: Vec<usize>,
-    symbols: Vec<Vec<&'a str>>,
-}
-
-impl<'a> Machine<'a> {
-    fn new(notes: &'a str) -> Self {
-        let (prefix, suffix) = notes.split_once("\n\n").unwrap();
-        let numbers: Vec<_> = prefix.iter_unsigned().collect();
-        let mut symbols: Vec<_> = vec![Vec::new(); numbers.len()];
-
-        for line in suffix.lines() {
-            for i in (0..line.len()).step_by(4) {
-                let face = &line[i..i + 3];
-                if face != "   " {
-                    symbols[i / 4].push(face);
-                }
-            }
-        }
-
-        Machine { numbers, symbols }
-    }
-
-    fn score(&self, spins: usize, left: usize, right: usize) -> usize {
-        let mut freq = [0_usize; 128];
-
-        for (number, symbols) in self.numbers.iter().zip(&self.symbols) {
-            let size = symbols.len();
-            let top = (number * spins + right + (size - left % size)) % size;
-            let face = symbols[top].as_bytes();
-
-            freq[face[0] as usize] += 1;
-            freq[face[2] as usize] += 1;
-        }
-
-        freq.iter().map(|f| f.saturating_sub(2)).sum()
-    }
 }

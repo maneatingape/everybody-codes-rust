@@ -1,5 +1,6 @@
-use crate::util::parse::*;
 use std::collections::{BTreeSet, HashMap, HashSet};
+
+use crate::util::parse::*;
 
 pub fn part1(notes: &str) -> u32 {
     let unique: HashSet<u32> = notes.iter_unsigned().collect();

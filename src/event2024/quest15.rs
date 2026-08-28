@@ -1,6 +1,7 @@
+use std::collections::{HashSet, VecDeque};
+
 use crate::util::grid::*;
 use crate::util::point::*;
-use std::collections::{HashSet, VecDeque};
 
 const OPEN: u32 = 0;
 const WALL: u32 = u32::MAX;

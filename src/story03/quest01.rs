@@ -1,7 +1,8 @@
-use crate::util::parse::*;
 use std::array::from_fn;
 use std::cmp::Reverse;
 use std::collections::HashMap;
+
+use crate::util::parse::*;
 
 pub fn part1(notes: &str) -> u32 {
     notes

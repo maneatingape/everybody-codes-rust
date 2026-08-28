@@ -1,5 +1,6 @@
-use crate::util::parse::*;
 use std::collections::HashSet;
+
+use crate::util::parse::*;
 
 pub fn part1(notes: &str) -> i32 {
     recaman(notes, true)

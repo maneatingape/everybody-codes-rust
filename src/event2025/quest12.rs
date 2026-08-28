@@ -1,6 +1,7 @@
+use std::collections::{HashSet, VecDeque};
+
 use crate::util::grid::*;
 use crate::util::point::*;
-use std::collections::{HashSet, VecDeque};
 
 pub fn part1(notes: &str) -> u32 {
     let grid = Grid::parse(notes);

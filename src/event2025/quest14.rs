@@ -1,7 +1,8 @@
-use crate::util::grid::*;
-use crate::util::point::*;
 use std::iter::repeat_with;
 use std::mem::swap;
+
+use crate::util::grid::*;
+use crate::util::point::*;
 
 const CORNERS: [Point; 4] =
     [Point::new(-1, -1), Point::new(1, -1), Point::new(-1, 1), Point::new(1, 1)];

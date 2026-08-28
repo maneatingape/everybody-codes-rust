@@ -1,6 +1,7 @@
+use std::collections::VecDeque;
+
 use crate::util::grid::*;
 use crate::util::point::*;
-use std::collections::VecDeque;
 
 const FLY: [Point; 4] = [DOWN, LEFT, RIGHT, UP];
 const TURN: [[usize; 3]; 4] = [[0, 1, 2], [0, 1, 3], [0, 2, 3], [1, 2, 3]];

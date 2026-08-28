@@ -1,5 +1,6 @@
-use crate::util::parse::*;
 use std::collections::{HashMap, HashSet, VecDeque};
+
+use crate::util::parse::*;
 
 type Segment = (i32, i32, i32);
 

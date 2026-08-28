@@ -1,7 +1,8 @@
+use std::collections::{HashSet, VecDeque};
+
 use crate::util::iter::*;
 use crate::util::parse::*;
 use crate::util::point::*;
-use std::collections::{HashSet, VecDeque};
 
 pub fn part1(notes: &str) -> usize {
     let (mut swarm, beacons, moves) = parse(notes);
