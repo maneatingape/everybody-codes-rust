@@ -1,6 +1,7 @@
 use std::env::args;
 use std::fs::read_to_string;
 
+use everybody_codes::solutions;
 use everybody_codes::util::ansi::*;
 use everybody_codes::util::parse::*;
 
@@ -12,17 +13,27 @@ struct Solution {
     part3: fn(&str) -> String,
 }
 
+macro_rules! run {
+    ($($event:ident $($quest:ident)*),*) => {
+        [$($({
+            use everybody_codes::$event::$quest::*;
+            Solution {
+                event: stringify!($event).unsigned(),
+                quest: stringify!($quest).unsigned(),
+                part1: |notes: &str| part1(notes).to_string(),
+                part2: |notes: &str| part2(notes).to_string(),
+                part3: |notes: &str| part3(notes).to_string(),
+            }
+        },)*)*]
+    }
+}
+
 fn main() {
-    // Parse command line options
     let mut iter = args().skip(1).flat_map(|arg| arg.iter_unsigned().collect::<Vec<u32>>());
     let (event, quest) = (iter.next(), iter.next());
 
-    let solutions = [event2024(), event2025(), story01(), story02(), story03(), story04()];
-
-    // Filter solutions, then pretty-print output.
-    solutions
+    solutions!(run)
         .into_iter()
-        .flatten()
         .filter(|s| event.is_none_or(|e| e == s.event))
         .filter(|s| quest.is_none_or(|q| q == s.quest))
         .for_each(|Solution { event, quest, part1, part2, part3 }| {
@@ -41,35 +52,3 @@ fn solve(event: u32, quest: u32, part: u32, wrapper: fn(&str) -> String) {
         _ => eprintln!("    Part {part}: {BOLD}{WHITE}{path}{RESET} missing"),
     }
 }
-
-macro_rules! run {
-    ($event:tt $($quest:tt),*) => {
-        fn $event() -> Vec<Solution> {
-            vec![$({
-                use everybody_codes::$event::$quest::*;
-                Solution {
-                    event: stringify!($event).unsigned(),
-                    quest: stringify!($quest).unsigned(),
-                    part1: |notes: &str| part1(notes).to_string(),
-                    part2: |notes: &str| part2(notes).to_string(),
-                    part3: |notes: &str| part3(notes).to_string(),
-                }
-            },)*]
-        }
-    }
-}
-
-run!(event2024
-    quest01, quest02, quest03, quest04, quest05, quest06, quest07, quest08, quest09, quest10,
-    quest11, quest12, quest13, quest14, quest15, quest16, quest17, quest18, quest19, quest20
-);
-
-run!(event2025
-    quest01, quest02, quest03, quest04, quest05, quest06, quest07, quest08, quest09, quest10,
-    quest11, quest12, quest13, quest14, quest15, quest16, quest17, quest18, quest19, quest20
-);
-
-run!(story01 quest01, quest02, quest03);
-run!(story02 quest01, quest02, quest03);
-run!(story03 quest01, quest02, quest03);
-run!(story04 quest01, quest02, quest03);
