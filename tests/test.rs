@@ -33,25 +33,6 @@
 //     assert_eq!(part3(EXAMPLE3), 789);
 // }
 
-macro_rules! test {
-    ($year:tt $($day:tt),*) => {
-        pub mod $year {
-            $(pub mod $day;)*
-        }
-    }
-}
+use everybody_codes::{library, solutions};
 
-test!(event2024
-    quest01, quest02, quest03, quest04, quest05, quest06, quest07, quest08, quest09, quest10,
-    quest11, quest12, quest13, quest14, quest15, quest16, quest17, quest18, quest19, quest20
-);
-
-test!(event2025
-    quest01, quest02, quest03, quest04, quest05, quest06, quest07, quest08, quest09, quest10,
-    quest11, quest12, quest13, quest14, quest15, quest16, quest17, quest18, quest19, quest20
-);
-
-test!(story01 quest01, quest02, quest03);
-test!(story02 quest01, quest02, quest03);
-test!(story03 quest01, quest02, quest03);
-test!(story04 quest01, quest02, quest03);
+solutions!(library);
