@@ -49,7 +49,7 @@ pub fn part3(notes: &str) -> i32 {
 
     let mut extended = grid.clone();
     extended.height += 1;
-    extended.bytes.extend_from_slice(&grid.bytes[0..grid.width as usize]);
+    extended.bytes.extend_from_slice(&grid.bytes[..grid.width as usize]);
 
     let start = start.x as usize;
     let size = grid.width as usize;

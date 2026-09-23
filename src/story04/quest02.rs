@@ -5,27 +5,11 @@ use crate::util::parse::*;
 use crate::util::point::*;
 
 pub fn part1(notes: &str) -> usize {
-    let (mut swarm, beacons, moves) = parse(notes);
-    let mut sky = HashSet::from([swarm]);
-
-    for next in moves {
-        swarm = midpoint(swarm, beacons[next]);
-        sky.insert(swarm);
-    }
-
-    sky.len()
+    trace(notes).len()
 }
 
 pub fn part2(notes: &str) -> usize {
-    let (mut swarm, beacons, moves) = parse(notes);
-    let mut sky = HashSet::from([swarm]);
-
-    for next in moves {
-        swarm = midpoint(swarm, beacons[next]);
-        sky.insert(swarm);
-    }
-
-    fireflies(&sky)
+    fireflies(&trace(notes))
 }
 
 pub fn part3(notes: &str) -> usize {
@@ -53,6 +37,18 @@ fn parse(notes: &str) -> (Point, [Point; 3], impl Iterator<Item = usize>) {
     let moves = suffix.bytes().map(|b| usize::from(b - b'A'));
 
     (swarm, beacons, moves)
+}
+
+fn trace(notes: &str) -> HashSet<Point> {
+    let (mut swarm, beacons, moves) = parse(notes);
+    let mut sky = HashSet::from([swarm]);
+
+    for next in moves {
+        swarm = midpoint(swarm, beacons[next]);
+        sky.insert(swarm);
+    }
+
+    sky
 }
 
 fn midpoint(from: Point, to: Point) -> Point {

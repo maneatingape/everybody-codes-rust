@@ -20,9 +20,9 @@ macro_rules! run {
             Solution {
                 event: stringify!($event).unsigned(),
                 quest: stringify!($quest).unsigned(),
-                part1: |notes: &str| part1(notes).to_string(),
-                part2: |notes: &str| part2(notes).to_string(),
-                part3: |notes: &str| part3(notes).to_string(),
+                part1: |notes| part1(notes).to_string(),
+                part2: |notes| part2(notes).to_string(),
+                part3: |notes| part3(notes).to_string(),
             }
         },)*)*]
     }

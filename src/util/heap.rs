@@ -1,7 +1,7 @@
 use std::cmp::Ordering;
 use std::collections::BinaryHeap;
 
-struct Wrapper<K: Ord, V> {
+struct Wrapper<K, V> {
     key: K,
     value: V,
 }
@@ -30,7 +30,7 @@ impl<K: Ord, V> Ord for Wrapper<K, V> {
 }
 
 #[derive(Default)]
-pub struct MinHeap<K: Ord, V> {
+pub struct MinHeap<K, V> {
     heap: BinaryHeap<Wrapper<K, V>>,
 }
 

@@ -19,7 +19,7 @@ pub fn part3(notes: &str) -> usize {
 fn score(line: &str) -> (u64, Vec<u64>, usize) {
     let mut levels: Vec<(Option<u64>, u64, Option<u64>)> = Vec::new();
 
-    'outer: for n in line.iter_unsigned::<u64>().skip(1) {
+    'outer: for n in line.iter_unsigned().skip(1) {
         for (left, middle, right) in &mut levels {
             if left.is_none() && n < *middle {
                 *left = Some(n);

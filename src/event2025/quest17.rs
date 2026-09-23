@@ -58,11 +58,9 @@ pub fn part3(notes: &str) -> i32 {
 }
 
 fn dijkstra(grid: &Grid<u8>, start: Point, end: Point) -> i32 {
-    let mut todo = MinHeap::new();
-    let mut seen = grid.same_size_with(i32::MAX);
-
     let cost = to_decimal(grid[start]);
-    todo.push(cost, start);
+    let mut todo = MinHeap::from([(cost, start)]);
+    let mut seen = grid.same_size_with(i32::MAX);
     seen[start] = cost;
 
     while let Some((cost, point)) = todo.pop() {

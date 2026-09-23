@@ -2,7 +2,7 @@ use crate::util::iter::*;
 use crate::util::parse::*;
 
 pub fn part1(notes: &str) -> u64 {
-    let numbers: Vec<_> = notes.iter_unsigned::<u64>().collect();
+    let numbers: Vec<_> = notes.iter_unsigned().collect();
     let mut wheel = vec![1];
 
     wheel.extend(numbers.iter().step_by(2));
@@ -20,7 +20,7 @@ pub fn part3(notes: &str) -> u64 {
 }
 
 fn ranges(notes: &str, turns: u64) -> u64 {
-    let pairs: Vec<_> = notes.iter_unsigned::<u64>().chunk::<2>().collect();
+    let pairs: Vec<_> = notes.iter_unsigned().chunk::<2>().collect();
     let mut wheel = vec![(1, 1, 1)];
 
     for &[start, end] in pairs.iter().step_by(2) {

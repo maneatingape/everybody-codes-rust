@@ -3,12 +3,12 @@ use std::collections::{BTreeSet, HashMap, HashSet};
 use crate::util::parse::*;
 
 pub fn part1(notes: &str) -> u32 {
-    let unique: HashSet<u32> = notes.iter_unsigned().collect();
+    let unique: HashSet<_> = notes.iter_unsigned().collect();
     unique.iter().sum()
 }
 
 pub fn part2(notes: &str) -> u32 {
-    let sorted: BTreeSet<u32> = notes.iter_unsigned().collect();
+    let sorted: BTreeSet<_> = notes.iter_unsigned().collect();
     sorted.iter().take(20).sum()
 }
 

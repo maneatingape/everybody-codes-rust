@@ -1,6 +1,6 @@
 use crate::util::integer::*;
 
-pub trait MathOps<T: Integer> {
+pub trait MathOps<T> {
     #[must_use]
     fn gcd(self, b: T) -> T;
     #[must_use]

@@ -23,8 +23,7 @@ pub fn part3(notes: &str) -> u32 {
         flood_fill(&grid, &mut distance, point);
     }
 
-    let start = grid.points().filter(|&p| grid[p] == b'.').min_by_key(|&p| distance[p]).unwrap();
-    flood_fill(&grid, &mut distance, start)
+    grid.points().filter(|&p| grid[p] == b'.').map(|p| distance[p]).min().unwrap()
 }
 
 fn bfs(grid: &Grid<u8>, starts: &[Point]) -> u32 {
@@ -56,18 +55,14 @@ fn bfs(grid: &Grid<u8>, starts: &[Point]) -> u32 {
     unreachable!()
 }
 
-fn flood_fill(grid: &Grid<u8>, distance: &mut Grid<u32>, start: Point) -> u32 {
+fn flood_fill(grid: &Grid<u8>, distance: &mut Grid<u32>, start: Point) {
     let mut todo = VecDeque::from([(start, 0)]);
     let mut seen = grid.same_size_with(false);
-    let mut total = 0;
 
     seen[start] = true;
 
     while let Some((point, cost)) = todo.pop_front() {
         distance[point] += cost;
-        if grid[point] == b'P' {
-            total += cost;
-        }
 
         for next in neighbors(grid, point) {
             if !seen[next] {
@@ -76,8 +71,6 @@ fn flood_fill(grid: &Grid<u8>, distance: &mut Grid<u32>, start: Point) -> u32 {
             }
         }
     }
-
-    total
 }
 
 fn neighbors(grid: &Grid<u8>, point: Point) -> impl Iterator<Item = Point> {

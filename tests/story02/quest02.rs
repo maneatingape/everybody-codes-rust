@@ -2,7 +2,6 @@ use everybody_codes::story02::quest02::*;
 
 const EXAMPLE1: &str = "GRBGGGBBBRRRRRRRR";
 const EXAMPLE2: &str = "BBRGGRRGBBRGGBRGBBRRBRRRBGGRRRBGBGG";
-const EXAMPLE3: &str = "BBRGGRRGBBRGGBRGBBRRBRRRBGGRRRBGBGG";
 
 #[test]
 fn part1_test() {
@@ -16,5 +15,5 @@ fn part2_test() {
 
 #[test]
 fn part3_test() {
-    assert_eq!(part3(EXAMPLE3), 2953681);
+    assert_eq!(part3(EXAMPLE2), 2953681);
 }

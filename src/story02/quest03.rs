@@ -12,7 +12,7 @@ struct Dice {
 
 impl Dice {
     fn from(line: &str) -> Dice {
-        let mut faces: Vec<_> = line.iter_signed::<i32>().skip(1).collect();
+        let mut faces: Vec<_> = line.iter_signed().skip(1).collect();
         let seed = faces.pop().unwrap() as usize;
         Dice { faces, seed, pulse: seed, index: 0, roll_number: 1 }
     }
@@ -92,12 +92,7 @@ pub fn part3(notes: &str) -> usize {
             version += 1;
 
             for point in todo.drain(..) {
-                if grid[point] == roll && seen[point] != version {
-                    next.push(point);
-                    seen[point] = version;
-                }
-
-                for neighbor in ORTHOGONAL.map(|o| point + o) {
+                for neighbor in [ORIGIN, UP, DOWN, LEFT, RIGHT].map(|o| point + o) {
                     if grid.contains(neighbor)
                         && grid[neighbor] == roll
                         && seen[neighbor] != version

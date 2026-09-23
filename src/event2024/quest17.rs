@@ -16,14 +16,11 @@ pub fn part3(notes: &str) -> u64 {
     let mut constellations: Vec<Vec<Point>> = Vec::new();
 
     for star in parse(notes) {
-        let (near, far): (Vec<_>, Vec<_>) = constellations
-            .into_iter()
-            .partition(|c| c.iter().any(|&next| next.manhattan(star) < 6));
-
-        let mut merged = Vec::from([star]);
-        merged.extend(near.into_iter().flatten());
-
-        constellations = far;
+        let merged = constellations
+            .extract_if(.., |c| c.iter().any(|&next| next.manhattan(star) < 6))
+            .flatten()
+            .chain([star])
+            .collect();
         constellations.push(merged);
     }
 

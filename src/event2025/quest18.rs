@@ -1,3 +1,4 @@
+use crate::util::iter::*;
 use crate::util::parse::*;
 
 struct Plant {
@@ -54,15 +55,11 @@ fn parse(notes: &str) -> Input {
         if block.contains("free") {
             free += 1;
         } else {
-            let tokens: Vec<_> = block.iter_signed().collect();
-            let thickness = tokens[1];
-            let branches: Vec<_> = tokens[2..]
-                .chunks(3)
-                .map(|chunk| {
-                    let branch = (chunk[1] - 1) as usize;
-                    let weight = chunk[2];
-                    (branch, weight)
-                })
+            let mut tokens = block.iter_signed();
+            let thickness = tokens.nth(1).unwrap();
+            let branches = tokens
+                .chunk::<3>()
+                .map(|[_, branch, weight]| ((branch - 1) as usize, weight))
                 .collect();
 
             plants.push(Plant { thickness, branches });

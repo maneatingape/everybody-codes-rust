@@ -10,7 +10,7 @@ impl<'a> Machine<'a> {
     fn new(notes: &'a str) -> Self {
         let (prefix, suffix) = notes.split_once("\n\n").unwrap();
         let numbers: Vec<_> = prefix.iter_unsigned().collect();
-        let mut symbols: Vec<_> = vec![Vec::new(); numbers.len()];
+        let mut symbols = vec![Vec::new(); numbers.len()];
 
         for line in suffix.lines() {
             for i in (0..line.len()).step_by(4) {

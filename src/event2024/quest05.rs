@@ -48,7 +48,7 @@ pub fn part3(notes: &str) -> usize {
 }
 
 fn parse(notes: &str) -> Dance {
-    let numbers: Vec<usize> = notes.iter_unsigned().collect();
+    let numbers: Vec<_> = notes.iter_unsigned().collect();
     from_fn(|column| numbers.iter().skip(column).step_by(4).copied().collect())
 }
 

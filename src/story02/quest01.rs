@@ -25,7 +25,7 @@ pub fn part3(notes: &str) -> String {
     let (prefix, suffix) = notes.split_once("\n\n").unwrap();
     let grid = Grid::parse(prefix);
 
-    let tokens: Vec<Vec<_>> = suffix
+    let tokens: Vec<_> = suffix
         .lines()
         .map(|behavior| {
             let mut row: Vec<_> = (0..grid.width)
@@ -90,17 +90,12 @@ fn dijkstra(tokens: &[Vec<(i32, i32)>], sign: i32) -> i32 {
 }
 
 fn unique(tokens: &[Vec<(i32, i32)>], state: &[usize]) -> bool {
-    let mut seen = 0;
-
-    for i in 0..6 {
-        let mask = 1 << tokens[i][state[i]].0;
-
-        if seen & mask != 0 {
-            return false;
-        }
-
-        seen |= mask;
-    }
-
-    true
+    tokens
+        .iter()
+        .zip(state)
+        .try_fold(0, |seen, (row, &index)| {
+            let mask = 1 << row[index].0;
+            (seen & mask == 0).then_some(seen | mask)
+        })
+        .is_some()
 }

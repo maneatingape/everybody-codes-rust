@@ -18,7 +18,7 @@ pub fn part3(notes: &str) -> i32 {
 
 fn solve(notes: &str) -> i32 {
     let turns = notes.bytes().filter(u8::is_ascii_uppercase);
-    let amounts = notes.iter_signed::<i32>();
+    let amounts = notes.iter_signed();
 
     let mut direction = UP;
     let mut end = ORIGIN;
@@ -40,8 +40,8 @@ fn solve(notes: &str) -> i32 {
 
     let xs: Vec<_> = xs.into_iter().collect();
     let ys: Vec<_> = ys.into_iter().collect();
-    let shrink_x: HashMap<_, _> = xs.iter().enumerate().map(|(i, &x)| (x, i as i32)).collect();
-    let shrink_y: HashMap<_, _> = ys.iter().enumerate().map(|(i, &y)| (y, i as i32)).collect();
+    let shrink_x: HashMap<_, _> = xs.iter().copied().zip(0..).collect();
+    let shrink_y: HashMap<_, _> = ys.iter().copied().zip(0..).collect();
     let mut grid = Grid::new(xs.len() as i32, ys.len() as i32, b'.');
 
     for (from, to) in walls {

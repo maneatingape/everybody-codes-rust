@@ -27,7 +27,7 @@ pub fn part3(notes: &str) -> u32 {
 }
 
 fn parse(notes: &str) -> [i64; 2] {
-    notes.iter_signed::<i64>().chunk::<2>().next().unwrap()
+    notes.iter_signed().chunk::<2>().next().unwrap()
 }
 
 fn engrave(x2: i64, y2: i64) -> u32 {

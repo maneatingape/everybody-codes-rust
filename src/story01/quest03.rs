@@ -3,8 +3,7 @@ use crate::util::parse::*;
 
 pub fn part1(notes: &str) -> u64 {
     parse(notes)
-        .iter()
-        .map(|&[x, y]| {
+        .map(|[x, y]| {
             let size = x + y - 1;
             let nx = (x - 1 + 100) % size;
             (nx + 1) + 100 * (size - nx)
@@ -20,8 +19,8 @@ pub fn part3(notes: &str) -> u64 {
     search(notes)
 }
 
-fn parse(notes: &str) -> Vec<[u64; 2]> {
-    notes.iter_unsigned::<u64>().chunk::<2>().collect()
+fn parse(notes: &str) -> impl Iterator<Item = [u64; 2]> {
+    notes.iter_unsigned().chunk::<2>()
 }
 
 fn search(notes: &str) -> u64 {

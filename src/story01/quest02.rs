@@ -3,18 +3,15 @@ use std::mem::swap;
 
 use crate::util::parse::*;
 
-type Tree<'a> = Vec<Node<'a>>;
-
 struct Node<'a> {
     rank: u64,
     name: &'a str,
-    left: Option<usize>,
-    right: Option<usize>,
+    children: [Option<usize>; 2],
 }
 
 impl Node<'_> {
     fn new(rank: u64, name: &str) -> Node<'_> {
-        Node { rank, name, left: None, right: None }
+        Node { rank, name, children: [None; 2] }
     }
 }
 
@@ -33,7 +30,7 @@ pub fn part3(notes: &str) -> String {
     solve(notes, |first, second| swap(first, second))
 }
 
-fn solve(notes: &str, swap: for<'a> fn(first: &mut Node<'a>, second: &mut Node<'a>)) -> String {
+fn solve(notes: &str, swap: for<'a> fn(&mut Node<'a>, &mut Node<'a>)) -> String {
     let mut tree = Vec::new();
 
     for line in notes.lines() {
@@ -59,21 +56,16 @@ fn solve(notes: &str, swap: for<'a> fn(first: &mut Node<'a>, second: &mut Node<'
     format!("{}{}", bfs(&tree, 0), bfs(&tree, 1))
 }
 
-fn insert(nodes: &mut Tree<'_>, from: usize, to: usize) {
-    if nodes[from].rank < nodes[to].rank {
-        if let Some(next) = nodes[to].left {
-            insert(nodes, from, next);
-        } else {
-            nodes[to].left = Some(from);
-        }
-    } else if let Some(next) = nodes[to].right {
-        insert(nodes, from, next);
-    } else {
-        nodes[to].right = Some(from);
+fn insert(nodes: &mut [Node<'_>], from: usize, to: usize) {
+    let side = usize::from(nodes[from].rank >= nodes[to].rank);
+
+    match nodes[to].children[side] {
+        Some(next) => insert(nodes, from, next),
+        None => nodes[to].children[side] = Some(from),
     }
 }
 
-fn bfs(nodes: &Tree<'_>, start: usize) -> String {
+fn bfs(nodes: &[Node<'_>], start: usize) -> String {
     let mut todo = VecDeque::from([(start, 0)]);
     let mut messages = Vec::new();
 
@@ -83,10 +75,7 @@ fn bfs(nodes: &Tree<'_>, start: usize) -> String {
         }
         messages[depth].push_str(nodes[index].name);
 
-        if let Some(next) = nodes[index].left {
-            todo.push_back((next, depth + 1));
-        }
-        if let Some(next) = nodes[index].right {
+        for next in nodes[index].children.into_iter().flatten() {
             todo.push_back((next, depth + 1));
         }
     }

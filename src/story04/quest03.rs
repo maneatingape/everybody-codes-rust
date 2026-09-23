@@ -14,12 +14,12 @@ pub fn part3(notes: &str) -> usize {
 
 fn solve(notes: &str) -> [usize; 2] {
     let tokens: Vec<_> = notes.lines().flat_map(|line| line.split('=')).collect();
-    let double = |s: &str| s.repeat(2).bytes().map(|b| usize::from(b - b'0')).collect();
+    let double = |s: &str| s.repeat(2).bytes().map(|b| usize::from(b - b'0')).collect::<Vec<_>>();
 
-    let width: usize = tokens[1].unsigned();
-    let height: usize = tokens[3].unsigned();
-    let horizontal: Vec<_> = double(tokens[5]);
-    let vertical: Vec<_> = double(tokens[7]);
+    let width = tokens[1].unsigned();
+    let height = tokens[3].unsigned();
+    let horizontal = double(tokens[5]);
+    let vertical = double(tokens[7]);
 
     let rows = horizontal.len();
     let columns = vertical.len();

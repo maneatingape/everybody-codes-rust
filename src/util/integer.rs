@@ -23,19 +23,19 @@ pub trait Unsigned: Integer {}
 pub trait Signed: Integer + Neg<Output = Self> {}
 
 macro_rules! integer {
-    ($($t:ty)*) => ($(
-        impl Integer for $t {
+    ($($t:ty)*) => {
+        $(impl Integer for $t {
             const ZERO: Self = 0;
             const ONE: Self = 1;
             const TEN: Self = 10;
-        }
-    )*)
+        })*
+    };
 }
 
 macro_rules! marker_trait {
-    ($name:ident for $($t:ty)*) => ($(
-        impl $name for $t {}
-    )*)
+    ($name:ident for $($t:ty)*) => {
+        $(impl $name for $t {})*
+    };
 }
 
 integer!(u8 u16 u32 u64 u128 usize i16 i32 i64 i128 isize);

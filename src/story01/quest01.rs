@@ -18,7 +18,7 @@ pub fn part3(notes: &str) -> usize {
 
 fn solve(notes: &str, wrapper: fn(usize, usize, usize) -> usize) -> usize {
     notes
-        .iter_unsigned::<usize>()
+        .iter_unsigned()
         .chunk::<7>()
         .map(|[a, b, c, x, y, z, m]| wrapper(a, x, m) + wrapper(b, y, m) + wrapper(c, z, m))
         .max()

@@ -13,15 +13,11 @@ const FULL: u64 = ITERATIONS / PERIOD;
 const PARTIAL: u64 = ITERATIONS % PERIOD + 1;
 
 pub fn part1(notes: &str) -> u64 {
-    let mut grid = Grid::parse(notes);
-    let mut next = grid.same_size_with(b'.');
-    repeat_with(|| step(&mut grid, &mut next)).take(10).sum()
+    simulate(notes, 10)
 }
 
 pub fn part2(notes: &str) -> u64 {
-    let mut grid = Grid::parse(notes);
-    let mut next = grid.same_size_with(b'.');
-    repeat_with(|| step(&mut grid, &mut next)).take(2025).sum()
+    simulate(notes, 2025)
 }
 
 pub fn part3(notes: &str) -> u64 {
@@ -37,6 +33,12 @@ pub fn part3(notes: &str) -> u64 {
     let first: u64 = (0..PARTIAL).filter_map(|_| round()).sum();
     let second: u64 = (PARTIAL..PERIOD).filter_map(|_| round()).sum();
     first + FULL * (first + second)
+}
+
+fn simulate(notes: &str, rounds: usize) -> u64 {
+    let mut grid = Grid::parse(notes);
+    let mut next = grid.same_size_with(b'.');
+    repeat_with(|| step(&mut grid, &mut next)).take(rounds).sum()
 }
 
 fn step(grid: &mut Grid<u8>, next: &mut Grid<u8>) -> u64 {

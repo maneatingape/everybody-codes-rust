@@ -43,53 +43,42 @@ fn ranking(notes: &str, track: &str) -> String {
 }
 
 fn score(track: &str, laps: usize, plan: &str) -> u64 {
-    let first = track.bytes().cycle();
-    let second = plan.bytes().cycle();
-
-    let size = track.len() * laps;
-    let combined = first.zip(second).take(size);
-
-    let mut power = 10;
-    let mut essence = 0;
-
-    for (terrain, segment) in combined {
-        let next = if terrain == b'=' { segment } else { terrain };
-        match next {
-            b'+' => power += 1,
-            b'-' => power -= 1,
-            _ => (),
-        }
-        essence += power;
-    }
-
-    essence
+    track
+        .bytes()
+        .cycle()
+        .zip(plan.bytes().cycle())
+        .take(track.len() * laps)
+        .scan(10, |power, (terrain, segment)| {
+            match if terrain == b'=' { segment } else { terrain } {
+                b'+' => *power += 1,
+                b'-' => *power -= 1,
+                _ => (),
+            }
+            Some(*power)
+        })
+        .sum()
 }
 
 fn permutations() -> Vec<u64> {
-    fn helper(scores: &mut Vec<u64>, plan: &mut String, plus: u8, minus: u8, equal: u8) {
-        if plus + minus + equal == 0 {
-            let essence = score(TRACK3, 11, plan);
-            scores.push(essence);
+    fn helper(scores: &mut Vec<u64>, plan: &mut String, remaining: [u8; 3]) {
+        if remaining == [0; 3] {
+            scores.push(score(TRACK3, 11, plan));
             return;
         }
-        if plus > 0 {
-            plan.push('+');
-            helper(scores, plan, plus - 1, minus, equal);
-            plan.pop();
-        }
-        if minus > 0 {
-            plan.push('-');
-            helper(scores, plan, plus, minus - 1, equal);
-            plan.pop();
-        }
-        if equal > 0 {
-            plan.push('=');
-            helper(scores, plan, plus, minus, equal - 1);
-            plan.pop();
+
+        for (index, segment) in "+-=".chars().enumerate() {
+            if remaining[index] > 0 {
+                let mut next = remaining;
+                next[index] -= 1;
+
+                plan.push(segment);
+                helper(scores, plan, next);
+                plan.pop();
+            }
         }
     }
 
     let mut scores = Vec::new();
-    helper(&mut scores, &mut String::new(), 5, 3, 3);
+    helper(&mut scores, &mut String::new(), [5, 3, 3]);
     scores
 }
