@@ -2,7 +2,7 @@ use std::ops::{Index, IndexMut};
 
 use crate::util::point::*;
 
-#[derive(Clone, Eq, Hash, PartialEq)]
+#[derive(Clone, Eq, PartialEq)]
 pub struct Grid<T> {
     pub width: i32,
     pub height: i32,
@@ -29,7 +29,6 @@ impl Grid<u8> {
 }
 
 impl<T: Copy + PartialEq> Grid<T> {
-    #[inline]
     #[must_use]
     pub fn find(&self, needle: T) -> Option<Point> {
         self.bytes
@@ -59,6 +58,7 @@ impl<T> Grid<T> {
     }
 
     #[inline]
+    #[must_use = "Iterators are lazy and do nothing unless consumed"]
     pub fn points(&self) -> impl Iterator<Item = Point> {
         let width = self.width;
         let height = self.height;

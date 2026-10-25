@@ -1,6 +1,6 @@
 use crate::util::integer::*;
 
-pub trait MathOps<T> {
+pub trait MathExt<T> {
     #[must_use]
     fn gcd(self, b: T) -> T;
     #[must_use]
@@ -9,7 +9,7 @@ pub trait MathOps<T> {
     fn mod_pow(self, e: T, m: T) -> T;
 }
 
-impl<T: Integer> MathOps<T> for T {
+impl<T: Integer> MathExt<T> for T {
     #[inline]
     fn gcd(self, mut b: T) -> T {
         let mut a = self;

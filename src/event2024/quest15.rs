@@ -30,7 +30,7 @@ fn solve(notes: &str) -> u32 {
 }
 
 fn collect(grid: &mut Grid<u32>, seen: &mut HashSet<Point>, start: Point) -> (u32, u32) {
-    // Flood fill
+    // Flood fill.
     let mut todo = VecDeque::from([start]);
     let mut children = Vec::new();
 
@@ -46,7 +46,7 @@ fn collect(grid: &mut Grid<u32>, seen: &mut HashSet<Point>, start: Point) -> (u3
         }
     }
 
-    // Process subgraphs
+    // Process subgraphs.
     let mut total = 0;
     let mut letters = 0;
 
@@ -56,7 +56,7 @@ fn collect(grid: &mut Grid<u32>, seen: &mut HashSet<Point>, start: Point) -> (u3
         letters |= child_letters & !grid[start];
     }
 
-    // Process current graph
+    // Process current graph.
     let mut todo = VecDeque::from([(start, letters, 0)]);
     let mut seen = HashSet::from([(start, letters)]);
 

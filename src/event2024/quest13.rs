@@ -1,5 +1,6 @@
 use crate::util::grid::*;
 use crate::util::heap::*;
+use crate::util::parse::*;
 use crate::util::point::*;
 
 pub fn part1(notes: &str) -> u32 {
@@ -45,5 +46,5 @@ fn dijkstra(notes: &str, start: u8, end: u8) -> u32 {
 }
 
 fn to_height(b: u8) -> u32 {
-    if b.is_ascii_digit() { (b - b'0') as u32 } else { 0 }
+    if b.is_ascii_digit() { b.to_decimal() } else { 0 }
 }

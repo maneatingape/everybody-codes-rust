@@ -30,7 +30,7 @@ fn search(notes: &str) -> u64 {
     for [x, y] in parse(notes) {
         let size = x + y - 1;
 
-        while (x + time) % size != 0 {
+        while !(x + time).is_multiple_of(size) {
             time += factor;
         }
 

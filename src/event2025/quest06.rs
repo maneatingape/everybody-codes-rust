@@ -3,10 +3,10 @@ pub fn part1(notes: &str) -> u32 {
     let mut pairs = 0;
 
     for b in notes.trim().bytes() {
-        if b == b'A' {
-            mentors += 1;
-        } else if b == b'a' {
-            pairs += mentors;
+        match b {
+            b'A' => mentors += 1,
+            b'a' => pairs += mentors,
+            _ => (),
         }
     }
 
@@ -19,9 +19,9 @@ pub fn part2(notes: &str) -> u32 {
 
     for b in notes.trim().bytes() {
         if b.is_ascii_uppercase() {
-            mentors[(b - b'A') as usize] += 1;
+            mentors[usize::from(b - b'A')] += 1;
         } else {
-            pairs += mentors[(b - b'a') as usize];
+            pairs += mentors[usize::from(b - b'a')];
         }
     }
 
@@ -37,7 +37,7 @@ pub fn part3(notes: &str) -> i64 {
         if b.is_ascii_lowercase() {
             let mentor = b.to_ascii_uppercase();
 
-            for j in -1000..1001 {
+            for j in -1000..=1000 {
                 let offset = i + j;
                 let wrapped = offset.rem_euclid(size) as usize;
 

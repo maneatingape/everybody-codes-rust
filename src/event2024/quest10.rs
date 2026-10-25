@@ -7,7 +7,7 @@ pub fn part1(notes: &str) -> String {
 
     (2..6)
         .flat_map(|y| (2..6).map(move |x| Point::new(x, y)))
-        .map(|point| grid[point] as char)
+        .map(|point| char::from(grid[point]))
         .collect()
 }
 
@@ -117,5 +117,5 @@ fn to_ascii(mask: u32) -> u8 {
 }
 
 fn to_power(x: i32, y: i32, ascii: u8) -> i32 {
-    (4 * y + x - 9) * (ascii - b'A' + 1) as i32
+    (4 * y + x - 9) * i32::from(ascii - b'A' + 1)
 }

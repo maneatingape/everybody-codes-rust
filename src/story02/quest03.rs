@@ -11,7 +11,7 @@ struct Dice {
 }
 
 impl Dice {
-    fn from(line: &str) -> Dice {
+    fn from(line: &str) -> Self {
         let mut faces: Vec<_> = line.iter_signed().skip(1).collect();
         let seed = faces.pop().unwrap() as usize;
         Dice { faces, seed, pulse: seed, index: 0, roll_number: 1 }

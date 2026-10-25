@@ -1,3 +1,4 @@
+use crate::util::integer::*;
 use crate::util::parse::*;
 
 pub fn part1(notes: &str) -> usize {
@@ -61,5 +62,5 @@ pub fn part3(notes: &str) -> i32 {
 
 fn parse(notes: &str) -> Vec<(usize, usize)> {
     let nails: Vec<usize> = notes.iter_unsigned().collect();
-    nails.windows(2).map(|w| (w[0].min(w[1]), w[0].max(w[1]))).collect()
+    nails.array_windows().map(|&[a, b]| a.minmax(b)).collect()
 }

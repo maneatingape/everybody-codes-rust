@@ -32,8 +32,8 @@ impl<'a> Machine<'a> {
             let top = (number * spins + right + (size - left % size)) % size;
             let face = symbols[top].as_bytes();
 
-            freq[face[0] as usize] += 1;
-            freq[face[2] as usize] += 1;
+            freq[usize::from(face[0])] += 1;
+            freq[usize::from(face[2])] += 1;
         }
 
         freq.iter().map(|f| f.saturating_sub(2)).sum()

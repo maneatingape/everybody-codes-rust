@@ -96,7 +96,7 @@ fn sheep_move(state: &mut State, dragon: Point, sheep: [u8; 8]) -> u64 {
         if s == u8::MAX {
             (result, moved)
         } else {
-            let point = Point::new(i as i32, (s + 1) as i32);
+            let point = Point::new(i as i32, i32::from(s + 1));
 
             if !state.grid.contains(point) || state.grid[point] == b'H' {
                 (result, true)
@@ -129,7 +129,7 @@ fn dragon_move(state: &mut State, dragon: Point, sheep: [u8; 8]) -> u64 {
             }
 
             let mut next = sheep;
-            if state.grid[dragon] != b'#' && next[dragon.x as usize] as i32 == dragon.y {
+            if state.grid[dragon] != b'#' && i32::from(next[dragon.x as usize]) == dragon.y {
                 next[dragon.x as usize] = u8::MAX;
             }
 

@@ -1,6 +1,7 @@
 use std::collections::{BTreeSet, HashMap, VecDeque};
 
 use crate::util::grid::*;
+use crate::util::integer::*;
 use crate::util::parse::*;
 use crate::util::point::*;
 
@@ -45,11 +46,11 @@ fn solve(notes: &str) -> i32 {
     let mut grid = Grid::new(xs.len() as i32, ys.len() as i32, b'.');
 
     for (from, to) in walls {
-        let (x1, x2) = (shrink_x[&from.x], shrink_x[&to.x]);
-        let (y1, y2) = (shrink_y[&from.y], shrink_y[&to.y]);
+        let (x1, x2) = shrink_x[&from.x].minmax(shrink_x[&to.x]);
+        let (y1, y2) = shrink_y[&from.y].minmax(shrink_y[&to.y]);
 
-        for x in x1.min(x2)..=x1.max(x2) {
-            for y in y1.min(y2)..=y1.max(y2) {
+        for y in y1..=y2 {
+            for x in x1..=x2 {
                 grid[Point::new(x, y)] = b'#';
             }
         }

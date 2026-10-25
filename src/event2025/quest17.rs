@@ -84,7 +84,7 @@ fn dijkstra(grid: &Grid<u8>, start: Point, end: Point) -> i32 {
 }
 
 fn to_decimal(b: u8) -> i32 {
-    (b - b'0') as i32
+    i32::from(b - b'0')
 }
 
 fn radius(point: Point, volcano: Point) -> i32 {

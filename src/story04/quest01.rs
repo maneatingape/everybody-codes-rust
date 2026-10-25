@@ -1,5 +1,6 @@
 use std::collections::HashSet;
 
+use crate::util::integer::*;
 use crate::util::parse::*;
 
 pub fn part1(notes: &str) -> i32 {
@@ -19,7 +20,7 @@ pub fn part3(notes: &str) -> i32 {
 
             line.iter_signed::<i32>().fold(0, |position, jump| {
                 let side = &mut arcs[parity];
-                let contains = |(start, end), point| start <= point && point <= end;
+                let contains = |(start, end), point| (start..=end).contains(&point);
                 let crossing =
                     |next| side.iter().any(|&arc| contains(arc, next) && !contains(arc, position));
 
@@ -34,7 +35,7 @@ pub fn part3(notes: &str) -> i32 {
                     .or_else(|| (forwards..upper).find(|&next| !crossing(next)));
 
                 if let Some(next) = next {
-                    side.push((position.min(next), position.max(next)));
+                    side.push(position.minmax(next));
                     parity ^= 1;
                     next
                 } else {

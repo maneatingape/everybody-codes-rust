@@ -25,7 +25,7 @@ macro_rules! run {
                 part3: |notes| part3(notes).to_string(),
             }
         },)*)*]
-    }
+    };
 }
 
 fn main() {

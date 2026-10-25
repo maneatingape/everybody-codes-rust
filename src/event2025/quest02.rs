@@ -15,15 +15,15 @@ pub fn part1(notes: &str) -> String {
 
 pub fn part2(notes: &str) -> u32 {
     let [x0, y0] = parse(notes);
-    (0..1001)
+    (0..=1000)
         .step_by(10)
-        .flat_map(|x1| (0..1001).step_by(10).map(move |y1| engrave(x0 + x1, y0 + y1)))
+        .flat_map(|x1| (0..=1000).step_by(10).map(move |y1| engrave(x0 + x1, y0 + y1)))
         .sum()
 }
 
 pub fn part3(notes: &str) -> u32 {
     let [x0, y0] = parse(notes);
-    (0..1001).flat_map(|x1| (0..1001).map(move |y1| engrave(x0 + x1, y0 + y1))).sum()
+    (0..=1000).flat_map(|x1| (0..=1000).map(move |y1| engrave(x0 + x1, y0 + y1))).sum()
 }
 
 fn parse(notes: &str) -> [i64; 2] {

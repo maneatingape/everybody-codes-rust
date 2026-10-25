@@ -29,10 +29,10 @@ fn decode(notes: &str, rounds: u32) -> String {
     let mut operations = prefix.bytes().cycle();
     let mut grid @ Grid { width, height, .. } = Grid::parse(suffix);
 
-    // Map points to points
+    // Map points to points.
     let mut lookup = Grid { width, height, bytes: grid.points().collect() };
 
-    // Apply 1 round of unscrambling
+    // Apply 1 round of unscrambling.
     for y in 1..height - 1 {
         for x in 1..width - 1 {
             let point = Point::new(x, y);
@@ -48,7 +48,7 @@ fn decode(notes: &str, rounds: u32) -> String {
         }
     }
 
-    // Exponentiation by squaring
+    // Exponentiation by squaring.
     let mut exponent = 1;
 
     while exponent <= rounds {
@@ -59,11 +59,11 @@ fn decode(notes: &str, rounds: u32) -> String {
         exponent *= 2;
     }
 
-    // Extract message
+    // Extract message.
     let left = grid.find(b'>').unwrap();
     let right = grid.find(b'<').unwrap();
 
-    (left.x + 1..right.x).map(|x| grid[Point::new(x, left.y)] as char).collect()
+    (left.x + 1..right.x).map(|x| char::from(grid[Point::new(x, left.y)])).collect()
 }
 
 fn unscramble<T: Copy>(grid: &Grid<T>, lookup: &Grid<Point>) -> Grid<T> {

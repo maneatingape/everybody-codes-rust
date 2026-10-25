@@ -24,7 +24,7 @@ macro_rules! library {
         $(pub mod $event {
             $(pub mod $quest;)*
         })*
-    }
+    };
 }
 
 library!(util ansi grid heap integer iter math parse point);

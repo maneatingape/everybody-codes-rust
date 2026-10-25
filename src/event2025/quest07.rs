@@ -68,5 +68,5 @@ fn parse(notes: &str) -> (Vec<&str>, Rules) {
 }
 
 fn valid(rules: &Rules, name: &str) -> bool {
-    name.as_bytes().windows(2).all(|w| rules[&w[0]].contains(&w[1]))
+    name.as_bytes().array_windows().all(|[a, b]| rules[a].contains(b))
 }

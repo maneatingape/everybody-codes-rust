@@ -4,7 +4,7 @@ pub fn part1(notes: &str) -> u64 {
     let mut ducks: Vec<u64> = notes.iter_unsigned().collect();
     let mut rounds = 0;
 
-    while ducks.windows(2).any(|w| w[0] > w[1]) {
+    while !ducks.is_sorted() {
         for i in 0..ducks.len() - 1 {
             if ducks[i] > ducks[i + 1] {
                 ducks[i] -= 1;
@@ -30,7 +30,7 @@ pub fn part2(notes: &str) -> usize {
     let ducks: Vec<usize> = notes.iter_unsigned().collect();
     let mut ascending = ducks.clone();
 
-    while ascending.windows(2).any(|w| w[0] > w[1]) {
+    while !ascending.is_sorted() {
         for i in 0..ascending.len() - 1 {
             if ascending[i] > ascending[i + 1] {
                 let delta = (ascending[i] - ascending[i + 1]).div_ceil(2);

@@ -12,7 +12,7 @@
 //     789
 // }
 
-// use everybody_codes::event2025::quest00::*;
+// use everybody_codes::event2026::quest00::*;
 
 // const EXAMPLE1: &str = "";
 // const EXAMPLE2: &str = "";

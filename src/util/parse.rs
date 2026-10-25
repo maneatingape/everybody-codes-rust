@@ -4,25 +4,30 @@ use crate::util::integer::*;
 
 const MINUS: u8 = b'-'.wrapping_sub(b'0');
 
-pub trait ParseByte {
+pub trait ParseByteExt {
+    #[must_use]
     fn to_decimal<T: Integer>(self) -> T;
 }
 
-impl ParseByte for u8 {
+impl ParseByteExt for u8 {
     #[inline]
     fn to_decimal<T: Integer>(self) -> T {
         T::from(self.wrapping_sub(b'0'))
     }
 }
 
-pub trait ParseOps {
+pub trait ParseExt {
+    #[must_use]
     fn unsigned<T: Unsigned>(&self) -> T;
+    #[must_use]
     fn signed<T: Signed>(&self) -> T;
+    #[must_use = "Iterators are lazy and do nothing unless consumed"]
     fn iter_unsigned<T: Unsigned>(&self) -> impl Iterator<Item = T>;
+    #[must_use = "Iterators are lazy and do nothing unless consumed"]
     fn iter_signed<T: Signed>(&self) -> impl Iterator<Item = T>;
 }
 
-impl<S: AsRef<str> + ?Sized> ParseOps for S {
+impl<S: AsRef<str> + ?Sized> ParseExt for S {
     #[inline]
     fn unsigned<T: Unsigned>(&self) -> T {
         let mut bytes = self.as_ref().bytes();

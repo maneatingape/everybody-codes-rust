@@ -16,6 +16,9 @@ pub trait Integer:
     const ZERO: Self;
     const ONE: Self;
     const TEN: Self;
+
+    #[must_use]
+    fn minmax(self, rhs: Self) -> (Self, Self);
 }
 
 pub trait Unsigned: Integer {}
@@ -28,6 +31,11 @@ macro_rules! integer {
             const ZERO: Self = 0;
             const ONE: Self = 1;
             const TEN: Self = 10;
+
+            #[inline]
+            fn minmax(self, rhs: Self) -> (Self, Self) {
+                if self < rhs { (self, rhs) } else { (rhs, self) }
+            }
         })*
     };
 }
