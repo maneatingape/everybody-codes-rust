@@ -4,6 +4,7 @@ Rust solutions for the [Everybody Codes](https://everybody.codes) challenge.
 
 ## Events
 
+* [[2026] Lord of the Wings](#2026-lord-of-the-wings)
 * [[2025] The Song of Ducks and Dragons](#2025-the-song-of-ducks-and-dragons)
 * [[2024] The Kingdom of Algorithmia](#2024-the-kingdom-of-algorithmia)
 
@@ -13,6 +14,12 @@ Rust solutions for the [Everybody Codes](https://everybody.codes) challenge.
 * [[3] Melody Made of Code](#3-melody-made-of-code)
 * [[2] The Entertainment Hub](#2-the-entertainment-hub)
 * [[1] Echoes of Enigmatus](#1-echoes-of-enigmatus)
+
+## [2026] Lord of the Wings
+
+| Quest | Problem | Solution |
+| --- | --- | --- |
+| 1 | [The Coneservation](https://everybody.codes/event/2026/quests/1) | [Source](src/event2026/quest01.rs) |
 
 ## [2025] The Song of Ducks and Dragons
 
