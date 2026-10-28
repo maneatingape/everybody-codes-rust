@@ -21,6 +21,7 @@ Rust solutions for the [Everybody Codes](https://everybody.codes) challenge.
 | --- | --- | --- |
 | 1 | [The Coneservation](https://everybody.codes/event/2026/quests/1) | [Source](src/event2026/quest01.rs) |
 | 2 | [The Axeperiment](https://everybody.codes/event/2026/quests/2) | [Source](src/event2026/quest02.rs) |
+| 3 | [The ISOlation](https://everybody.codes/event/2026/quests/3) | [Source](src/event2026/quest03.rs) |
 
 ## [2025] The Song of Ducks and Dragons
 
