@@ -11,7 +11,7 @@ macro_rules! solutions {
             quest11 quest12 quest13 quest14 quest15 quest16 quest17 quest18 quest19 quest20,
 
             event2026
-            quest01 quest02 quest03,
+            quest01 quest02 quest03 quest04,
 
             story01 quest01 quest02 quest03,
             story02 quest01 quest02 quest03,
