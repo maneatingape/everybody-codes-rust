@@ -26,6 +26,7 @@ Rust solutions for the [Everybody Codes](https://everybody.codes) challenge.
 | 5 | [The Cartograffity](https://everybody.codes/event/2026/quests/5) | [Source](src/event2026/quest05.rs) |
 | 6 | [The Nullspiracy](https://everybody.codes/event/2026/quests/6) | [Source](src/event2026/quest06.rs) |
 | 7 | [The Explouding](https://everybody.codes/event/2026/quests/7) | [Source](src/event2026/quest07.rs) |
+| 8 | [The Entgineering](https://everybody.codes/event/2026/quests/8) | [Source](src/event2026/quest08.rs) |
 
 ## [2025] The Song of Ducks and Dragons
 
