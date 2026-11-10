@@ -30,6 +30,7 @@ Rust solutions for the [Everybody Codes](https://everybody.codes) challenge.
 | 9 | [The Sulphurprise](https://everybody.codes/event/2026/quests/9) | [Source](src/event2026/quest09.rs) |
 | 10 | [The Phantasmagorithm](https://everybody.codes/event/2026/quests/10) | [Source](src/event2026/quest10.rs) |
 | 11 | [The Portalignment](https://everybody.codes/event/2026/quests/11) | [Source](src/event2026/quest11.rs) |
+| 12 | [The Castastrophe](https://everybody.codes/event/2026/quests/12) | [Source](src/event2026/quest12.rs) |
 
 ## [2025] The Song of Ducks and Dragons
 
