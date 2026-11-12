@@ -32,6 +32,7 @@ Rust solutions for the [Everybody Codes](https://everybody.codes) challenge.
 | 11 | [The Portalignment](https://everybody.codes/event/2026/quests/11) | [Source](src/event2026/quest11.rs) |
 | 12 | [The Castastrophe](https://everybody.codes/event/2026/quests/12) | [Source](src/event2026/quest12.rs) |
 | 13 | [The Tickursion](https://everybody.codes/event/2026/quests/13) | [Source](src/event2026/quest13.rs) |
+| 14 | [The Shardorithm](https://everybody.codes/event/2026/quests/14) | [Source](src/event2026/quest14.rs) |
 
 ## [2025] The Song of Ducks and Dragons
 
