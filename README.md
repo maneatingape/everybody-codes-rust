@@ -34,6 +34,7 @@ Rust solutions for the [Everybody Codes](https://everybody.codes) challenge.
 | 13 | [The Tickursion](https://everybody.codes/event/2026/quests/13) | [Source](src/event2026/quest13.rs) |
 | 14 | [The Shardorithm](https://everybody.codes/event/2026/quests/14) | [Source](src/event2026/quest14.rs) |
 | 15 | [The Explavigation](https://everybody.codes/event/2026/quests/15) | [Source](src/event2026/quest15.rs) |
+| 16 | [The Sortcery](https://everybody.codes/event/2026/quests/16) | [Source](src/event2026/quest16.rs) |
 
 ## [2025] The Song of Ducks and Dragons
 
