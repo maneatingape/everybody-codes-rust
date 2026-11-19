@@ -37,6 +37,7 @@ Rust solutions for the [Everybody Codes](https://everybody.codes) challenge.
 | 16 | [The Sortcery](https://everybody.codes/event/2026/quests/16) | [Source](src/event2026/quest16.rs) |
 | 17 | [The Lavairynth](https://everybody.codes/event/2026/quests/17) | [Source](src/event2026/quest17.rs) |
 | 18 | [The Keyometry](https://everybody.codes/event/2026/quests/18) | [Source](src/event2026/quest18.rs) |
+| 19 | [The Glasscraft](https://everybody.codes/event/2026/quests/19) | [Source](src/event2026/quest19.rs) |
 
 ## [2025] The Song of Ducks and Dragons
 
