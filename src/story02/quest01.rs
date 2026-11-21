@@ -1,13 +1,10 @@
-use std::collections::HashSet;
-
 use crate::util::grid::*;
-use crate::util::heap::*;
 use crate::util::point::*;
 
 pub fn part1(notes: &str) -> i32 {
     let (prefix, suffix) = notes.split_once("\n\n").unwrap();
     let grid = Grid::parse(prefix);
-    suffix.lines().enumerate().map(|(slot, behavior)| drop(&grid, behavior, slot as i32)).sum()
+    suffix.lines().zip(0..).map(|(behavior, slot)| drop(&grid, behavior, slot)).sum()
 }
 
 pub fn part2(notes: &str) -> i32 {
@@ -24,20 +21,29 @@ pub fn part2(notes: &str) -> i32 {
 pub fn part3(notes: &str) -> String {
     let (prefix, suffix) = notes.split_once("\n\n").unwrap();
     let grid = Grid::parse(prefix);
+    let behaviors: Vec<_> = suffix.lines().collect();
 
-    let tokens: Vec<_> = suffix
-        .lines()
-        .map(|behavior| {
-            let mut row: Vec<_> = (0..grid.width)
-                .step_by(2)
-                .map(|start| (start / 2, drop(&grid, behavior, start / 2)))
-                .collect();
-            row.sort_unstable_by_key(|token| token.1);
-            row
-        })
-        .collect();
+    let size = 1 << behaviors.len();
+    let mut min = vec![1_000_000; size];
+    let mut max = vec![-1_000_000; size];
+    min[0] = 0;
+    max[0] = 0;
 
-    format!("{} {}", dijkstra(&tokens, 1), dijkstra(&tokens, -1))
+    for slot in 0..(grid.width + 1) / 2 {
+        let coins: Vec<_> = behaviors.iter().map(|behavior| drop(&grid, behavior, slot)).collect();
+
+        for mask in (0..size).rev() {
+            for (token, coin) in coins.iter().enumerate() {
+                let next = mask | (1 << token);
+                if next != mask {
+                    min[next] = min[next].min(min[mask] + coin);
+                    max[next] = max[next].max(max[mask] + coin);
+                }
+            }
+        }
+    }
+
+    format!("{} {}", min[size - 1], max[size - 1])
 }
 
 fn drop(grid: &Grid<u8>, behavior: &str, slot: i32) -> i32 {
@@ -59,43 +65,4 @@ fn drop(grid: &Grid<u8>, behavior: &str, slot: i32) -> i32 {
     }
 
     (x - slot + 1).max(0)
-}
-
-fn dijkstra(tokens: &[Vec<(i32, i32)>], sign: i32) -> i32 {
-    let start = if sign > 0 { 0 } else { tokens[0].len() - 1 };
-    let coins = |i: usize, j: usize| sign * tokens[i][j].1;
-
-    let state = [start; 6];
-    let total: i32 = (0..6).map(|i| coins(i, start)).sum();
-
-    let mut todo = MinHeap::from([(total, state)]);
-    let mut seen = HashSet::from([state]);
-
-    while let Some((total, state)) = todo.pop() {
-        if unique(tokens, &state) {
-            return sign * total;
-        }
-
-        for i in 0..6 {
-            let mut next_state = state;
-            next_state[i] = if sign > 0 { state[i] + 1 } else { state[i] - 1 };
-
-            if seen.insert(next_state) {
-                todo.push(total - coins(i, state[i]) + coins(i, next_state[i]), next_state);
-            }
-        }
-    }
-
-    unreachable!()
-}
-
-fn unique(tokens: &[Vec<(i32, i32)>], state: &[usize]) -> bool {
-    tokens
-        .iter()
-        .zip(state)
-        .try_fold(0, |seen, (row, &index)| {
-            let mask = 1 << row[index].0;
-            (seen & mask == 0).then_some(seen | mask)
-        })
-        .is_some()
 }
