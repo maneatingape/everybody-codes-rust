@@ -54,7 +54,7 @@ impl<T> Grid<T> {
     #[inline]
     #[must_use]
     pub fn contains(&self, point: Point) -> bool {
-        point.x >= 0 && point.x < self.width && point.y >= 0 && point.y < self.height
+        0 <= point.x && point.x < self.width && 0 <= point.y && point.y < self.height
     }
 
     #[inline]

@@ -26,7 +26,7 @@ pub fn part3(notes: &str) -> u32 {
     let interval = ring.len() / 8;
 
     let mut links = Vec::new();
-    permute([0, 1, 2, 3, 4, 5, 6, 7], &mut links, 0);
+    permute(&mut links, [0, 1, 2, 3, 4, 5, 6, 7], 0);
 
     (0..interval)
         .flat_map(|base| {
@@ -39,14 +39,9 @@ pub fn part3(notes: &str) -> u32 {
 
 fn parse(notes: &str, neighbours: usize) -> (Ring, u32) {
     let size = notes.unsigned();
-    let mut ring = (0..size)
-        .map(|from| {
-            (1..=neighbours)
-                .chain(size - neighbours..size)
-                .map(|delta| (from + delta) % size)
-                .collect()
-        })
-        .collect();
+    let mut ring = Vec::from_fn(size, |from| {
+        (1..=neighbours).chain(size - neighbours..size).map(|delta| (from + delta) % size).collect()
+    });
 
     let normal = strain(&ring, 0);
 
@@ -90,13 +85,13 @@ fn strain(ring: &Ring, start: usize) -> u32 {
     sum
 }
 
-fn permute(mut array: [usize; 8], links: &mut Vec<[[usize; 2]; 4]>, i: usize) {
+fn permute(links: &mut Vec<[[usize; 2]; 4]>, mut array: [usize; 8], i: usize) {
     if i == 8 {
         links.push(array.as_chunks::<2>().0.try_into().unwrap());
     } else {
         for j in i + 1..8 {
             array.swap(i + 1, j);
-            permute(array, links, i + 2);
+            permute(links, array, i + 2);
             array.swap(i + 1, j);
         }
     }

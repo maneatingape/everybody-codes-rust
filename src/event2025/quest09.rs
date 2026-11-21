@@ -12,7 +12,7 @@ struct Duck {
 }
 
 impl Duck {
-    fn from(line: &str) -> Self {
+    fn new(line: &str) -> Self {
         let (prefix, suffix) = line.split_once(':').unwrap();
 
         let scales = prefix.unsigned();
@@ -35,7 +35,7 @@ impl Duck {
 }
 
 pub fn part1(notes: &str) -> u32 {
-    let mut ducks: Vec<_> = notes.lines().map(Duck::from).collect();
+    let mut ducks: Vec<_> = notes.lines().map(Duck::new).collect();
 
     while !ducks[0].has_parents(&ducks[1], &ducks[2]) {
         ducks.rotate_left(1);
@@ -64,7 +64,7 @@ pub fn part3(notes: &str) -> u32 {
 }
 
 fn links(notes: &str) -> Vec<[Duck; 3]> {
-    let ducks: Vec<_> = notes.lines().map(Duck::from).collect();
+    let ducks: Vec<_> = notes.lines().map(Duck::new).collect();
     let mut order = ducks.clone();
     let mut links = Vec::new();
 

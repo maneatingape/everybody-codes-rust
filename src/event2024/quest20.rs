@@ -57,7 +57,7 @@ pub fn part3(notes: &str) -> i32 {
     let right = size - 1;
 
     // Calculate all possible combinations of altitude drops.
-    let drop: Vec<_> = (left..right).map(|from| complete(&extended, from)).collect();
+    let drop = Vec::from_fn(right - left, |i| complete(&extended, left + i));
 
     let mut current = vec![i32::MIN; size];
     current[start] = 384400;

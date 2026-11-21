@@ -2,7 +2,7 @@
 name = "everybody_codes"
 version = "1.0.0"
 edition = "2024"
-rust-version = "1.99"
+rust-version = "1.100"
 
 [lints.rust]
 absolute_paths_not_starting_with_crate = "warn"
@@ -178,7 +178,7 @@ match_bool = "warn"
 match_same_arms = "warn"
 match_wild_err_arm = "warn"
 match_wildcard_for_single_variants = "warn"
-maybe_infinite_iter = "allow"
+maybe_infinite_iter = "warn"
 mem_forget = "warn"
 min_ident_chars = "allow"
 mismatching_type_param_order = "warn"

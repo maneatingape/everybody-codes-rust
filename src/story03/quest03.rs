@@ -71,19 +71,19 @@ fn insert(
 
 fn checksum(nodes: &[Node<'_>]) -> u64 {
     let mut order = Vec::new();
-    in_order(nodes, 0, &mut order);
+    in_order(nodes, &mut order, 0);
     order.iter().zip(1..).map(|(id, position)| id * position).sum()
 }
 
-fn in_order(nodes: &[Node<'_>], index: usize, order: &mut Vec<u64>) {
+fn in_order(nodes: &[Node<'_>], order: &mut Vec<u64>, index: usize) {
     if let Some(left) = nodes[index].connected[0] {
-        in_order(nodes, left, order);
+        in_order(nodes, order, left);
     }
 
     order.push(nodes[index].id);
 
     if let Some(right) = nodes[index].connected[1] {
-        in_order(nodes, right, order);
+        in_order(nodes, order, right);
     }
 }
 

@@ -25,7 +25,7 @@ fn parse(notes: &str) -> (Vec<&str>, impl Iterator<Item = i32>, i32) {
     let size = names.len() as i32;
 
     let direction = suffix.bytes().filter(u8::is_ascii_uppercase);
-    let amount = suffix.iter_signed::<i32>();
+    let amount = suffix.iter_signed();
     let moves = direction.zip(amount).map(|(d, a)| if d == b'R' { a } else { -a });
 
     (names, moves, size)
