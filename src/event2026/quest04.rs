@@ -12,7 +12,7 @@ pub fn part2(notes: &str) -> usize {
 }
 
 pub fn part3(notes: &str) -> usize {
-    let mut rows: Vec<_> = notes.iter_unsigned::<usize>().chunk::<4>().collect();
+    let mut rows: Vec<_> = notes.iter_unsigned().chunk::<4>().collect();
     rows.sort_unstable();
 
     for group in rows.chunk_by_mut(|first, second| first[..2] == second[..2]) {

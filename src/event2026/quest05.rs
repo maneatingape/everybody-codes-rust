@@ -34,7 +34,7 @@ fn land(grid: &mut Grid<u8>) {
 }
 
 fn sand(grid: &mut Grid<u8>) {
-    let edge: Vec<_> = grid
+    let edge = grid
         .points()
         .filter(|&point| grid[point] == b'#' && around(grid, point, b"#") < 8)
         .collect();

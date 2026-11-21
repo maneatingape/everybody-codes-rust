@@ -48,5 +48,5 @@ fn permutations<F: FnMut([u8; 4])>(mut array: [u8; 4], i: usize, f: &mut F) {
 }
 
 fn to_index(b: u8) -> usize {
-    (b - b'1') as usize
+    usize::from(b - b'1')
 }

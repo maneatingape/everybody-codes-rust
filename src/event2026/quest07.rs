@@ -19,7 +19,7 @@ pub fn part3_testable(notes: &str, limit: usize) -> usize {
 }
 
 fn simulate(notes: &str, start: Option<usize>, strength: usize, limit: usize) -> usize {
-    let (mut energy, connections): (Vec<_>, Vec<Vec<usize>>) = notes
+    let (mut energy, connections): (Vec<_>, Vec<Vec<_>>) = notes
         .lines()
         .map(|line| {
             let mut iter = line.iter_unsigned().skip(1);

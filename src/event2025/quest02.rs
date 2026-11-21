@@ -31,9 +31,11 @@ fn parse(notes: &str) -> [i64; 2] {
 }
 
 fn engrave(x2: i64, y2: i64) -> u32 {
-    successors(Some((0, 0)), |(x, y)| {
+    let inside = successors(Some((0, 0)), |(x, y)| {
         Some((x2 + (x * x - y * y) / 100_000, y2 + (2 * x * y) / 100_000))
     })
     .take(101)
-    .all(|(x, y)| RANGE.contains(&x) && RANGE.contains(&y)) as u32
+    .all(|(x, y)| RANGE.contains(&x) && RANGE.contains(&y));
+
+    u32::from(inside)
 }

@@ -9,7 +9,7 @@ pub fn part1(notes: &str) -> usize {
         .sum()
 }
 
-pub fn part2(notes: &str) -> usize {
+pub fn part2(notes: &str) -> u64 {
     let (words, inscription) = parse(notes, true);
     let mut runes = vec![0; inscription.len()];
 
@@ -24,15 +24,15 @@ pub fn part2(notes: &str) -> usize {
     runes.iter().sum()
 }
 
-pub fn part3(notes: &str) -> usize {
+pub fn part3(notes: &str) -> u64 {
     let (words, scales) = parse(notes, true);
     let grid = Grid::parse(scales);
     let mut runes = grid.same_size_with(0);
 
     for word in &words {
         for start in grid.points() {
-            find(word, &grid, &mut runes, start, DOWN);
-            find(word, &grid, &mut runes, start, RIGHT);
+            find(&grid, &mut runes, word, start, DOWN);
+            find(&grid, &mut runes, word, start, RIGHT);
         }
     }
 
@@ -53,7 +53,7 @@ fn parse(notes: &str, reverse: bool) -> (Vec<String>, &str) {
     (words, second)
 }
 
-fn find(word: &str, grid: &Grid<u8>, found: &mut Grid<usize>, start: Point, direction: Point) {
+fn find(grid: &Grid<u8>, found: &mut Grid<u64>, word: &str, start: Point, direction: Point) {
     let mut position = start;
 
     for b in word.bytes() {

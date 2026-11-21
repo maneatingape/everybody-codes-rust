@@ -14,27 +14,21 @@ pub fn part1(notes: &str) -> String {
 pub fn part2(notes: &str) -> i32 {
     notes
         .split("\n\n")
-        .map(|row| {
+        .flat_map(|row| {
             let mut grid = Grid::parse(row);
-            (0..grid.width)
-                .step_by(9)
-                .filter_map(|x| solve(&mut grid, Point::new(x, 0)))
-                .sum::<i32>()
+            (0..grid.width).step_by(9).filter_map(move |x| solve(&mut grid, Point::new(x, 0)))
         })
         .sum()
 }
 
 pub fn part3(notes: &str) -> i32 {
     let mut grid = Grid::parse(notes);
-    let mut todo = Vec::new();
+    let mut todo: Vec<_> = (0..grid.height - 2)
+        .step_by(6)
+        .flat_map(|y| (0..grid.width - 2).step_by(6).map(move |x| Point::new(x, y)))
+        .collect();
     let mut previous = -1;
     let mut total = 0;
-
-    for y in (0..grid.height - 2).step_by(6) {
-        for x in (0..grid.width - 2).step_by(6) {
-            todo.push(Point::new(x, y));
-        }
-    }
 
     while previous < total {
         previous = total;

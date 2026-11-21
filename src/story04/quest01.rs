@@ -58,7 +58,7 @@ fn recaman(notes: &str, allow_visited: bool) -> i32 {
                 if backwards > 0 && seen.insert(backwards) {
                     backwards
                 } else {
-                    (forwards..).find(|&next| seen.insert(next) || allow_visited).unwrap()
+                    (forwards..i32::MAX).find(|&next| seen.insert(next) || allow_visited).unwrap()
                 }
             })
         })

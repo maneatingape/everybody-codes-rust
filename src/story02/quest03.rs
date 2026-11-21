@@ -11,7 +11,7 @@ struct Dice {
 }
 
 impl Dice {
-    fn from(line: &str) -> Self {
+    fn new(line: &str) -> Self {
         let mut faces: Vec<_> = line.iter_signed().skip(1).collect();
         let seed = faces.pop().unwrap() as usize;
         Dice { faces, seed, pulse: seed, index: 0, roll_number: 1 }
@@ -28,8 +28,8 @@ impl Dice {
     }
 }
 
-pub fn part1(notes: &str) -> usize {
-    let mut dice: Vec<_> = notes.lines().map(Dice::from).collect();
+pub fn part1(notes: &str) -> u64 {
+    let mut dice: Vec<_> = notes.lines().map(Dice::new).collect();
     let mut total = 0;
     let mut rolls = 0;
 
@@ -47,7 +47,7 @@ pub fn part2(notes: &str) -> String {
 
     let mut result: Vec<_> = prefix
         .lines()
-        .map(Dice::from)
+        .map(Dice::new)
         .enumerate()
         .map(|(id, mut die)| {
             let mut rolls = 0;
@@ -76,7 +76,7 @@ pub fn part3(notes: &str) -> usize {
     let mut seen = grid.same_size_with(0);
     let mut version = 0;
 
-    for mut die in prefix.lines().map(Dice::from) {
+    for mut die in prefix.lines().map(Dice::new) {
         let roll = die.roll() as u8 + b'0';
         version += 1;
 

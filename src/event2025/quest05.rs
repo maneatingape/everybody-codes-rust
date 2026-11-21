@@ -10,13 +10,13 @@ pub fn part2(notes: &str) -> u64 {
     ratings.iter().max().unwrap() - ratings.iter().min().unwrap()
 }
 
-pub fn part3(notes: &str) -> usize {
+pub fn part3(notes: &str) -> u64 {
     let mut swords: Vec<_> = notes.lines().map(score).collect();
     swords.sort_unstable();
-    swords.into_iter().rev().enumerate().map(|(i, (.., id))| (i + 1) * id).sum()
+    swords.into_iter().rev().zip(1..).map(|((.., id), rank)| id * rank).sum()
 }
 
-fn score(line: &str) -> (u64, Vec<u64>, usize) {
+fn score(line: &str) -> (u64, Vec<u64>, u64) {
     let mut levels: Vec<(Option<u64>, u64, Option<u64>)> = Vec::new();
 
     'outer: for n in line.iter_unsigned().skip(1) {
