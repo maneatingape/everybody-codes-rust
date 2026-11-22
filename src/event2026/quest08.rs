@@ -67,13 +67,12 @@ fn solve(notes: &str, rounds: usize) -> u32 {
 
 fn parse(notes: &str) -> (Grid<u8>, [(Point, Vec<Point>); 6]) {
     let grid = Grid::parse(notes);
-    let hexagon = |point| grid.contains(point) && grid[point].is_ascii_digit();
-    let edges = DIRECTIONS.map(|direction| {
-        (
-            direction,
-            grid.points().filter(|&point| hexagon(point) && !hexagon(point - direction)).collect(),
-        )
-    });
+    let edge = |direction| {
+        grid.points()
+            .filter(|&point| hexagon(&grid, point) && !hexagon(&grid, point - direction))
+            .collect()
+    };
+    let edges = DIRECTIONS.map(|direction| (direction, edge(direction)));
 
     (grid, edges)
 }
@@ -85,7 +84,7 @@ fn round(grid: &Grid<u8>, direction: Point, edge: &[Point]) -> u32 {
         let mut shadow = 0;
         let mut point = start;
 
-        while grid.contains(point) {
+        while hexagon(grid, point) {
             energy += u32::from(grid[point] > shadow);
             shadow = shadow.max(grid[point]).saturating_sub(1);
             point += direction;
@@ -93,4 +92,8 @@ fn round(grid: &Grid<u8>, direction: Point, edge: &[Point]) -> u32 {
     }
 
     energy
+}
+
+fn hexagon(grid: &Grid<u8>, point: Point) -> bool {
+    grid.contains(point) && grid[point].is_ascii_digit()
 }
