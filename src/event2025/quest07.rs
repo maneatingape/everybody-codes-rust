@@ -40,7 +40,7 @@ pub fn part3(notes: &str) -> u32 {
         }
 
         for (from, amount) in current.drain() {
-            for &to in &rules[&from] {
+            for &to in rules.get(&from).into_iter().flatten() {
                 *next.entry(to).or_insert(0) += amount;
             }
         }
