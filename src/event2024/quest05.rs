@@ -24,11 +24,12 @@ pub fn part2(notes: &str) -> usize {
         shuffle(&mut dance, round);
         round += 1;
 
-        let count = seen.entry(key(&dance)).or_insert(0);
+        let number = shout(&dance);
+        let count = seen.entry(number).or_insert(0);
         *count += 1;
 
         if *count == 2024 {
-            break round * shout(&dance);
+            break round * number;
         }
     }
 }
@@ -37,14 +38,15 @@ pub fn part3(notes: &str) -> usize {
     let mut dance = parse(notes);
     let mut seen = HashSet::new();
     let mut round = 0;
+    let mut highest = 0;
 
-    while seen.insert(dance.clone()) {
+    while seen.insert((dance.clone(), round % 4)) {
         shuffle(&mut dance, round);
         round += 1;
+        highest = highest.max(shout(&dance));
     }
 
-    let highest = seen.iter().max_by_key(|dance| key(dance)).unwrap();
-    shout(highest)
+    highest
 }
 
 fn parse(notes: &str) -> Dance {
@@ -60,10 +62,6 @@ fn shuffle(dance: &mut Dance, round: usize) {
     let offset = remainder.min(size - remainder);
 
     dance[dest].insert(offset, clapper);
-}
-
-fn key(dance: &Dance) -> usize {
-    (dance[0][0] << 48) | (dance[1][0] << 32) | (dance[2][0] << 16) | dance[3][0]
 }
 
 fn shout(dance: &Dance) -> usize {
