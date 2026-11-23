@@ -1,57 +1,66 @@
 use crate::util::parse::*;
 
-pub fn part1(notes: &str) -> u64 {
-    let mut ducks: Vec<u64> = notes.iter_unsigned().collect();
-    let mut rounds = 0;
+pub fn part1(notes: &str) -> usize {
+    let mut ducks = parse(notes);
+    let mut sorted = false;
+
+    for _ in 0..10 {
+        sorted |= ducks.is_sorted();
+
+        for i in 0..ducks.len() - 1 {
+            let (from, to) = if sorted { (i + 1, i) } else { (i, i + 1) };
+
+            if ducks[from] > ducks[to] {
+                ducks[from] -= 1;
+                ducks[to] += 1;
+            }
+        }
+    }
+
+    ducks.iter().zip(1..).map(|(duck, column)| duck * column).sum()
+}
+
+pub fn part2(notes: &str) -> usize {
+    let mut ducks = parse(notes);
 
     while !ducks.is_sorted() {
         for i in 0..ducks.len() - 1 {
             if ducks[i] > ducks[i + 1] {
-                ducks[i] -= 1;
-                ducks[i + 1] += 1;
-            }
-        }
-        rounds += 1;
-    }
-
-    for _ in rounds..10 {
-        for i in 0..ducks.len() - 1 {
-            if ducks[i] < ducks[i + 1] {
-                ducks[i] += 1;
-                ducks[i + 1] -= 1;
+                let delta = (ducks[i] - ducks[i + 1]).div_ceil(2);
+                ducks[i] -= delta;
+                ducks[i + 1] += delta;
             }
         }
     }
 
-    ducks.iter().zip(1..).map(|(d, i)| d * i).sum()
-}
+    let mut flow = 0;
+    let mut start = 0;
+    let mut extra = 0;
+    let mut phase1 = 0;
 
-pub fn part2(notes: &str) -> usize {
-    let ducks: Vec<usize> = notes.iter_unsigned().collect();
-    let mut ascending = ducks.clone();
-
-    while !ascending.is_sorted() {
-        for i in 0..ascending.len() - 1 {
-            if ascending[i] > ascending[i + 1] {
-                let delta = (ascending[i] - ascending[i + 1]).div_ceil(2);
-                ascending[i] -= delta;
-                ascending[i + 1] += delta;
-            }
+    for (&duck, initial) in ducks.iter().zip(parse(notes)) {
+        if flow == 0 {
+            start = duck;
+            extra = 0;
         }
+
+        flow = flow + initial - duck;
+        extra += duck - start;
+        phase1 = phase1.max(flow + extra);
     }
 
-    let (.., phase1) =
-        ducks.iter().zip(&ascending).fold((0, 0, 0), |(sum1, sum2, phase1), (first, second)| {
-            (sum1 + first, sum2 + second, phase1.max(sum1 - sum2))
-        });
-
-    let average = ascending.iter().sum::<usize>() / ascending.len();
-    let phase2 = ascending.iter().map(|&duck| average.saturating_sub(duck)).sum::<usize>();
-    phase1 + phase2
+    phase1 + phase2(&ducks)
 }
 
 pub fn part3(notes: &str) -> usize {
-    let ascending: Vec<_> = notes.iter_unsigned().collect();
-    let average = ascending.iter().sum::<usize>() / ascending.len();
-    ascending.iter().map(|&duck| average.saturating_sub(duck)).sum()
+    phase2(&parse(notes))
+}
+
+fn parse(notes: &str) -> Vec<usize> {
+    notes.iter_unsigned().collect()
+}
+
+fn phase2(ducks: &[usize]) -> usize {
+    let average = ducks.iter().sum::<usize>() / ducks.len();
+    ducks.iter().map(|&duck| average.saturating_sub(duck)).sum()
 }
