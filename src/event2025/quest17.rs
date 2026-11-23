@@ -1,81 +1,53 @@
 use crate::util::grid::*;
 use crate::util::heap::*;
+use crate::util::parse::*;
 use crate::util::point::*;
 
 pub fn part1(notes: &str) -> i32 {
-    let grid = Grid::parse(notes);
-    let center = grid.width / 2;
-    let volcano = Point::new(center, center);
-
-    let result: i32 = grid
-        .points()
-        .filter_map(|point| (radius(point, volcano) <= 10).then_some(to_decimal(grid[point])))
-        .sum();
-
-    result - to_decimal(grid[volcano])
+    let (grid, volcano) = parse(notes);
+    grid.points()
+        .filter(|&point| point != volcano && radius(point, volcano) <= 10)
+        .map(|point| grid[point].to_decimal::<i32>())
+        .sum()
 }
 
 pub fn part2(notes: &str) -> i32 {
-    let grid = Grid::parse(notes);
-    let center = grid.width / 2;
-    let volcano = Point::new(center, center);
-
-    let mut rings = vec![0; 2 * center as usize];
+    let (grid, volcano) = parse(notes);
+    let mut rings = vec![0; 2 * volcano.x as usize];
 
     for point in grid.points() {
-        rings[radius(point, volcano) as usize] += to_decimal(grid[point]);
+        rings[radius(point, volcano) as usize] += grid[point].to_decimal::<i32>();
     }
 
-    rings.iter().zip(0..).max_by_key(|&(v, _)| v).map(|(v, r)| v * r).unwrap()
+    rings.iter().zip(0..).max_by_key(|&(d, _)| d).map(|(d, r)| d * r).unwrap()
 }
 
 pub fn part3(notes: &str) -> i32 {
-    let grid = Grid::parse(notes);
-    let center = grid.width / 2;
-    let volcano = Point::new(center, center);
-    let end = grid.find(b'S').unwrap();
+    let (grid, volcano) = parse(notes);
+    let start = grid.find(b'S').unwrap();
+    let closest = radius(start, volcano);
 
-    let mut split = grid.clone();
-    split[end] = b'0';
+    let mut todo = MinHeap::from([(0, (start, 0, closest))]);
+    let mut seen = grid.same_size_with([0; 2]);
+    seen[start][0] = closest;
 
-    (0..center)
-        .find_map(|r| {
-            for point in grid.points() {
-                if radius(point, volcano) <= r || (point.x == center && point.y > center) {
-                    split[point] = b'#';
-                }
+    while let Some((time, (point, parity, closest))) = todo.pop() {
+        for next in ORTHOGONAL.map(|o| o + point) {
+            if !grid.contains(next) {
+                continue;
+            }
+            if next == start && parity == 1 {
+                return time * (time / 30);
             }
 
-            let start = Point::new(center, center + r + 1);
-            let total = to_decimal(grid[start])
-                + dijkstra(&split, start + LEFT, end)
-                + dijkstra(&split, start + RIGHT, end);
+            let crossed = point.y > volcano.y && (point.x < volcano.x) != (next.x < volcano.x);
+            let next_parity = parity ^ usize::from(crossed);
+            let next_time = time + grid[next].to_decimal::<i32>();
+            let next_closest = closest.min(radius(next, volcano));
 
-            let limit = 30 * (r + 1);
-            (total < limit).then_some(r * total)
-        })
-        .unwrap()
-}
-
-fn dijkstra(grid: &Grid<u8>, start: Point, end: Point) -> i32 {
-    let cost = to_decimal(grid[start]);
-    let mut todo = MinHeap::from([(cost, start)]);
-    let mut seen = grid.same_size_with(i32::MAX);
-    seen[start] = cost;
-
-    while let Some((cost, point)) = todo.pop() {
-        if point == end {
-            return cost;
-        }
-
-        for next in ORTHOGONAL.map(|o| o + point) {
-            if grid.contains(next) && grid[next] != b'#' {
-                let next_cost = cost + to_decimal(grid[next]);
-
-                if seen[next] > next_cost {
-                    todo.push(next_cost, next);
-                    seen[next] = next_cost;
-                }
+            if next_closest > next_time / 30 && next_closest > seen[next][next_parity] {
+                todo.push(next_time, (next, next_parity, next_closest));
+                seen[next][next_parity] = next_closest;
             }
         }
     }
@@ -83,14 +55,15 @@ fn dijkstra(grid: &Grid<u8>, start: Point, end: Point) -> i32 {
     unreachable!()
 }
 
-fn to_decimal(b: u8) -> i32 {
-    i32::from(b - b'0')
+fn parse(notes: &str) -> (Grid<u8>, Point) {
+    let grid = Grid::parse(notes);
+    let volcano = grid.find(b'@').unwrap();
+    (grid, volcano)
 }
 
 fn radius(point: Point, volcano: Point) -> i32 {
     let delta = point - volcano;
     let squared = delta.x * delta.x + delta.y * delta.y;
     let radius = squared.isqrt();
-
-    if radius * radius < squared { radius + 1 } else { radius }
+    if radius * radius == squared { radius } else { radius + 1 }
 }
