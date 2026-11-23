@@ -34,7 +34,10 @@ pub fn part3(notes: &str) -> i32 {
         previous = total;
 
         todo.retain(|&corner| {
-            if let Some(power) = solve(&mut grid, corner) {
+            let mut next = grid.clone();
+
+            if let Some(power) = solve(&mut next, corner) {
+                grid = next;
                 total += power;
                 false
             } else {
