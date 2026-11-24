@@ -1,6 +1,8 @@
 # Everybody Codes
 
-Rust solutions for the [Everybody Codes](https://everybody.codes) challenge.
+Clean, concise and correct Rust solutions for [Everybody Codes](https://everybody.codes).
+Every solution is verified against all possible input seeds using the
+[supporter bonus feature](https://everybody.codes/support).
 
 ## Events
 
