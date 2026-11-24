@@ -1,5 +1,3 @@
-use std::collections::HashMap;
-
 use crate::util::iter::*;
 use crate::util::math::*;
 use crate::util::parse::*;
@@ -40,32 +38,27 @@ fn eni(mut score: usize, n: usize, e: usize, m: usize) -> usize {
 
 fn find_cycle(n: usize, e: usize, m: usize) -> usize {
     let mut score = 1;
-    let mut total = 0;
-    let mut index = 0;
-
-    let mut sums = Vec::with_capacity(m);
-    let mut seen = HashMap::with_capacity(m);
+    let mut sums = Vec::with_capacity(m + 1);
+    let mut seen = vec![0; m];
 
     sums.push(0);
 
     loop {
         score = (score * n) % m;
-        total += score;
-        index += 1;
+        let index = sums.len();
+        let total = sums[index - 1];
+        let previous = seen[score];
 
-        if let Some(previous) = seen.insert(score, index) {
+        if previous > 0 {
+            let start = previous - 1;
             let cycle_length = index - previous;
-            let cycle_total = total - sums[previous];
+            let cycle_total = total - sums[start];
+            let steps = e - start;
 
-            let remaining = e - index + 1;
-            let quotient = remaining / cycle_length;
-            let remainder = remaining % cycle_length;
-
-            return (total - score)
-                + (quotient * cycle_total)
-                + (sums[previous + remainder - 1] - sums[previous - 1]);
+            return sums[start + steps % cycle_length] + (steps / cycle_length) * cycle_total;
         }
 
-        sums.push(total);
+        seen[score] = index;
+        sums.push(total + score);
     }
 }

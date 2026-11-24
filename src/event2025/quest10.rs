@@ -3,6 +3,7 @@ use std::collections::{HashMap, HashSet};
 use crate::util::grid::*;
 use crate::util::point::*;
 
+const EATEN: u8 = u8::MAX;
 const MOVES: [Point; 8] = [
     Point::new(-1, -2),
     Point::new(1, -2),
@@ -69,7 +70,7 @@ pub fn part2_testable(notes: &str, rounds: i32) -> usize {
 pub fn part3(notes: &str) -> u64 {
     let mut grid = Grid::parse(notes);
     let dragon = grid.find(b'D').unwrap();
-    let mut sheep = [u8::MAX; 8];
+    let mut sheep = [EATEN; 8];
 
     for x in 0..grid.width {
         if grid[Point::new(x, 0)] == b'S' {
@@ -93,7 +94,7 @@ fn sheep_move(state: &mut State, dragon: Point, sheep: [u8; 8]) -> u64 {
     }
 
     let (result, moved) = sheep.iter().enumerate().fold((0, false), |(result, moved), (i, &s)| {
-        if s == u8::MAX {
+        if s == EATEN {
             (result, moved)
         } else {
             let point = Point::new(i as i32, i32::from(s + 1));
@@ -129,11 +130,11 @@ fn dragon_move(state: &mut State, dragon: Point, sheep: [u8; 8]) -> u64 {
             }
 
             let mut next = sheep;
-            if state.grid[dragon] != b'#' && i32::from(next[dragon.x as usize]) == dragon.y {
-                next[dragon.x as usize] = u8::MAX;
+            if state.grid[dragon] != b'#' && i32::from(sheep[dragon.x as usize]) == dragon.y {
+                next[dragon.x as usize] = EATEN;
             }
 
-            if next.iter().all(|&b| b == u8::MAX) { 1 } else { sheep_move(state, dragon, next) }
+            if next == [EATEN; 8] { 1 } else { sheep_move(state, dragon, next) }
         })
         .sum();
 

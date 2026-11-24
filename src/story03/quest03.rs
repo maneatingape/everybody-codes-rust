@@ -27,11 +27,8 @@ fn build_tree(notes: &str, weak_links: bool, replace_links: bool) -> u64 {
         .split(['=', ',', '\n'])
         .chunk::<10>()
         .map(|[_, id, _, plug, _, left, _, right, _, _]| {
-            let id = id.unsigned();
-            let plug = plug.split_once(' ').unwrap();
-            let left = left.split_once(' ').unwrap();
-            let right = right.split_once(' ').unwrap();
-            Node { id, plug, sockets: [left, right], connected: [None; 2] }
+            let [plug, left, right] = [plug, left, right].map(|s| s.split_once(' ').unwrap());
+            Node { id: id.unsigned(), plug, sockets: [left, right], connected: [None; 2] }
         })
         .collect();
 

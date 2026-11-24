@@ -5,14 +5,12 @@ use crate::util::point::*;
 
 pub fn part1(notes: &str) -> u32 {
     let grid = Grid::parse(notes);
-    let starts = [Point::new(0, 1)];
-    bfs(&grid, &starts)
+    bfs(&grid, &[Point::new(0, 1)])
 }
 
 pub fn part2(notes: &str) -> u32 {
     let grid = Grid::parse(notes);
-    let starts = [Point::new(0, 1), Point::new(grid.width - 1, grid.height - 2)];
-    bfs(&grid, &starts)
+    bfs(&grid, &[Point::new(0, 1), Point::new(grid.width - 1, grid.height - 2)])
 }
 
 pub fn part3(notes: &str) -> u32 {

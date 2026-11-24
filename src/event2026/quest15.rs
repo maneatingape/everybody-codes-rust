@@ -25,17 +25,11 @@ pub fn part1(notes: &str) -> u64 {
             return time;
         }
 
-        for next_direction in [direction, direction.clockwise(), direction.counter_clockwise()] {
-            let next_position = position + next_direction;
-            if !grid.contains(next_position) || grid[next_position] == b'#' {
-                continue;
-            }
-
-            let next_time = time + 1;
+        for (next_position, next_direction) in moves(&grid, position, direction) {
             let next_collected = collected | sulphur[next_position];
 
             if seen.insert((next_position, next_direction, next_collected)) {
-                todo.push_back((next_position, next_direction, next_time, next_collected));
+                todo.push_back((next_position, next_direction, time + 1, next_collected));
             }
         }
     }
@@ -54,18 +48,12 @@ pub fn part2(notes: &str) -> u64 {
             return time;
         }
 
-        for next_direction in [direction, direction.clockwise(), direction.counter_clockwise()] {
-            let next_position = position + next_direction;
-            if !grid.contains(next_position) || grid[next_position] == b'#' {
-                continue;
-            }
-
-            let next_time = time + 1;
+        for (next_position, next_direction) in moves(&grid, position, direction) {
             let next_sulphur = sulphur + u64::from(grid[next_position] == b'@');
             let key = (next_position, next_direction);
 
             if seen.get(&key).is_none_or(|&collected| collected < next_sulphur) {
-                todo.push_back((next_position, next_direction, next_time, next_sulphur));
+                todo.push_back((next_position, next_direction, time + 1, next_sulphur));
                 seen.insert(key, next_sulphur);
             }
         }
@@ -100,15 +88,10 @@ pub fn part3(notes: &str) -> u64 {
             return time + cycle_time * (TARGET - sulphur) / cycle_sulphur;
         }
 
-        for next_direction in [direction, direction.clockwise(), direction.counter_clockwise()] {
-            let next_position = position + next_direction;
-            if !grid.contains(next_position) || grid[next_position] == b'#' {
-                continue;
-            }
-
+        for (next_position, next_direction) in moves(&grid, position, direction) {
             let next_time = time + 1;
             let next_sulphur = sulphur + u64::from(grid[next_position] == b'@');
-            let next_in_cycle = in_cycle || (next_position == cycle_start);
+            let next_in_cycle = in_cycle || next_position == cycle_start;
 
             let key = (next_position, next_direction, next_sulphur % cycle_sulphur, next_in_cycle);
             let next_cost = cycle_sulphur * next_time + cycle_time * (TARGET - next_sulphur);
@@ -124,6 +107,19 @@ pub fn part3(notes: &str) -> u64 {
     }
 
     unreachable!()
+}
+
+fn moves(
+    grid: &Grid<u8>,
+    position: Point,
+    direction: Point,
+) -> impl Iterator<Item = (Point, Point)> {
+    [direction, direction.clockwise(), direction.counter_clockwise()]
+        .into_iter()
+        .map(move |next_direction| (position + next_direction, next_direction))
+        .filter(move |&(next_position, _)| {
+            grid.contains(next_position) && grid[next_position] != b'#'
+        })
 }
 
 fn find_cycles(grid: &Grid<u8>, start: Point, turn: fn(Point) -> Point) -> Vec<(Point, u64, u64)> {

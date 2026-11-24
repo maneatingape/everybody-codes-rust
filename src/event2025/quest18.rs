@@ -9,49 +9,46 @@ struct Plant {
 struct Input {
     free: usize,
     plants: Vec<Plant>,
+    test_cases: Vec<i64>,
 }
 
 pub fn part1(notes: &str) -> i64 {
-    let Input { free, plants } = parse(notes);
+    let Input { free, plants, .. } = parse(notes);
     calculate(&plants, vec![1; free])
 }
 
 pub fn part2(notes: &str) -> i64 {
-    let (prefix, suffix) = notes.split_once("\n\n\n").unwrap();
-    let Input { free, plants } = parse(prefix);
-    let test_cases: Vec<_> = suffix.iter_signed().collect();
-    test_cases.chunks(free).map(|chunk| calculate(&plants, chunk.to_vec())).sum()
+    let Input { free, plants, test_cases: tests } = parse(notes);
+    tests.chunks(free).map(|chunk| calculate(&plants, chunk.to_vec())).sum()
 }
 
 pub fn part3(notes: &str) -> i64 {
-    let (prefix, suffix) = notes.split_once("\n\n\n").unwrap();
-    let Input { free, plants } = parse(prefix);
-    let test_cases: Vec<_> = suffix.iter_signed().collect();
+    let Input { free, plants, test_cases } = parse(notes);
     let mut leaf = vec![1; free];
 
-    for Plant { branches, .. } in &plants {
-        for &(index, weight) in branches {
-            if weight < 0 {
-                leaf[index] = 0;
-            }
+    for &(index, weight) in plants.iter().flat_map(|plant| &plant.branches) {
+        if weight < 0 {
+            leaf[index] = 0;
         }
     }
 
     let max = calculate(&plants, leaf);
     test_cases
         .chunks(free)
-        .filter_map(|chunk| {
-            let energy = calculate(&plants, chunk.to_vec());
-            (energy > 0).then_some(max - energy)
-        })
+        .map(|chunk| calculate(&plants, chunk.to_vec()))
+        .filter(|&energy| energy > 0)
+        .map(|energy| max - energy)
         .sum()
 }
 
 fn parse(notes: &str) -> Input {
+    let (prefix, suffix) = notes.split_once("\n\n\n").unwrap_or((notes, ""));
+    let test_cases = suffix.iter_signed().collect();
+
     let mut free = 0;
     let mut plants = Vec::new();
 
-    for block in notes.split("\n\n") {
+    for block in prefix.split("\n\n") {
         if block.contains("free") {
             free += 1;
         } else {
@@ -66,7 +63,7 @@ fn parse(notes: &str) -> Input {
         }
     }
 
-    Input { free, plants }
+    Input { free, plants, test_cases }
 }
 
 fn calculate(plants: &[Plant], mut energy: Vec<i64>) -> i64 {

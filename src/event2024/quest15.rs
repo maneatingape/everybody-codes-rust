@@ -47,14 +47,10 @@ fn collect(grid: &mut Grid<u32>, seen: &mut HashSet<Point>, start: Point) -> (u3
     }
 
     // Process subgraphs.
-    let mut total = 0;
-    let mut letters = 0;
-
-    for child in children {
+    let (total, letters) = children.into_iter().fold((0, 0), |(total, letters), child| {
         let (child_total, child_letters) = collect(grid, seen, child);
-        total += child_total;
-        letters |= child_letters & !grid[start];
-    }
+        (total + child_total, letters | (child_letters & !grid[start]))
+    });
 
     // Process current graph.
     let mut todo = VecDeque::from([(start, letters, 0)]);
@@ -62,8 +58,8 @@ fn collect(grid: &mut Grid<u32>, seen: &mut HashSet<Point>, start: Point) -> (u3
 
     while let Some((point, remaining, cost)) = todo.pop_front() {
         if point == start && remaining == 0 {
-            total += cost;
-            break;
+            grid[start] |= letters;
+            return (total + cost, grid[start]);
         }
 
         for next in neighbors(grid, point) {
@@ -74,8 +70,7 @@ fn collect(grid: &mut Grid<u32>, seen: &mut HashSet<Point>, start: Point) -> (u3
         }
     }
 
-    grid[start] |= letters;
-    (total, grid[start])
+    unreachable!()
 }
 
 fn neighbors(grid: &Grid<u32>, point: Point) -> impl Iterator<Item = Point> {

@@ -43,25 +43,25 @@ pub fn part2(notes: &str) -> i32 {
 }
 
 pub fn part3(notes: &str) -> i32 {
-    let grid = Grid::parse(notes);
+    let mut grid = Grid::parse(notes);
     let start = grid.find(b'S').unwrap().x as usize;
-
-    let mut extended = grid.clone();
-    extended.height += 1;
-    extended.bytes.extend_from_slice(&grid.bytes[..grid.width as usize]);
-
-    let size = grid.width as usize;
+    let height = grid.height;
+    let width = grid.width as usize;
     let left = 1;
-    let right = size - 1;
+    let right = width - 1;
+
+    // Append a copy of the first row so that each glide ends at the start of the next block.
+    grid.height += 1;
+    grid.bytes.extend_from_within(..width);
 
     // Calculate all possible combinations of altitude drops.
-    let drop: Vec<_> = (left..right).map(|x| complete(&extended, x)).collect();
+    let drop: Vec<_> = (left..right).map(|x| complete(&grid, x)).collect();
 
-    let mut current = vec![i32::MIN; size];
+    let mut current = vec![i32::MIN; width];
     current[start] = 384400;
 
     for block in 0.. {
-        let mut next = vec![i32::MIN; size];
+        let mut next = vec![i32::MIN; width];
 
         for (from, drops) in (left..right).zip(&drop) {
             for to in left..right {
@@ -70,14 +70,13 @@ pub fn part3(notes: &str) -> i32 {
         }
 
         if next.iter().all(|&a| a <= 0) {
-            let complete = block * grid.height;
             let partial = (left..right)
                 .filter(|&x| current[x] > 0)
-                .map(|x| remainder(&extended, x, current[x]))
+                .map(|x| remainder(&grid, x, current[x]))
                 .max()
                 .unwrap_or(0);
 
-            return complete + partial;
+            return block * height + partial;
         }
 
         current = next;

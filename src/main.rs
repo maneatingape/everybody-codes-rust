@@ -8,9 +8,7 @@ use everybody_codes::util::parse::*;
 struct Solution {
     event: u32,
     quest: u32,
-    part1: fn(&str) -> String,
-    part2: fn(&str) -> String,
-    part3: fn(&str) -> String,
+    parts: [fn(&str) -> String; 3],
 }
 
 macro_rules! run {
@@ -20,9 +18,11 @@ macro_rules! run {
             Solution {
                 event: stringify!($event).unsigned(),
                 quest: stringify!($quest).unsigned(),
-                part1: |notes| part1(notes).to_string(),
-                part2: |notes| part2(notes).to_string(),
-                part3: |notes| part3(notes).to_string(),
+                parts: [
+                    |notes| part1(notes).to_string(),
+                    |notes| part2(notes).to_string(),
+                    |notes| part3(notes).to_string(),
+                ],
             }
         },)*)*]
     };
@@ -36,11 +36,9 @@ fn main() {
         .into_iter()
         .filter(|s| event.is_none_or(|e| e == s.event))
         .filter(|s| quest.is_none_or(|q| q == s.quest))
-        .for_each(|Solution { event, quest, part1, part2, part3 }| {
+        .for_each(|Solution { event, quest, parts }| {
             println!("{YELLOW}Event {event} Quest {quest}{RESET}");
-            solve(event, quest, 1, part1);
-            solve(event, quest, 2, part2);
-            solve(event, quest, 3, part3);
+            (1..).zip(parts).for_each(|(part, wrapper)| solve(event, quest, part, wrapper));
         });
 }
 
@@ -49,6 +47,6 @@ fn solve(event: u32, quest: u32, part: u32, wrapper: fn(&str) -> String) {
 
     match read_to_string(&path) {
         Ok(notes) => println!("    Part {part}: {BOLD}{WHITE}{}{RESET}", wrapper(&notes)),
-        _ => eprintln!("    Part {part}: {BOLD}{WHITE}{path}{RESET} missing"),
+        Err(_) => eprintln!("    Part {part}: {BOLD}{WHITE}{path}{RESET} missing"),
     }
 }

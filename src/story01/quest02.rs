@@ -27,10 +27,10 @@ pub fn part2(notes: &str) -> String {
 }
 
 pub fn part3(notes: &str) -> String {
-    solve(notes, |first, second| swap(first, second))
+    solve(notes, swap)
 }
 
-fn solve(notes: &str, swap: for<'a> fn(&mut Node<'a>, &mut Node<'a>)) -> String {
+fn solve<'a>(notes: &'a str, swap: fn(&mut Node<'a>, &mut Node<'a>)) -> String {
     let mut tree = Vec::new();
 
     for line in notes.lines() {
@@ -45,8 +45,7 @@ fn solve(notes: &str, swap: for<'a> fn(&mut Node<'a>, &mut Node<'a>)) -> String 
                 insert(&mut tree, size, 0);
                 insert(&mut tree, size + 1, 1);
             }
-        }
-        if line.starts_with("SWAP") {
+        } else if line.starts_with("SWAP") {
             let index = line.unsigned::<usize>();
             let [first, second] = tree.get_disjoint_mut([2 * index - 2, 2 * index - 1]).unwrap();
             swap(first, second);

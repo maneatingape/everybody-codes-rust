@@ -28,11 +28,9 @@ pub fn part3(notes: &str) -> u32 {
     let mut result = 0;
 
     for size in 1..=11 {
-        for &name in &valid {
-            if name.len() == size {
-                let last = *name.as_bytes().last().unwrap();
-                *current.entry(last).or_insert(0) += 1;
-            }
+        for name in valid.iter().filter(|name| name.len() == size) {
+            let last = *name.as_bytes().last().unwrap();
+            *current.entry(last).or_insert(0) += 1;
         }
 
         if size >= 7 {

@@ -27,23 +27,18 @@ pub fn part3(notes: &str) -> usize {
 }
 
 fn circle(notes: &str, repeat: usize) -> usize {
-    let half = notes.trim().as_bytes().repeat(repeat / 2);
-
-    let mut left = VecDeque::from(half);
+    let mut left = VecDeque::from(notes.trim().as_bytes().repeat(repeat / 2));
     let mut right = left.clone();
     let mut bolts = 0;
 
     while let Some(balloon) = left.pop_front() {
-        let bolt = SHOTS[bolts % 3];
-        bolts += 1;
-
-        if left.len() < right.len() && balloon == bolt {
-            right.pop_front();
-        }
-
         if left.len() < right.len() {
-            left.push_back(right.pop_front().unwrap());
+            let opposite = right.pop_front().unwrap();
+            if balloon != SHOTS[bolts % 3] {
+                left.push_back(opposite);
+            }
         }
+        bolts += 1;
     }
 
     bolts

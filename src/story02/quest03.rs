@@ -1,3 +1,5 @@
+use std::iter::repeat_with;
+
 use crate::util::grid::*;
 use crate::util::parse::*;
 use crate::util::point::*;
@@ -50,14 +52,10 @@ pub fn part2(notes: &str) -> String {
         .map(Dice::new)
         .enumerate()
         .map(|(id, mut die)| {
-            let mut rolls = 0;
-
-            for &current in &track {
-                while die.roll() != current {
-                    rolls += 1;
-                }
-            }
-
+            let rolls: usize = track
+                .iter()
+                .map(|&target| repeat_with(|| die.roll()).position(|roll| roll == target).unwrap())
+                .sum();
             (id + 1, rolls)
         })
         .collect();
@@ -80,11 +78,9 @@ pub fn part3(notes: &str) -> usize {
         let roll = die.roll() as u8 + b'0';
         version += 1;
 
-        for point in grid.points() {
-            if grid[point] == roll {
-                todo.push(point);
-                seen[point] = version;
-            }
+        for point in grid.points().filter(|&point| grid[point] == roll) {
+            todo.push(point);
+            seen[point] = version;
         }
 
         while !todo.is_empty() {

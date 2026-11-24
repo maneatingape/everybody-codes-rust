@@ -19,7 +19,7 @@ pub fn part2(notes: &str) -> i32 {
         rings[radius(point, volcano) as usize] += grid[point].to_decimal::<i32>();
     }
 
-    rings.iter().zip(0..).max_by_key(|&(d, _)| d).map(|(d, r)| d * r).unwrap()
+    rings.iter().zip(0..).max().map(|(d, r)| d * r).unwrap()
 }
 
 pub fn part3(notes: &str) -> i32 {

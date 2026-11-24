@@ -1,66 +1,24 @@
 use crate::util::math::*;
 use crate::util::parse::*;
 
-struct Machine<'a> {
-    numbers: Vec<usize>,
-    symbols: Vec<Vec<&'a str>>,
-}
-
-impl<'a> Machine<'a> {
-    fn new(notes: &'a str) -> Self {
-        let (prefix, suffix) = notes.split_once("\n\n").unwrap();
-        let numbers: Vec<_> = prefix.iter_unsigned().collect();
-        let mut symbols = vec![Vec::new(); numbers.len()];
-
-        for line in suffix.lines() {
-            for i in (0..line.len()).step_by(4) {
-                let face = &line[i..i + 3];
-                if face != "   " {
-                    symbols[i / 4].push(face);
-                }
-            }
-        }
-
-        Machine { numbers, symbols }
-    }
-
-    fn score(&self, spins: usize, left: usize, right: usize) -> usize {
-        let mut freq = [0_usize; 128];
-
-        for (number, symbols) in self.numbers.iter().zip(&self.symbols) {
-            let size = symbols.len();
-            let top = (number * spins + right + (size - left % size)) % size;
-            let face = symbols[top].as_bytes();
-
-            freq[usize::from(face[0])] += 1;
-            freq[usize::from(face[2])] += 1;
-        }
-
-        freq.iter().map(|f| f.saturating_sub(2)).sum()
-    }
-}
-
 pub fn part1(notes: &str) -> String {
-    let machine = Machine::new(notes);
-    machine
-        .numbers
+    parse(notes)
         .iter()
-        .zip(&machine.symbols)
-        .map(|(number, symbols)| symbols[(number * 100) % symbols.len()])
+        .map(|(number, faces)| faces[number * 100 % faces.len()])
         .collect::<Vec<_>>()
         .join(" ")
 }
 
 pub fn part2(notes: &str) -> usize {
-    let machine = Machine::new(notes);
+    let wheels = parse(notes);
 
     // Wheels are all coprime with their respective numbers,
     // so the LCM is just the LCM of the wheel sizes.
-    let lcm = machine.symbols.iter().fold(1, |acc, s| acc.lcm(s.len()));
+    let lcm = wheels.iter().fold(1, |acc, (_, faces)| acc.lcm(faces.len()));
     let quotient = 202420242024 / lcm;
     let remainder = 202420242024 % lcm;
 
-    let coins = |spins| machine.score(spins + 1, 0, 0);
+    let coins = |spins| score(&wheels, spins + 1, 0, 0);
     let first: usize = (0..remainder).map(coins).sum();
     let second: usize = (remainder..lcm).map(coins).sum();
 
@@ -68,7 +26,7 @@ pub fn part2(notes: &str) -> usize {
 }
 
 pub fn part3(notes: &str) -> String {
-    let machine = Machine::new(notes);
+    let wheels = parse(notes);
 
     let mut current_max = [0; 515];
     let mut next_max = [0; 515];
@@ -82,10 +40,10 @@ pub fn part3(notes: &str) -> String {
         for i in (middle - spins)..=(middle + spins) {
             let left = middle.saturating_sub(i);
             let right = i.saturating_sub(middle);
-            let score = machine.score(spins, left, right);
+            let coins = score(&wheels, spins, left, right);
 
-            next_max[i] = score + current_max[i - 1..=i + 1].iter().max().unwrap();
-            next_min[i] = score + current_min[i - 1..=i + 1].iter().min().unwrap();
+            next_max[i] = coins + current_max[i - 1..=i + 1].iter().max().unwrap();
+            next_min[i] = coins + current_min[i - 1..=i + 1].iter().min().unwrap();
         }
 
         (current_max, next_max) = (next_max, current_max);
@@ -93,4 +51,36 @@ pub fn part3(notes: &str) -> String {
     }
 
     format!("{} {}", current_max.iter().max().unwrap(), current_min.iter().min().unwrap())
+}
+
+fn parse(notes: &str) -> Vec<(usize, Vec<&str>)> {
+    let (prefix, suffix) = notes.split_once("\n\n").unwrap();
+
+    prefix
+        .iter_unsigned()
+        .enumerate()
+        .map(|(i, number)| {
+            let faces = suffix
+                .lines()
+                .filter_map(|line| line.get(4 * i..4 * i + 3))
+                .filter(|&face| face != "   ")
+                .collect();
+            (number, faces)
+        })
+        .collect()
+}
+
+fn score(wheels: &[(usize, Vec<&str>)], spins: usize, left: usize, right: usize) -> usize {
+    let mut freq = [0_usize; 128];
+
+    for (number, faces) in wheels {
+        let size = faces.len();
+        let top = (number * spins + right + size - left % size) % size;
+        let face = faces[top].as_bytes();
+
+        freq[usize::from(face[0])] += 1;
+        freq[usize::from(face[2])] += 1;
+    }
+
+    freq.iter().map(|f| f.saturating_sub(2)).sum()
 }

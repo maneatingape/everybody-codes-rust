@@ -28,11 +28,8 @@ fn dijkstra(notes: &str, start: u8, end: u8) -> u32 {
 
         for next in ORTHOGONAL.map(|o| point + o) {
             if grid.contains(next) && grid[next] != b'#' {
-                let first = to_height(grid[point]);
-                let second = to_height(grid[next]);
-                let diff = first.abs_diff(second);
-                let extra = diff.min(10 - diff);
-                let cost = cost + extra + 1;
+                let diff = to_height(grid[point]).abs_diff(to_height(grid[next]));
+                let cost = cost + diff.min(10 - diff) + 1;
 
                 if seen[next] > cost {
                     seen[next] = cost;

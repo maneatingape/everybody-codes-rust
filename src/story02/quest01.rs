@@ -13,7 +13,7 @@ pub fn part2(notes: &str) -> i32 {
     suffix
         .lines()
         .map(|behavior| {
-            (0..grid.width).step_by(2).map(|start| drop(&grid, behavior, start / 2)).max().unwrap()
+            (0..(grid.width + 1) / 2).map(|slot| drop(&grid, behavior, slot)).max().unwrap()
         })
         .sum()
 }
@@ -48,12 +48,11 @@ pub fn part3(notes: &str) -> String {
 
 fn drop(grid: &Grid<u8>, behavior: &str, slot: i32) -> i32 {
     let mut x = slot * 2;
-    let mut iter = behavior.bytes();
+    let mut directions = behavior.bytes();
 
     for y in 0..grid.height {
         if grid[Point::new(x, y)] == b'*' {
-            let direction = iter.next().unwrap();
-            x += if direction == b'R' { 1 } else { -1 };
+            x += if directions.next().unwrap() == b'R' { 1 } else { -1 };
 
             if x < 0 {
                 x += 2;

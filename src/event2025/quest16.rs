@@ -35,7 +35,7 @@ fn spell(notes: &str) -> Vec<usize> {
     for n in 0..wall.len() {
         if wall[n] > 0 {
             spell.push(n + 1);
-            (n..wall.len()).step_by(n + 1).for_each(|i| wall[i] -= 1);
+            wall[n..].iter_mut().step_by(n + 1).for_each(|w| *w -= 1);
         }
     }
 

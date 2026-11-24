@@ -29,18 +29,20 @@ fn solve(notes: &str, first_letter_only: bool) -> String {
         }
     }
 
-    'outer: for apple in apples {
-        let mut current = apple;
+    let branch = |apple| {
         let mut path = vec!["@", apple];
 
-        while let Some(&next) = parents.get(current) {
+        while let Some(&next) = parents.get(path.last().unwrap()) {
             if path.contains(&next) {
-                continue 'outer;
+                return None;
             }
-            current = next;
             path.push(next);
         }
 
+        Some(path)
+    };
+
+    for path in apples.into_iter().filter_map(branch) {
         branches.entry(path.len()).or_insert_with(Vec::new).push(path);
     }
 

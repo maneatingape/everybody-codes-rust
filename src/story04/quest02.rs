@@ -1,4 +1,4 @@
-use std::collections::{HashSet, VecDeque};
+use std::collections::HashSet;
 
 use crate::util::iter::*;
 use crate::util::parse::*;
@@ -15,13 +15,13 @@ pub fn part2(notes: &str) -> usize {
 pub fn part3(notes: &str) -> usize {
     let (swarm, beacons, _) = parse(notes);
     let mut sky = HashSet::from([swarm]);
-    let mut todo = VecDeque::from([swarm]);
+    let mut todo = vec![swarm];
 
-    while let Some(swarm) = todo.pop_front() {
+    while let Some(swarm) = todo.pop() {
         for to in beacons {
             let next = midpoint(swarm, to);
             if sky.insert(next) {
-                todo.push_back(next);
+                todo.push(next);
             }
         }
     }

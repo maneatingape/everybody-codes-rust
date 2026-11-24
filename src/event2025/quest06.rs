@@ -1,31 +1,9 @@
 pub fn part1(notes: &str) -> u32 {
-    let mut mentors = 0;
-    let mut pairs = 0;
-
-    for b in notes.trim().bytes() {
-        match b {
-            b'A' => mentors += 1,
-            b'a' => pairs += mentors,
-            _ => (),
-        }
-    }
-
-    pairs
+    pairs(notes)[0]
 }
 
 pub fn part2(notes: &str) -> u32 {
-    let mut mentors = [0; 3];
-    let mut pairs = 0;
-
-    for b in notes.trim().bytes() {
-        if b.is_ascii_uppercase() {
-            mentors[usize::from(b - b'A')] += 1;
-        } else {
-            pairs += mentors[usize::from(b - b'a')];
-        }
-    }
-
-    pairs
+    pairs(notes).iter().sum()
 }
 
 pub fn part3(notes: &str) -> i64 {
@@ -50,4 +28,20 @@ pub fn part3(notes: &str) -> i64 {
     }
 
     result
+}
+
+fn pairs(notes: &str) -> [u32; 3] {
+    let mut mentors = [0; 3];
+    let mut pairs = [0; 3];
+
+    for b in notes.trim().bytes() {
+        if b.is_ascii_uppercase() {
+            mentors[usize::from(b - b'A')] += 1;
+        } else {
+            let kind = usize::from(b - b'a');
+            pairs[kind] += mentors[kind];
+        }
+    }
+
+    pairs
 }

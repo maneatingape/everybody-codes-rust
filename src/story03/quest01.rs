@@ -15,13 +15,10 @@ pub fn part1(notes: &str) -> u32 {
 }
 
 pub fn part2(notes: &str) -> u32 {
-    let (.., id) = notes
+    let (id, _) = notes
         .lines()
-        .map(|line| {
-            let (id, [red, green, blue, shine]) = parse(line);
-            (shine, Reverse(red + green + blue), id)
-        })
-        .max()
+        .map(parse)
+        .max_by_key(|&(id, [red, green, blue, shine])| (shine, Reverse(red + green + blue), id))
         .unwrap();
     id
 }
@@ -51,9 +48,8 @@ pub fn part3(notes: &str) -> u32 {
 }
 
 fn parse<const N: usize>(line: &str) -> (u32, [u8; N]) {
-    let id = line.unsigned();
     let mut iter = line.split_ascii_whitespace().map(binary);
-    (id, from_fn(|_| iter.next().unwrap()))
+    (line.unsigned(), from_fn(|_| iter.next().unwrap()))
 }
 
 fn binary(component: &str) -> u8 {

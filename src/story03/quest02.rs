@@ -5,11 +5,10 @@ use crate::util::point::*;
 
 pub fn part1(notes: &str) -> u32 {
     let mut grid = Grid::parse(notes);
-    let wave = grid.find(b'@').unwrap();
     let bone = grid.find(b'#').unwrap();
 
     let mut steps = 0;
-    let mut position = wave;
+    let mut position = grid.find(b'@').unwrap();
     let mut direction = UP;
 
     while position != bone {
@@ -29,11 +28,10 @@ pub fn part1(notes: &str) -> u32 {
 
 pub fn part2(notes: &str) -> u32 {
     let mut grid = padded_grid(notes);
-    let wave = grid.find(b'@').unwrap();
     let bone = grid.find(b'#').unwrap();
 
     let mut steps = 0;
-    let mut position = wave;
+    let mut position = grid.find(b'@').unwrap();
     let mut direction = UP;
 
     while ORTHOGONAL.iter().any(|&o| grid[bone + o] == b'.') {
@@ -59,13 +57,11 @@ pub fn part2(notes: &str) -> u32 {
 
 pub fn part3(notes: &str) -> u32 {
     let mut grid = padded_grid(notes);
-    let start = grid.find(b'@').unwrap();
-    grid[start] = b'+';
+    let mut position = grid.find(b'@').unwrap();
+    grid[position] = b'+';
 
     let mut steps = 0;
-    let mut position = start;
-    let mut direction =
-        [UP, UP, UP, RIGHT, RIGHT, RIGHT, DOWN, DOWN, DOWN, LEFT, LEFT, LEFT].into_iter().cycle();
+    let mut direction = [UP, RIGHT, DOWN, LEFT].into_iter().flat_map(|d| [d; 3]).cycle();
 
     let bones: Vec<_> = grid.points().filter(|&p| grid[p] == b'#').collect();
     let mut fill = (*b"ab").into_iter().cycle();

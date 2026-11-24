@@ -3,6 +3,8 @@ use std::collections::{HashSet, VecDeque};
 use crate::util::grid::*;
 use crate::util::point::*;
 
+const UNSEEN: usize = usize::MAX;
+
 pub fn part1(notes: &str) -> u32 {
     let grid = Grid::parse(notes);
     ignite(&grid, vec![ORIGIN])
@@ -15,44 +17,45 @@ pub fn part2(notes: &str) -> u32 {
 
 pub fn part3(notes: &str) -> u32 {
     let grid = Grid::parse(notes);
-    let points = grid.points().collect();
-    ignite(&grid, points)
+    ignite(&grid, grid.points().collect())
 }
 
 fn ignite(grid: &Grid<u8>, mut points: Vec<Point>) -> u32 {
     let mut todo = VecDeque::new();
-    let mut seen = grid.same_size_with(usize::MAX);
+    let mut seen = grid.same_size_with(UNSEEN);
     let mut sets = Vec::new();
     let mut sizes = Vec::new();
 
     points.sort_unstable_by_key(|&point| grid[point]);
 
     for start in points {
-        if seen[start] == usize::MAX {
-            let id = sets.len();
-            let mut set = HashSet::from([id]);
-            let mut size = 1;
+        if seen[start] != UNSEEN {
+            continue;
+        }
 
-            todo.push_back(start);
-            seen[start] = id;
+        let id = sets.len();
+        let mut set = HashSet::from([id]);
+        let mut size = 1;
 
-            while let Some(point) = todo.pop_front() {
-                for next in ORTHOGONAL.map(|o| point + o) {
-                    if grid.contains(next) && grid[next] <= grid[point] {
-                        if seen[next] == usize::MAX {
-                            todo.push_back(next);
-                            seen[next] = id;
-                            size += 1;
-                        } else if set.insert(seen[next]) {
-                            set.extend(&sets[seen[next]]);
-                        }
+        todo.push_back(start);
+        seen[start] = id;
+
+        while let Some(point) = todo.pop_front() {
+            for next in ORTHOGONAL.map(|o| point + o) {
+                if grid.contains(next) && grid[next] <= grid[point] {
+                    if seen[next] == UNSEEN {
+                        todo.push_back(next);
+                        seen[next] = id;
+                        size += 1;
+                    } else if set.insert(seen[next]) {
+                        set.extend(&sets[seen[next]]);
                     }
                 }
             }
-
-            sets.push(set);
-            sizes.push(size);
         }
+
+        sets.push(set);
+        sizes.push(size);
     }
 
     (0..3)

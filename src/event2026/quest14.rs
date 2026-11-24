@@ -7,13 +7,11 @@ use crate::util::point::*;
 const OUTSIDE: u8 = 0;
 
 pub fn part1(notes: &str) -> u32 {
-    let graph = weights(notes);
-    graph.values().flatten().map(|&(_, weight)| weight).sum::<u32>() / 2
+    weights(notes).values().flatten().map(|&(_, weight)| weight).sum::<u32>() / 2
 }
 
 pub fn part2(notes: &str) -> u32 {
-    let graph = weights(notes);
-    prim(&graph, &[])
+    prim(&weights(notes), &[])
 }
 
 pub fn part3(notes: &str) -> u32 {

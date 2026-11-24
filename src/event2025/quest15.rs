@@ -1,4 +1,4 @@
-use std::collections::{BTreeSet, HashMap, VecDeque};
+use std::collections::{BTreeSet, VecDeque};
 
 use crate::util::grid::*;
 use crate::util::integer::*;
@@ -41,13 +41,18 @@ fn solve(notes: &str) -> i32 {
 
     let xs: Vec<_> = xs.into_iter().collect();
     let ys: Vec<_> = ys.into_iter().collect();
-    let shrink_x: HashMap<_, _> = xs.iter().copied().zip(0..).collect();
-    let shrink_y: HashMap<_, _> = ys.iter().copied().zip(0..).collect();
+    let shrink = |p: Point| {
+        let x = xs.binary_search(&p.x).unwrap();
+        let y = ys.binary_search(&p.y).unwrap();
+        Point::new(x as i32, y as i32)
+    };
+    let expand = |p: Point| Point::new(xs[p.x as usize], ys[p.y as usize]);
     let mut grid = Grid::new(xs.len() as i32, ys.len() as i32, b'.');
 
     for (from, to) in walls {
-        let (x1, x2) = shrink_x[&from.x].minmax(shrink_x[&to.x]);
-        let (y1, y2) = shrink_y[&from.y].minmax(shrink_y[&to.y]);
+        let (from, to) = (shrink(from), shrink(to));
+        let (x1, x2) = from.x.minmax(to.x);
+        let (y1, y2) = from.y.minmax(to.y);
 
         for y in y1..=y2 {
             for x in x1..=x2 {
@@ -56,16 +61,14 @@ fn solve(notes: &str) -> i32 {
         }
     }
 
-    let start = Point::new(shrink_x[&0], shrink_y[&0]);
-    let end = Point::new(shrink_x[&end.x], shrink_y[&end.y]);
+    let start = shrink(ORIGIN);
+    let end = shrink(end);
     let mut todo = VecDeque::from([(start, 0)]);
 
     while let Some((from, cost)) = todo.pop_front() {
         for to in ORTHOGONAL.map(|o| o + from) {
             if grid.contains(to) {
-                let next_cost = cost
-                    + (xs[from.x as usize] - xs[to.x as usize]).abs()
-                    + (ys[from.y as usize] - ys[to.y as usize]).abs();
+                let next_cost = cost + expand(from).manhattan(expand(to));
                 if grid[to] != b'#' {
                     grid[to] = b'#';
                     todo.push_back((to, next_cost));
